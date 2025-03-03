@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+		<record id="make_invisible" model="res.groups">
+			<field name="name">Invisible</field>
+		</record>    
+		
+		<record model="ir.ui.menu" id="account.menu_finance">
+			<field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+		</record>
+		
+        <record id="seq_budgeting_appropriation" model="ir.sequence">
+            <field name="name">Appropriation</field>
+            <field name="code">budgeting.appropriation</field>
+            <field name="prefix">APP</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+        <record id="seq_budgeting_pr" model="ir.sequence">
+            <field name="name">Purchase Request</field>
+            <field name="code">budgeting.pr</field>
+            <field name="prefix">PR</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+        <record id="seq_budgeting_obr" model="ir.sequence">
+            <field name="name">Obligation Request</field>
+            <field name="code">budgeting.obr</field>
+            <field name="prefix">OBR</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+        <record id="seq_budgeting_aug" model="ir.sequence">
+            <field name="name">Budget Augmentation</field>
+            <field name="code">budgeting.augmentation</field>
+            <field name="prefix">AUG</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+<!--################ 2020-->
+        <record id="seq_budgeting_appropriation2020" model="ir.sequence">
+            <field name="name">Appropriation</field>
+            <field name="code">budgeting.appropriation2020</field>
+            <field name="prefix">APP-2020-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+        <record id="seq_budgeting_pr2020" model="ir.sequence">
+            <field name="name">Purchase Request</field>
+            <field name="code">budgeting.pr2020</field>
+            <field name="prefix">PR-2020-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+        <record id="seq_budgeting_obr2020" model="ir.sequence">
+            <field name="name">Obligation Request</field>
+            <field name="code">budgeting.obr2020</field>
+            <field name="prefix">OBR-2020-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+        <record id="seq_budgeting_aug2020" model="ir.sequence">
+            <field name="name">Budget Augmentation</field>
+            <field name="code">budgeting.augmentation2020</field>
+            <field name="prefix">AUG-2020-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+<!--################ 2021-->
+        <record id="seq_budgeting_appropriation2021" model="ir.sequence">
+            <field name="name">Appropriation</field>
+            <field name="code">budgeting.appropriation2021</field>
+            <field name="prefix">APP-2021-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+        <record id="seq_budgeting_pr2021" model="ir.sequence">
+            <field name="name">Purchase Request</field>
+            <field name="code">budgeting.pr2021</field>
+            <field name="prefix">PR-2021-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+        <record id="seq_budgeting_obr2021" model="ir.sequence">
+            <field name="name">Obligation Request</field>
+            <field name="code">budgeting.obr2021</field>
+            <field name="prefix">OBR-2021-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+        <record id="seq_budgeting_aug2021" model="ir.sequence">
+            <field name="name">Budget Augmentation</field>
+            <field name="code">budgeting.augmentation2021</field>
+            <field name="prefix">AUG-2021-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+<!--################ 2022-->
+        <record id="seq_budgeting_appropriation2022" model="ir.sequence">
+            <field name="name">Appropriation</field>
+            <field name="code">budgeting.appropriation2022</field>
+            <field name="prefix">APP-2022-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+        <record id="seq_budgeting_pr2022" model="ir.sequence">
+            <field name="name">Purchase Request</field>
+            <field name="code">budgeting.pr2022</field>
+            <field name="prefix">PR-2022-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+        <record id="seq_budgeting_obr2022" model="ir.sequence">
+            <field name="name">Obligation Request</field>
+            <field name="code">budgeting.obr2022</field>
+            <field name="prefix">OBR-2022-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+        <record id="seq_budgeting_aug2022" model="ir.sequence">
+            <field name="name">Budget Augmentation</field>
+            <field name="code">budgeting.augmentation2022</field>
+            <field name="prefix">AUG-2022-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+<!--		=================-->
+
+<!--        <record id="acc50101010" model="account.account">-->
+<!--            <field name="reconcile">False</field>-->
+<!--            <field name="code">50101010</field>-->
+<!--            <field name="name">Salaries and Wages - Regular</field>-->
+<!--&lt;!&ndash;            <field name="company_id">1</field>&ndash;&gt;-->
+<!--        </record>-->
+
+<!--		<record id="acc50101020" model="account.account"> <field name="reconcile">False</field> <field name="code">50101020</field>  <field name="name">Salaries and Wages – Casual/Contractual</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50102030" model="account.account"> <field name="reconcile">False</field> <field name="code">50102030</field>  <field name="name">Transportation Allowance (TA)</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50102040" model="account.account"> <field name="reconcile">False</field> <field name="code">50102040</field>  <field name="name">Clothing/Uniform Allowance</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50102050" model="account.account"> <field name="reconcile">False</field> <field name="code">50102050</field>  <field name="name">Subsistence Allowance</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50102060" model="account.account"> <field name="reconcile">False</field> <field name="code">50102060</field>  <field name="name">Laundry Allowance</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50102070" model="account.account"> <field name="reconcile">False</field> <field name="code">50102070</field>  <field name="name">Quarters Allowance</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50102080" model="account.account"> <field name="reconcile">False</field> <field name="code">50102080</field>  <field name="name">Productivity Incentive Allowance</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50102090" model="account.account"> <field name="reconcile">False</field> <field name="code">50102090</field>  <field name="name">Overseas Allowance</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50102100" model="account.account"> <field name="reconcile">False</field> <field name="code">50102100</field>  <field name="name">Honoraria</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50102110" model="account.account"> <field name="reconcile">False</field> <field name="code">50102110</field>  <field name="name">Hazard Pay</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50102120" model="account.account"> <field name="reconcile">False</field> <field name="code">50102120</field>  <field name="name">Longevity Pay</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50102130" model="account.account"> <field name="reconcile">False</field> <field name="code">50102130</field>  <field name="name">Overtime and Night Pay</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50102140" model="account.account"> <field name="reconcile">False</field> <field name="code">50102140</field>  <field name="name">Year End Bonus</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50102150" model="account.account"> <field name="reconcile">False</field> <field name="code">50102150</field>  <field name="name">Cash Gift</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50102990" model="account.account"> <field name="reconcile">False</field> <field name="code">50102990</field>  <field name="name">Other Bonuses and Allowance</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50103010" model="account.account"> <field name="reconcile">False</field> <field name="code">50103010</field>  <field name="name">Retirement and Life Insurance Premiums</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50103020" model="account.account"> <field name="reconcile">False</field> <field name="code">50103020</field>  <field name="name">Pag-IBIG Contributions</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50103030" model="account.account"> <field name="reconcile">False</field> <field name="code">50103030</field>  <field name="name">PhiHealth Contributions</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50103040" model="account.account"> <field name="reconcile">False</field> <field name="code">50103040</field>  <field name="name">Employees Compensation Insurance Premiums</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50103050" model="account.account"> <field name="reconcile">False</field> <field name="code">50103050</field>  <field name="name">Provident/Welfare Fund Contributions</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50104010" model="account.account"> <field name="reconcile">False</field> <field name="code">50104010</field>  <field name="name">Pension Benefits</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50104020" model="account.account"> <field name="reconcile">False</field> <field name="code">50104020</field>  <field name="name">Retirement Gratuity</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50104030" model="account.account"> <field name="reconcile">False</field> <field name="code">50104030</field>  <field name="name">Terminal Leave Benefits</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50104990" model="account.account"> <field name="reconcile">False</field> <field name="code">50104990</field>  <field name="name">Other Personnel Benefits</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50201010" model="account.account"> <field name="reconcile">False</field> <field name="code">50201010</field>  <field name="name">Traveling Expenses – Local</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50201020" model="account.account"> <field name="reconcile">False</field> <field name="code">50201020</field>  <field name="name">Traveling Expenses – Foreign</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50202010" model="account.account"> <field name="reconcile">False</field> <field name="code">50202010</field>  <field name="name">Training Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50202020" model="account.account"> <field name="reconcile">False</field> <field name="code">50202020</field>  <field name="name">Scholarship Grants/Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50203010" model="account.account"> <field name="reconcile">False</field> <field name="code">50203010</field>  <field name="name">Office Supplies Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50203020" model="account.account"> <field name="reconcile">False</field> <field name="code">50203020</field>  <field name="name">Accountable Forms Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50203030" model="account.account"> <field name="reconcile">False</field> <field name="code">50203030</field>  <field name="name">Non-Accountable Forms Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50203040" model="account.account"> <field name="reconcile">False</field> <field name="code">50203040</field>  <field name="name">Animal/Zoological Supplies Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50203050" model="account.account"> <field name="reconcile">False</field> <field name="code">50203050</field>  <field name="name">Food Supplies Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50203060" model="account.account"> <field name="reconcile">False</field> <field name="code">50203060</field>  <field name="name">Welfare Goods Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50203070" model="account.account"> <field name="reconcile">False</field> <field name="code">50203070</field>  <field name="name">Drugs and Medicines Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50203080" model="account.account"> <field name="reconcile">False</field> <field name="code">50203080</field>  <field name="name">Medical, Dental and Laboratory Supplies Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50203090" model="account.account"> <field name="reconcile">False</field> <field name="code">50203090</field>  <field name="name">Fuel, Oil and Lubricants Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50203100" model="account.account"> <field name="reconcile">False</field> <field name="code">50203100</field>  <field name="name">Agricultural and Marine Supplies Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50203110" model="account.account"> <field name="reconcile">False</field> <field name="code">50203110</field> <field name="name">Textbooks and Instructional Materials Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50203120" model="account.account"> <field name="reconcile">False</field> <field name="code">50203120</field>  <field name="name">Military, Police and Traffic Supplies Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50203130" model="account.account"> <field name="reconcile">False</field> <field name="code">50203130</field>  <field name="name">Chemical and Filtering Supplies Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50203990" model="account.account"> <field name="reconcile">False</field> <field name="code">50203990</field>  <field name="name">Other Supplies and Materials Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50204010" model="account.account"> <field name="reconcile">False</field> <field name="code">50204010</field>  <field name="name">Water Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50204020" model="account.account"> <field name="reconcile">False</field> <field name="code">50204020</field>  <field name="name">Electricity Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50205010" model="account.account"> <field name="reconcile">False</field> <field name="code">50205010</field>  <field name="name">Postage and Courier Services</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50205020" model="account.account"> <field name="reconcile">False</field> <field name="code">50205020</field>  <field name="name">Telephone Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50205030" model="account.account"> <field name="reconcile">False</field> <field name="code">50205030</field>  <field name="name">Internet Subscription Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50205040" model="account.account"> <field name="reconcile">False</field> <field name="code">50205040</field>  <field name="name">Cable, Satellite, Telegraph and Radio Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50206010" model="account.account"> <field name="reconcile">False</field> <field name="code">50206010</field>  <field name="name">Awards/Rewards Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50206020" model="account.account"> <field name="reconcile">False</field> <field name="code">50206020</field>  <field name="name">Prizes</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50207010" model="account.account"> <field name="reconcile">False</field> <field name="code">50207010</field>  <field name="name">Survey Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50208010" model="account.account"> <field name="reconcile">False</field> <field name="code">50208010</field>  <field name="name">Demolition and Relocation Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50208020" model="account.account"> <field name="reconcile">False</field> <field name="code">50208020</field>  <field name="name">Desilting and Dredging Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50209010" model="account.account"> <field name="reconcile">False</field> <field name="code">50209010</field>  <field name="name">Generation, Transmission and Distribution Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50210010" model="account.account"> <field name="reconcile">False</field> <field name="code">50210010</field>  <field name="name">Confidential Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50210020" model="account.account"> <field name="reconcile">False</field> <field name="code">50210020</field>  <field name="name">Intelligence Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50210030" model="account.account"> <field name="reconcile">False</field> <field name="code">50210030</field>  <field name="name">Extraordinary and Miscellaneous Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50211010" model="account.account"> <field name="reconcile">False</field> <field name="code">50211010</field>  <field name="name">Legal Services</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50211020" model="account.account"> <field name="reconcile">False</field> <field name="code">50211020</field>  <field name="name">Auditing Services</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50211030" model="account.account"> <field name="reconcile">False</field> <field name="code">50211030</field>  <field name="name">Consultancy Services</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50211990" model="account.account"> <field name="reconcile">False</field> <field name="code">50211990</field>  <field name="name">Other Professional Services</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50212010" model="account.account"> <field name="reconcile">False</field> <field name="code">50212010</field>  <field name="name">Environment/Sanitary Services</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50212020" model="account.account"> <field name="reconcile">False</field> <field name="code">50212020</field>  <field name="name">Janitorial Services</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50212030" model="account.account"> <field name="reconcile">False</field> <field name="code">50212030</field>  <field name="name">Security Services</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50212990" model="account.account"> <field name="reconcile">False</field> <field name="code">50212990</field>  <field name="name">Other General Services</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50213010" model="account.account"> <field name="reconcile">False</field> <field name="code">50213010</field>  <field name="name">Repairs and Maintenance – Investment Property</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50213020" model="account.account"> <field name="reconcile">False</field> <field name="code">50213020</field>  <field name="name">Repairs and Maintenance – Land Improvements</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50213030" model="account.account"> <field name="reconcile">False</field> <field name="code">50213030</field>  <field name="name">Repairs and Maintenance – Infrastructure Assets</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50213040" model="account.account"> <field name="reconcile">False</field> <field name="code">50213040</field>  <field name="name">Repairs and Maintenance – Building and Other Structures</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50213050" model="account.account"> <field name="reconcile">False</field> <field name="code">50213050</field>  <field name="name">Repairs and Maintenance – Machinery and Equipment</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50213060" model="account.account"> <field name="reconcile">False</field> <field name="code">50213060</field>  <field name="name">Repairs and Maintenance – Transportation Equipment</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50213070" model="account.account"> <field name="reconcile">False</field> <field name="code">50213070</field>  <field name="name">Repairs and Maintenance – Furniture and Fixtures</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50213080" model="account.account">  <field name="reconcile">False</field> <field name="code">50213080</field>  <field name="name">Repairs and Maintenance – Leased Assets</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50213090" model="account.account">  <field name="reconcile">False</field> <field name="code">50213090</field>  <field name="name">Repairs and Maintenance – Leased Assets Improvements</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50213990" model="account.account">  <field name="reconcile">False</field> <field name="code">50213990</field>  <field name="name">Repairs and Maintenance – Other Property, Plant and Equipment</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50214020" model="account.account">  <field name="reconcile">False</field> <field name="code">50214020</field>  <field name="name">Subsidy to NGAs</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50214030" model="account.account">  <field name="reconcile">False</field> <field name="code">50214030</field>  <field name="name">Subsidy to Other Local Government Units</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50214060" model="account.account">  <field name="reconcile">False</field> <field name="code">50214060</field>  <field name="name">Subsidy to Other Funds</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50214070" model="account.account">  <field name="reconcile">False</field> <field name="code">50214070</field>  <field name="name">Subsidy to General Fund Proper/Special Accounts</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50214080" model="account.account">  <field name="reconcile">False</field> <field name="code">50214080</field>  <field name="name">Subsidy to Local Economic Enterprises</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50214990" model="account.account">  <field name="reconcile">False</field> <field name="code">50214990</field>  <field name="name">Subsidies – Others</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50215010" model="account.account">  <field name="reconcile">False</field> <field name="code">50215010</field>  <field name="name">Transfers of Unspent Current Year DRRM Funds to the Trust Funds</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50215020" model="account.account">  <field name="reconcile">False</field> <field name="code">50215020</field>  <field name="name">Transfers for Project Equity Share / LGU Counterpart</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50216010" model="account.account">  <field name="reconcile">False</field> <field name="code">50216010</field>  <field name="name">Taxes, Duties and Licenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50216020" model="account.account">  <field name="reconcile">False</field> <field name="code">50216020</field>  <field name="name">Fidelity Bond Premiums</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50216030" model="account.account">  <field name="reconcile">False</field> <field name="code">50216030</field>  <field name="name">Insurance Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50299010" model="account.account">  <field name="reconcile">False</field> <field name="code">50299010</field>  <field name="name">Advertising Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50299020" model="account.account">  <field name="reconcile">False</field> <field name="code">50299020</field>  <field name="name">Printing and Publication Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50299030" model="account.account">  <field name="reconcile">False</field> <field name="code">50299030</field>  <field name="name">Representation Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50299040" model="account.account">  <field name="reconcile">False</field> <field name="code">50299040</field>  <field name="name">Transportation and Delivery Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50299050" model="account.account">  <field name="reconcile">False</field> <field name="code">50299050</field>  <field name="name">Rent Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50299060" model="account.account">  <field name="reconcile">False</field> <field name="code">50299060</field>  <field name="name">Membership Dues and Contribution to Organizations</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50299070" model="account.account">  <field name="reconcile">False</field> <field name="code">50299070</field>  <field name="name">Subscription Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50299080" model="account.account">  <field name="reconcile">False</field> <field name="code">50299080</field>  <field name="name">Donations</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50299990" model="account.account">  <field name="reconcile">False</field> <field name="code">50299990</field>  <field name="name">Other Maintenance and Operating Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50301010" model="account.account"> <field name="reconcile">False</field> <field name="code">50301010</field>  <field name="name">Management Supervision/Trusteeship Fees</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50301020" model="account.account">  <field name="reconcile">False</field> <field name="code">50301020</field>  <field name="name">Interest Expenses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50301030" model="account.account">  <field name="reconcile">False</field> <field name="code">50301030</field>  <field name="name">Guarantee Fees</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50401010" model="account.account">  <field name="reconcile">False</field> <field name="code">50401010</field>  <field name="name">Direct Materials</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50401020" model="account.account">  <field name="reconcile">False</field> <field name="code">50401020</field>  <field name="name">Direct Labor</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50401030" model="account.account">  <field name="reconcile">False</field> <field name="code">50401030</field>  <field name="name">Manufacturing Overhead</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50402010" model="account.account">  <field name="reconcile">False</field> <field name="code">50402010</field>  <field name="name">Cost of Sales</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50501010" model="account.account">  <field name="reconcile">False</field> <field name="code">50501010</field>  <field name="name">Depreciation – Investment Property</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50501020" model="account.account">  <field name="reconcile">False</field> <field name="code">50501020</field>  <field name="name">Depreciation – Land Improvements</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50501030" model="account.account">  <field name="reconcile">False</field> <field name="code">50501030</field>  <field name="name">Depreciation – Infrastructure Assets</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50501040" model="account.account">  <field name="reconcile">False</field> <field name="code">50501040</field>  <field name="name">Depreciation – Building and Other Structures</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50501050" model="account.account"> <field name="reconcile">False</field> <field name="code">50501050</field>  <field name="name">Depreciation – Machinery and Equipment</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50501060" model="account.account">  <field name="reconcile">False</field> <field name="code">50501060</field>  <field name="name">Depreciation – Transportation Equipment</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50501070" model="account.account">  <field name="reconcile">False</field> <field name="code">50501070</field>  <field name="name">Depreciation – Furniture and Fixtures</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50501080" model="account.account">  <field name="reconcile">False</field> <field name="code">50501080</field>  <field name="name">Depreciation – Leased Assets</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50501090" model="account.account"> <field name="reconcile">False</field> <field name="code">50501090</field>  <field name="name">Depreciation – Leased Assets Improvements</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50501100" model="account.account"> <field name="reconcile">False</field> <field name="code">50501100</field>  <field name="name">Depreciation – Service Concession Assets</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50501990" model="account.account">  <field name="reconcile">False</field> <field name="code">50501990</field>  <field name="name">Depreciation – Other Property, Plant and Equipment</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50502010" model="account.account">  <field name="reconcile">False</field> <field name="code">50502010</field>  <field name="name">Amortization – Intangible Assets</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50503010" model="account.account">  <field name="reconcile">False</field> <field name="code">50503010</field>  <field name="name">Impairment Loss – Financial Assets Held to Maturity</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50503020" model="account.account">  <field name="reconcile">False</field> <field name="code">50503020</field>  <field name="name">Impairment Loss – Loans and Receivables</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50503030" model="account.account">  <field name="reconcile">False</field> <field name="code">50503030</field>  <field name="name">Impairment Loss – Lease Receivables</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50503040" model="account.account">  <field name="reconcile">False</field> <field name="code">50503040</field>  <field name="name">Impairment Loss – Investments in GOOOs</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50503050" model="account.account">  <field name="reconcile">False</field> <field name="code">50503050</field>  <field name="name">Impairment Loss – Investments in Joint Venture</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50503060" model="account.account">  <field name="reconcile">False</field> <field name="code">50503060</field>  <field name="name">Impairment Loss – Other Receivables</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50503070" model="account.account">  <field name="reconcile">False</field> <field name="code">50503070</field>  <field name="name">Impairment Loss – Inventories</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50503080" model="account.account">  <field name="reconcile">False</field> <field name="code">50503080</field>  <field name="name">Impairment Loss – Investment Property</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50503090" model="account.account">  <field name="reconcile">False</field> <field name="code">50503090</field>  <field name="name">Impairment Loss – Property, Plant and Equipment</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50503100" model="account.account">  <field name="reconcile">False</field> <field name="code">50503100</field>  <field name="name">Impairment Loss – Intangible Assets</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50504010" model="account.account">  <field name="reconcile">False</field> <field name="code">50504010</field>  <field name="name">Loss on Foreign Exchange (FOREX)</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50504020" model="account.account">  <field name="reconcile">False</field> <field name="code">50504020</field>  <field name="name">Loss on Sale of Investments</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50504030" model="account.account">  <field name="reconcile">False</field> <field name="code">50504030</field>  <field name="name">Loss on Sale of Investment Property</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50504040" model="account.account">  <field name="reconcile">False</field> <field name="code">50504040</field>  <field name="name">Loss on Sale of Property, Plant and Equipment</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50504050" model="account.account">  <field name="reconcile">False</field> <field name="code">50504050</field>  <field name="name">Loss on Sale of Biological Assets</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50504060" model="account.account">  <field name="reconcile">False</field> <field name="code">50504060</field>  <field name="name">Loss on Sale of Intangible Assets</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50504070" model="account.account">  <field name="reconcile">False</field> <field name="code">50504070</field>  <field name="name">Loss on Sale of Assets</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50504080" model="account.account"> <field name="reconcile">False</field> <field name="code">50504080</field>  <field name="name">Loss on Initial Recognition of Biological Assets</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50504090" model="account.account"> <field name="reconcile">False</field> <field name="code">50504090</field>  <field name="name">Loss of Assets</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50504100" model="account.account">  <field name="reconcile">False</field> <field name="code">50504100</field>  <field name="name">Loss on Guaranty</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50504990" model="account.account">  <field name="reconcile">False</field> <field name="code">50504990</field>  <field name="name">Other Losses</field> <field name="company_id">1</field> </record>-->
+<!--		<record id="acc50505010" model="account.account">  <field name="reconcile">False</field> <field name="code">50505010</field>  <field name="name">Grants for Concessionary Loans</field> <field name="company_id">1</field> </record>-->
+<!--		-->
+    </data>
+</odoo>
+

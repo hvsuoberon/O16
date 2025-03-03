@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="minutes_of_bid">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+			<t t-call="procurement_lgu.custom_external_layout4">
+
+                <div class="page" style="margin:0px;">
+                	<div class="oe_structure"/>
+                	<br/>
+                	<br/>
+					<table width="100%" height="60mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: bold;">
+								<span style="color: white">..........</span>
+								EXCERPT FROM THE MINUTES OF THE BIDS AND AWARDS COMMITTEE MEETING HELD AT THE
+								<span t-field="o.requisition_id.place_bid"/>
+								LAST
+								<span t-field="o.requisition_id.bid_open" t-field-options='{"format": "MMMM d, yyyy"}'/>.
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:5%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+							</td>
+							<td style="border-left:0px solid white;width:95%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								Present
+							</td>
+						</tr>
+					</table>
+					<tr t-foreach="o.requisition_id.attendance_ids" t-as="att" >
+						<t t-if="att.rec_type=='1present'">
+							<table width="100%" height="20mm" style="border-spacing: 0;">
+								<td style="border:0px solid white;width:10%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								</td>
+								<td style="border:0px solid white;width:30%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+									<span t-field="att.name"/>
+								</td>
+								<td style="border:0px solid white;width:30%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+									<span t-field="att.designation"/>
+								</td>
+							</table>
+						</t>
+					</tr>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:5%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+							</td>
+							<td style="border-left:0px solid white;width:95%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								Attending:
+							</td>
+						</tr>
+					</table>
+					<tr t-foreach="o.requisition_id.attendance_ids" t-as="att" >
+						<t t-if="att.rec_type=='2attend'">
+							<table width="100%" height="20mm" style="border-spacing: 0;">
+								<td style="border:0px solid white;width:10%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								</td>
+								<td style="border:0px solid white;width:30%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+									<span t-field="att.name"/>
+								</td>
+								<td style="border:0px solid white;width:30%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+									<span t-field="att.designation"/>
+								</td>
+							</table>
+						</t>
+					</tr>
+					<br/>
+					<table width="100%" height="50mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:center;font-weight: bold;">
+								BAC RESOLUTION NO.
+								<span t-field="o.requisition_id.reso_number"/>
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: bold;">
+								BAC RESOLUTION RECOMMENDING TO THE HEAD OF THE PROCURRING ENTITY THE
+								<span t-field="o.partner_id"/>
+								OF
+								<span t-if="o.partner_id.street" t-field="o.partner_id.street"/>
+								<span t-if="o.partner_id.street and o.partner_id.street2">, </span>
+								<span t-if="o.partner_id.street2" t-field="o.partner_id.street2"/>
+								<span t-if="(o.partner_id.street or o.partner_id.street2) and o.partner_id.city">, </span>
+								<span t-if="o.partner_id.city" t-field="o.partner_id.city"/>
+								AS THE CALCULATED RESPONSIVE BIDDER FOR THE
+								<span t-field="o.requisition_id.project_id"/>
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								<span style="font-weight:bold">WHEREAS,</span> the
+								<span style="font-weight:bold">MUNICIPAL GOVERNMENT OF BAGUMBAYAN,</span>
+								through us Bids and Awards committee advertised the Invitation to Bid for the
+								<span style="font-weight:bold" t-field="o.requisition_id.project_id"/>
+								charged against the
+								<span style="font-weight:bold" t-field="o.requisition_id.source_id"/>
+								in any conspicuous places at the premises of the LGU continuously for seven (7) calendar days, in the
+								PHILGEPS website;
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								<span style="font-weight:bold">WHEREAS,</span>
+								in response to the said advertisements,
+
+								the
+								<span style="font-weight:bold">MUNICIPAL GOVERNMENT OF BAGUMBAYAN,</span>
+								through us Bids and Awards committee advertised the Invitation to Bid for the
+								<span style="font-weight:bold" t-field="o.requisition_id.project_id"/>
+								charged against the
+								<span style="font-weight:bold" t-field="o.requisition_id.source_id"/>
+								in any conspicuous places at the premises of the LGU continuously for seven (7) calendar days, in the
+								PHILGEPS website;
+							</td>
+						</tr>
+					</table>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+</odoo>

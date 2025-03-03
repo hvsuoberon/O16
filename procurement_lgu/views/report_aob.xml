@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="abstract_of_bid">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+			<t t-call="procurement_lgu.custom_external_layout">
+
+                <div class="page" style="margin:0px;">
+                	<div class="oe_structure"/>
+                	<br/>
+                	<br/>
+					<table width="100%" height="50mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border:0px solid white;width:100%;vertical-align:middle;font-size : 20px;text-align:center;font-weight: bold;">
+								<span style="">ABSTRACT OF BID AS CALCULATED</span>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="25mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border:0px solid white;width:20%;vertical-align:left;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>Project Name</span>
+							</td>
+							<td style="border:0px solid white;width:50%;vertical-align:left;font-size : 12px;text-align:left;font-weight: bold;">
+								:<span t-field="o.project_id"/>
+							</td>
+							<td style="border:0px solid white;width:30%;vertical-align:left;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>Date :</span>
+								<span t-field="o.bid_open"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="25mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border:0px solid white;width:20%;vertical-align:left;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>Project Location</span>
+							</td>
+							<td style="border:0px solid white;width:80%;vertical-align:left;font-size : 12px;text-align:left;font-weight: bold;">
+								:<span t-field="o.project_loc"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="25mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border:0px solid white;width:20%;vertical-align:left;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>Implementing Office</span>
+							</td>
+							<td style="border:0px solid white;width:80%;vertical-align:left;font-size : 12px;text-align:left;font-weight: bold;">
+								:<span t-field="o.pu_id"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="25mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border:0px solid white;width:20%;vertical-align:left;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>Approved Budget for the Contract</span>
+							</td>
+							<td style="border:0px solid white;width:80%;vertical-align:left;font-size : 12px;text-align:left;font-weight: bold;">
+								: ₱ <span t-esc="'{:,.2f}'.format(o.approved_budget)"/>
+
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="25mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border:0px solid white;width:20%;vertical-align:left;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>Place of Bid Opening</span>
+							</td>
+							<td style="border:0px solid white;width:80%;vertical-align:left;font-size : 12px;text-align:left;font-weight: bold;">
+								:<span t-field="o.place_bid"/>
+							</td>
+						</tr>
+					</table>
+                    <t t-set="top1" t-value='False'/>
+                    <t t-set="top2" t-value='False'/>
+                    <t t-set="top3" t-value='False'/>
+                    <t t-set="top1_id" t-value='False'/>
+                    <t t-set="top2_id" t-value='False'/>
+                    <t t-set="top3_id" t-value='False'/>
+                    <t t-set="total1" t-value='0'/>
+                    <t t-set="total2" t-value='0'/>
+                    <t t-set="total3" t-value='0'/>
+                    <t t-set="bidsec1" t-value='False'/>
+                    <t t-set="bidsec2" t-value='False'/>
+                    <t t-set="bidsec3" t-value='False'/>
+                    <t t-set="po1" t-value='False'/>
+                    <t t-set="po2" t-value='False'/>
+                    <t t-set="po3" t-value='False'/>
+
+                    <t t-set="cntr" t-value='1'/>
+                    <t t-foreach="o.get_top3()" t-as="top">
+                        <t t-if="cntr == 1" t-set="top1" t-value="top['partner_id']"/>
+                        <t t-if="cntr == 2" t-set="top2" t-value="top['partner_id']"/>
+                        <t t-if="cntr == 3" t-set="top3" t-value="top['partner_id']"/>
+                        <t t-if="cntr == 1" t-set="top1_id" t-value="top['id']"/>
+                        <t t-if="cntr == 2" t-set="top2_id" t-value="top['id']"/>
+                        <t t-if="cntr == 3" t-set="top3_id" t-value="top['id']"/>
+                        <t t-if="cntr == 1" t-set="total1" t-value="top['amount_total']"/>
+                        <t t-if="cntr == 2" t-set="total2" t-value="top['amount_total']"/>
+                        <t t-if="cntr == 3" t-set="total3" t-value="top['amount_total']"/>
+                        <t t-if="cntr == 1" t-set="bidsec1" t-value="top['bid_sec']"/>
+                        <t t-if="cntr == 2" t-set="bidsec2" t-value="top['bid_sec']"/>
+                        <t t-if="cntr == 3" t-set="bidsec3" t-value="top['bid_sec']"/>
+                        <t t-if="cntr == 1" t-set="po1" t-value="top['po']"/>
+                        <t t-if="cntr == 2" t-set="po2" t-value="top['po']"/>
+                        <t t-if="cntr == 3" t-set="po3" t-value="top['po']"/>
+                        <t t-set="cntr" t-value='cntr+1'/>
+                    </t>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-top:1px solid black;border-bottom:1px solid black;border-left:1px solid black;width:20%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+								<span>Name of Bidders</span>
+							</td>
+							<td style="border-top:1px solid black;border-bottom:1px solid black;border-left:1px solid black;width:5%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+								<span></span>
+							</td>
+							<td style="border-top:1px solid black;border-bottom:1px solid black;border-left:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <table width="100%" height="20mm" style="border-spacing: 0;">
+                                    <tr>
+                                        <td style="width:100%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                            <span t-if="top1" t-esc="top1" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                                            <span t-if="not top1" style="color:white">.</span>
+                                        </td>
+                                    </tr>
+                                </table>
+							</td>
+							<td style="border-top:1px solid black;border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <table width="100%" height="20mm" style="border-spacing: 0;">
+                                    <tr>
+                                        <td style="width:100%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                            <span t-if="top2" t-esc="top2" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                                            <span t-if="not top2" style="color:white">.</span>
+                                        </td>
+                                    </tr>
+                                </table>
+							</td>
+							<td style="border-top:1px solid black;border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <table width="100%" height="20mm" style="border-spacing: 0;">
+                                    <tr>
+                                        <td style="width:100%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                            <span t-if="top3" t-esc="top3" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                                            <span t-if="not top3" style="color:white">.</span>
+                                        </td>
+                                    </tr>
+                                </table>
+							</td>
+
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:20%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								<span>Total Amount of Bid</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:5%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+								<span>₱</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="total1!=0" t-esc="'{:,.2f}'.format(total1)"/>
+                            </td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="total2!=0" t-esc="'{:,.2f}'.format(total2)"/>
+							</td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="total3!=0" t-esc="'{:,.2f}'.format(total3)"/>
+							</td>
+						</tr>
+					</table>
+                    <table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:20%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								<span>Form of Bid Security</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:5%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="bidsec1" t-esc="bidsec1"/>
+                            </td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="bidsec2" t-esc="bidsec2"/>
+							</td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="bidsec3" t-esc="bidsec3"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:20%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								<span style="color:white">......</span>
+                                <span>Bank/Company</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:5%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+								<span></span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po1 and po1.bs_bank_comp" t-field="po1.bs_bank_comp"/>
+                            </td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po2 and po2.bs_bank_comp" t-field="po2.bs_bank_comp"/>
+							</td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po3 and po3.bs_bank_comp" t-field="po3.bs_bank_comp"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:20%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								<span style="color:white">......</span>
+                                <span>Number</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:5%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po1 and po1.bs_number" t-field="po1.bs_number"/>
+                            </td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po2 and po2.bs_number" t-field="po2.bs_number"/>
+							</td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po3 and po3.bs_number" t-field="po3.bs_number"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:20%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								<span style="color:white">......</span>
+                                <span>Validity Period</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:5%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+								<span></span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po1 and po1.bs_validity" t-field="po1.bs_validity"/>
+                            </td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po2 and po2.bs_validity" t-field="po2.bs_validity"/>
+							</td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po3 and po3.bs_validity" t-field="po3.bs_validity"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:20%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								<span style="color:white">......</span>
+                                <span>Bid Security Amount</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:5%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+								<span>₱</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po1 and po1.bs_amount" t-field="po1.bs_amount"/>
+                            </td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po2 and po2.bs_amount" t-field="po2.bs_amount"/>
+							</td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po3 and po3.bs_amount" t-field="po3.bs_amount"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:20%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+                                <span>Required Bid Security</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:5%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+								<span>₱</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po1 and po1.res_bs" t-field="po1.res_bs"/>
+                            </td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po2 and po2.res_bs" t-field="po2.res_bs"/>
+							</td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po3 and po3.res_bs" t-field="po3.res_bs"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:20%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+                                <span>Sufficient / Insufficient</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:5%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+								<span></span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po1 and po1.sufficiency" t-field="po1.sufficiency"/>
+                            </td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po2 and po2.sufficiency" t-field="po2.sufficiency"/>
+							</td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po3 and po3.sufficiency" t-field="po3.sufficiency"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:20%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+                                <span>Remarks</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:5%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+								<span></span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po1 and po1.bs_remarks" t-field="po1.bs_remarks"/>
+                            </td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po2 and po2.bs_remarks" t-field="po2.bs_remarks"/>
+							</td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:25%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+                                <span t-if="po3 and po3.bs_remarks" t-field="po3.bs_remarks"/>
+							</td>
+						</tr>
+					</table>
+
+                    <table width="100%" height="30mm" style="border-spacing: 0;">
+						<tr>
+							<td style="width:3%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+							</td>
+						</tr>
+					</table>
+
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:center">
+                                <span style="font-weight: bold;" t-field="o.bac_chairman"/>
+                                <br/>
+                                <span style="font-weight: normal;font-size:10px;">BAC Chairman</span>
+							</td>
+							<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:center">
+                                <span style="font-weight: bold;" t-field="o.bac_vicechairman"/>
+                                <br/>
+                                <span style="font-weight: normal;font-size:10px;">BAC Vice Chairman</span>
+							</td>
+							<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:center">
+                                <span style="font-weight: bold;" t-field="o.bac_member1"/>
+                                <br/>
+                                <span style="font-weight: normal;font-size:10px;">BAC Member</span>
+							</td>
+							<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:center">
+                                <span style="font-weight: bold;" t-field="o.bac_member2"/>
+                                <br/>
+                                <span style="font-weight: normal;font-size:10px;">BAC Member</span>
+							</td>
+							<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:center">
+                                <span style="font-weight: bold;" t-field="o.bac_member3"/>
+                                <br/>
+                                <span style="font-weight: normal;font-size:10px;">BAC Member</span>
+							</td>
+						</tr>
+					</table>
+
+                    <table width="100%" height="30mm" style="border-spacing: 0;">
+						<tr>
+							<td style="width:3%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+							</td>
+						</tr>
+					</table>
+
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:center">
+                                <span style="font-weight: bold;" t-field="o.end_user"/>
+                                <br/>
+                                <span style="font-weight: normal;font-size:10px;">End User</span>
+							</td>
+							<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:center">
+                                <span style="font-weight: bold;" t-field="o.bac_twg"/>
+                                <br/>
+                                <span style="font-weight: normal;font-size:10px;">BAC TWG Head</span>
+							</td>
+							<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:center">
+                                <span style="font-weight: bold;" t-field="o.observer1"/>
+                                <br/>
+                                <span style="font-weight: normal;font-size:10px;">Observer</span>
+							</td>
+							<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:center">
+                                <span style="font-weight: bold;" t-field="o.observer2"/>
+                                <br/>
+                                <span style="font-weight: normal;font-size:10px;">Observer</span>
+							</td>
+							<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:center">
+							</td>
+						</tr>
+					</table>
+
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="width:3%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+							</td>
+						</tr>
+					</table>
+                    <table width="100%" height="20mm" style="border-spacing: 0;">
+                        <tr>
+                            <td style="width:3%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+                            </td>
+                        </tr>
+                    </table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="width:100%;vertical-align:middle;font-size : 14px;text-align:center;font-weight: normal;">
+                                <span>APPROVED:</span>
+							</td>
+						</tr>
+					</table>
+                    <table width="100%" height="20mm" style="border-spacing: 0;">
+                        <tr>
+                            <td style="width:3%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+                            </td>
+                        </tr>
+                    </table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="width:100%;vertical-align:middle;font-size : 14px;text-align:center;font-weight: bold;">
+                                <span t-field="o.mayor"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="width:100%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: normal;">
+                                <span>Municipal Mayor</span>
+							</td>
+						</tr>
+					</table>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+</odoo>

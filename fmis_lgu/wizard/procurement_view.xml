@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="bank_loan_wizard_form" model="ir.ui.view">
+        <field name="name">bank.loan.wizard.form</field>
+        <field name="model">bank.loan.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Track Loans">
+                <group>
+                    <group>
+                        <field name="lender_ids" widget="many2many_tags"/>
+                    </group>
+<!--                    <group>-->
+<!--                        <field name="include_fully_paid" widget="boolean_toggle"/>-->
+<!--                    </group>-->
+                </group>
+                <footer>
+                    <button name="action_retrieve" type="object" string="Retrieve History" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="bank_loan_wizard_action" model="ir.actions.act_window">
+        <field name="name">Loan Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bank.loan.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="bank_loan_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="account_bank_loan_menu" name="Loan Reports" parent="account.menu_finance_reports" sequence="5"/>
+
+    <menuitem id="menu_bank_loan_wizard_view" action="bank_loan_wizard_action"
+        parent="bank_loan.account_bank_loan_menu"/>
+
+    <record id="view_bank_loan_report_tree" model="ir.ui.view">
+        <field name="name">bank.loan.report.tree</field>
+        <field name="model">bank.loan.report</field>
+        <field name="priority">4</field>
+        <field name="arch" type="xml">
+            <tree string="Bank Loan">
+                <field name="type"/>
+                <field name="lender_id"/>
+                <field name="company"/>
+                <field name="loan_id"/>
+                <field name="start_date"/>
+                <field name="short_term_due"/>
+                <field name="due_date" invisible="1"/>
+                <field name="due_on" invisible="1"/>
+                <field name="ddue_date"/>
+                <field name="ddue_on"/>
+                <field name="loan_amount" sum="Total Loan Amount"/>
+                <field name="total_interest" sum="Total Interest"/>
+                <field name="total" sum="Total"/>
+                <field name="total_due" sum="Total due"/>
+                <field name="payment" sum="Total Payment"/>
+                <field name="remaining_balance" sum="Total Remaining Balance"/>
+
+
+<!--                <field name="remaining_balance" widget='monetary' options="{'currency_field': 'company_currency'}"/>-->
+<!--                <field name="loan_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+<!--                <field name="payment" widget='monetary' options="{'currency_field': 'company_currency'}"/>-->
+<!--                <field name="total_interest" widget='monetary' options="{'currency_field': 'company_currency'}"/>-->
+<!--                <field name="total_due" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+
+                <!--                <field name="avg_rate_credit" widget='monetary' options="{'currency_field': 'company_currency'}"/>-->
+<!--                <field name="balance" widget='monetary' options="{'currency_field': 'company_currency'}"/>-->
+<!--                <field name="currency_balance" widget='monetary' options="{'currency_field': 'currency_id'}"/>-->
+<!--                <field name="source_id" invisible="True"/>-->
+<!--                <button name="action_show_source"-->
+<!--                    attrs="{'invisible': [('source_id', '=', False)]}"-->
+<!--                    string="Show Source"-->
+<!--                    type="object"-->
+<!--                    icon="fa-list" />-->
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_bank_loan_report_form" model="ir.ui.view">
+        <field name="name">bank.loan.report.form</field>
+        <field name="model">bank.loan.report</field>
+        <field name="arch" type="xml">
+            <form string="Bank Loan Report">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="loan_id"/>
+                            <field name="company" readonly="True"/>
+                            <field name="lender_id" readonly="True"/>
+                            <field name="start_date" readonly="True"/>
+                            <field name="short_term_due" readonly="True"/>
+                            <field name="due_date" readonly="True"/>
+                            <field name="due_on" readonly="True"/>
+                            <field name="remaining_balance" readonly="True"/>
+                            <field name="loan_amount" readonly="True"/>
+                            <field name="payment" readonly="True"/>
+                            <field name="total_interest" readonly="True"/>
+                            <field name="total_due" readonly="True"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_bank_loan_report_search_view" model="ir.ui.view">
+        <field name="name">bank.loan.report.select</field>
+        <field name="model">bank.loan.report</field>
+        <field name="arch" type="xml">
+            <search string="Bank Loan Report">
+<!--                <field name="bank_policy_id"/>-->
+<!--                <separator/>-->
+                <group expand="1" string="Group By">
+                    <filter string="Loan Type" name="group_type" domain="[]" context="{'group_by':'type'}"/>
+                    <filter string="Lender" name="group_lender" domain="[]" context="{'group_by':'lender_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+</odoo>

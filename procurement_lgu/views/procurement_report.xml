@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="report.paperformat" id="paperformat_legal">
+        <field name="name">paperformat.legal</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_width">216</field>
+        <field name="page_height">330</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">30</field>
+        <field name="margin_right">5</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record model="report.paperformat" id="paperformat_legal_abtract">
+        <field name="name">paperformat.legal</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_width">216</field>
+        <field name="page_height">330</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">30</field>
+        <field name="margin_right">5</field>
+        <field name="margin_bottom">80</field>
+        <field name="margin_left">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report
+        id="report_procurement_plan"
+        model="procurement.plan"
+        string="PMPP"
+        report_type="qweb-pdf"
+        name="procurement_lgu.procurement_plan"
+        file="procurement_lgu.procurement_plan"
+        paperformat="paperformat_legal"
+    />
+
+    <record model="report.paperformat" id="paperformat_legal_portrait">
+        <field name="name">paperformat.legal.portrait</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_width">216</field>
+        <field name="page_height">330</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">30</field>
+        <field name="margin_right">20</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">20</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report
+        id="report_procurement_po"
+        model="purchase.order"
+        string="Purchase Order"
+        report_type="qweb-pdf"
+        name="procurement_lgu.purchase_order"
+        file="procurement_lgu.purchase_order"
+        paperformat="paperformat_legal_portrait"
+    />
+
+    <report
+        id="report_procurement_rfq"
+        model="purchase.order"
+        string="Request For Quotation"
+        report_type="qweb-pdf"
+        name="procurement_lgu.purchase_order_rfq"
+        file="procurement_lgu.purchase_order_rfq"
+        paperformat="paperformat_legal_portrait"
+    />
+
+    <report
+        string="Purchase Order"
+        id="purchase.action_report_purchase_order"
+        model="purchase.order"
+        report_type="qweb-pdf"
+        name="purchase.report_purchaseorder"
+        file="purchase.report_purchaseorder"
+        menu="False"
+    />
+
+    <report
+        string="Request for Quotation"
+        id="purchase.report_purchase_quotation"
+        model="purchase.order"
+        report_type="qweb-pdf"
+        name="purchase.report_purchasequotation"
+        file="purchase.report_purchasequotation"
+        menu="False"
+    />
+
+    <report
+        id="report_procurement_aoc"
+        model="purchase.requisition"
+        string="Abstract of Canvass"
+        report_type="qweb-pdf"
+        name="procurement_lgu.abstract_of_canvass"
+        file="procurement_lgu.abstract_of_canvass"
+        paperformat="paperformat_legal_abtract"
+    />
+
+    <report
+        id="report_procurement_aob"
+        model="purchase.requisition"
+        string="Abstract of Bid"
+        report_type="qweb-pdf"
+        name="procurement_lgu.abstract_of_bid"
+        file="procurement_lgu.abstract_of_bid"
+        paperformat="paperformat_legal"
+    />
+<!--    <report-->
+<!--        id="report_procurement_minutes"-->
+<!--        model="purchase.order"-->
+<!--        string="Minutes of Bid"-->
+<!--        report_type="qweb-pdf"-->
+<!--        name="procurement_lgu.minutes_of_bid"-->
+<!--        file="procurement_lgu.minutes_of_bid"-->
+<!--        paperformat="paperformat_legal_portrait"-->
+<!--    />-->
+
+    <report
+        string="Notice of Award"
+        id="report_notice_of_award"
+        model="purchase.order"
+        report_type="qweb-pdf"
+        name="procurement_lgu.notice_of_award"
+        file="procurement_lgu.notice_of_award"
+        menu="True"
+        paperformat="paperformat_legal_portrait"
+    />
+    <report
+        string="Notice to Proceed"
+        id="report_notice_to_proceed"
+        model="purchase.order"
+        report_type="qweb-pdf"
+        name="procurement_lgu.notice_to_proceed"
+        file="procurement_lgu.notice_to_proceed"
+        menu="True"
+        paperformat="paperformat_legal_portrait"
+    />
+</odoo>

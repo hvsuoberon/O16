@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="report.paperformat" id="paperformat_half">
+        <field name="name">paperformat.half</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_width">210</field>
+        <field name="page_height">177</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">15</field>
+        <field name="margin_right">5</field>
+        <field name="margin_bottom">2</field>
+        <field name="margin_left">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">10</field>
+        <field name="dpi">90</field>
+    </record>
+
+
+    <report
+        id="report_budgeting_pr"
+        model="budgeting.pr"
+        string="Purchase Request"
+        report_type="qweb-pdf"
+        name="budgeting.report_pr"
+        file="budgeting.report_pr"
+    />
+    
+    <report
+        id="report_budgeting_obr"
+        model="budgeting.obr"
+        string="Obligation Request"
+        report_type="qweb-pdf"
+        name="budgeting.report_obr"
+        file="budgeting.report_obr"
+        paperformat="paperformat_half"
+    />
+    
+    <report
+        id="report_budgeting_aug"
+        model="budgeting.augmentation"
+        string="Budget Augmentation"
+        report_type="qweb-pdf"
+        name="budgeting.report_aug"
+        file="budgeting.report_aug"
+    />  
+
+    <report
+        id="report_budgeting_app"
+        model="budgeting.appropriation"
+        string="Appropriation"
+        report_type="qweb-pdf"
+        name="budgeting.report_app"
+        file="budgeting.report_app"
+    />      
+</odoo>

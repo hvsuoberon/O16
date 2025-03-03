@@ -1,0 +1,882 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    	<!-- ################################################ start -->
+        <record model="ir.ui.view" id="budgetingperiod_form_view">
+            <field name="name">budgetingperiod.form</field>
+            <field name="model">budgeting.period</field>
+            <field name="arch" type="xml">
+                <form string="Budget Specification">
+                    <sheet>
+						<div class="oe_title">
+	                        <h1>
+	                            <field name="name" readonly="1"/>
+	                        </h1>
+	                    </div>                    
+                        <group>
+                            <field name="code"/>
+                            <field name="descript"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>              
+                            <field name="dyear" readonly="1"/>              
+                        </group>
+                        <notebook>
+                            <page string="Notes">
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="budgetingperiod_search_view">
+            <field name="name">budgetingperiod.search</field>
+            <field name="model">budgeting.period</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="Current Year" name="currentyear" 
+						domain="[('dyear','=',context_today().strftime('%Y'))]" />
+					<filter name="f2019" string="Year 2019" domain="[('dyear','=','2019')]"/>
+					<filter name="f2020" string="Year 2020" domain="[('dyear','=','2020')]"/>
+					<filter name="f2021" string="Year 2021" domain="[('dyear','=','2021')]"/>	
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="descript"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="budgetingperiod_tree_view">
+            <field name="name">budgetingperiod.tree</field>
+            <field name="model">budgeting.period</field>
+            <field name="arch" type="xml">
+                <tree string="Budget Specification Tree">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="descript"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="budgetingperiod_list_action">
+            <field name="name">Budget Specification</field>
+            <field name="res_model">budgeting.period</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_currentyear': True}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first budget period
+                </p>
+            </field>
+        </record>
+		<!-- ################################################ end -->
+
+    	<!-- ################################################ start -->
+        <record model="ir.ui.view" id="budgetingsource_form_view">
+            <field name="name">budgetingsource.form</field>
+            <field name="model">budgeting.source</field>
+            <field name="arch" type="xml">
+                <form string="Budget Source">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="budgetingsource_search_view">
+            <field name="name">budgetingsource.search</field>
+            <field name="model">budgeting.source</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="budgetingsource_tree_view">
+            <field name="name">budgetingsource.tree</field>
+            <field name="model">budgeting.source</field>
+            <field name="arch" type="xml">
+                <tree string="Budget Source Tree">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="budgetingsource_list_action">
+            <field name="name">Budget Source</field>
+            <field name="res_model">budgeting.source</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first budget source
+                </p>
+            </field>
+        </record>
+		<!-- ################################################ end -->
+
+
+    	<!-- ################################################ start -->
+        <record model="ir.ui.view" id="budgetingappropriation_form_view">
+            <field name="name">budgetingappropriation.form</field>
+            <field name="model">budgeting.appropriation</field>
+            <field name="arch" type="xml">
+                <form string="Budget Appropriation">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    	<button name="post" class="oe_highlight" states="draft" string="Confirm" type="object" groups="budgeting.budgeting_controller"/>
+                    	<button name="approve" class="oe_highlight" states="posted" string="Approve" type="object" groups="budgeting.budgeting_officer"/>
+                    	<button name="cancel" class="oe_highlight" states="posted" string="Cancel" type="object" groups="budgeting.budgeting_officer"/>
+                    	<button name="draft" class="oe_highlight" states="posted" string="Set to Draft" type="object" groups="budgeting.budgeting_controller"/>
+                    	<button name="draft" class="oe_highlight" states="approved,cancel" string="Set to Draft" type="object" groups="budgeting.budgeting_officer"/>
+                    </header>                
+                    <sheet>
+	                    <div class="oe_title">
+	                        <h1>
+	                            <field name="name" readonly="1"/>
+	                        </h1>
+	                    </div>
+                        <group>
+                        	<group>
+                        		<field name="source_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        		<field name="partner_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        		<field name="dyear" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        		<field name="period_id" domain="[('dyear','=',dyear)]" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        	</group>
+                        	<group>
+                        		<field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        		<field name="budgettype" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        		<field name="date_approved" readonly="1"/>
+                        	</group>
+                        </group>
+                        
+						<notebook colspan="4">
+	                        <page string="Details">
+	                            <field name="appdet_ids" mode="tree,kanban" attrs="{'readonly': [('state', '!=', 'draft')]}">
+	                                <tree editable="bottom">
+	                                    <field name="account_id"/>
+	                                    <field name="amount" sum="Total"/>
+	                                </tree>
+	                            </field>
+								
+								<!--
+								<group class="oe_subtotal_footer oe_right">
+	                                <field name="amount_total" class="oe_subtotal_footer_separator"/>
+	                            </group>                            
+	                            -->
+	                        </page>
+	                    </notebook>
+                    </sheet>
+
+	                <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+                
+                </form>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="budgetingappropriation_form_view_inherit">
+			<field name="name">budgeting.app.view.inherit</field>
+			<field name="model">budgeting.appropriation</field>
+			<field name="inherit_id" ref="budgeting.budgetingappropriation_form_view" />
+			<field name="groups_id" eval="[(6,0,[ref('budgeting.budgeting_officer')])]" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='date_approved']" position="attributes">
+					<attribute name="readonly">0</attribute>
+				</xpath>
+			</field>
+		</record>        
+
+		<record id="view_budgeting_app_filter" model="ir.ui.view">
+            <field name="name">budgeting.appropriation.select</field>
+            <field name="model">budgeting.appropriation</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+                    <filter name="forapproval" string="For Approval" domain="[('state','=','posted')]"/>
+                    <filter name="approved" string="Approved" domain="[('state','=','approved')]"/>
+                    <filter name="cancelled" string="Cancelled" domain="[('state','=','cancel')]"/>
+                    <filter string="Current Year" name="currentyear" 
+						domain="[('dyear','=',context_today().strftime('%Y'))]" />
+					<filter name="f2019" string="Year 2019" domain="[('dyear','=','2019')]"/>
+					<filter name="f2020" string="Year 2020" domain="[('dyear','=','2020')]"/>
+					<filter name="f2021" string="Year 2021" domain="[('dyear','=','2021')]"/>	
+                    <field name="name"/>
+                    <field name="budgettype"/>
+                    <field name="partner_id"/>
+                    <field name="source_id"/>
+                    <field name="state"/>
+					<group expand="0" string="Group By">
+                        <filter string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Source" domain="[]" context="{'group_by':'source_id'}"/>
+                        <filter string="Specification" domain="[]" context="{'group_by':'period_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+	                
+
+        <record model="ir.ui.view" id="budgetingappropriation_tree_view">
+            <field name="name">budgetingappropriation.tree</field>
+            <field name="model">budgeting.appropriation</field>
+            <field name="arch" type="xml">
+                <tree string="Budget Appropriation Tree">
+						<field name="name"/>
+						<field name="date"/>
+						<field name="budgettype"/>
+						<field name="source_id"/>
+                        <field name="period_id"/>
+                        <field name="partner_id"/>
+                        <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="budgetingappropriation_list_action">
+            <field name="name">Budget Appropriation</field>
+            <field name="res_model">budgeting.appropriation</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="context">{'default_budgettype': 'annual','search_default_currentyear': True}</field>
+            <field name="domain">[('budgettype', '=', 'annual')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first budget appropriation
+                </p>
+            </field>
+            <field name="search_view_id" ref="view_budgeting_app_filter"/>
+        </record>
+        
+        <record model="ir.actions.act_window" id="budgetingappropriation_list_action2">
+            <field name="name">Budget Appropriation</field>
+            <field name="res_model">budgeting.appropriation</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="context">{'default_budgettype': 'supplemental','search_default_currentyear': True}</field>
+            <field name="domain">[('budgettype', '=', 'supplemental')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first budget appropriation
+                </p>
+            </field>
+            <field name="search_view_id" ref="view_budgeting_app_filter"/>
+        </record>  
+
+        <record model="ir.actions.act_window" id="budgetingappropriation_list_action3">
+            <field name="name">Budget Appropriation</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="context">{'default_budgettype': 'reappropriation','search_default_currentyear': True}</field>
+            <field name="domain">[('budgettype', '=', 'reappropriation')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first budget appropriation
+                </p>
+            </field>
+            <field name="search_view_id" ref="view_budgeting_app_filter"/>
+        </record>             
+		<!-- ################################################ end -->
+
+    	<!-- ################################################ start -->
+        <record model="ir.ui.view" id="budgetingpr_form_view">
+            <field name="name">budgetingpr.form</field>
+            <field name="model">budgeting.pr</field>
+            <field name="arch" type="xml">
+                <form string="Purchase Request">
+                    <header>
+                    	<button name="post" class="oe_highlight" states="draft" string="Confirm" type="object" groups="budgeting.budgeting_controller"/>
+                    	<button name="approve" class="oe_highlight" states="posted" string="Approve" type="object" groups="budgeting.budgeting_officer"/>
+                    	<button name="cancel" class="oe_highlight" states="posted" string="Cancel" type="object" groups="budgeting.budgeting_officer"/>
+                    	<button name="forobr" class="oe_highlight" states="approved" string="For OBR" type="object"/>
+                    	<button name="recalc" class="oe_highlight" states="draft,posted" string="Recalculate" type="object"/>
+                    	<button name="draft" class="oe_highlight" states="posted" string="Set to Draft" type="object" groups="budgeting.budgeting_controller"/>
+                    	<button name="draft" class="oe_highlight" states="approved,cancel,obr" string="Set to Draft" type="object" groups="budgeting.budgeting_officer"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>                
+                    <sheet>
+                    	<!--
+						<div class="oe_button_box" name="button_box">
+	                        <button name="action_view_obr"
+	                            type="object"
+	                            class="oe_stat_button"
+	                            icon="fa-pencil-square-o"
+	                            string="Open OBR"
+	                            attrs="{'invisible': [('state', '!=', 'obr')]}">
+	                        </button>
+	                    </div>
+	                    -->
+	                    <div class="oe_title">
+	                        <h1>
+	                            <field name="name" readonly="1"/>
+	                        </h1>
+	                    </div>
+                  
+                        <group>
+                        	<group>
+                        		<field name="source_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        		<field name="partner_id" attrs="{'readonly': [('state', '!=', 'draft')]}"
+                        				context="{'filter_partner2':True,'source_id':source_id}"/>
+								<field name="dyear" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        		<field name="period_id" attrs="{'readonly': [('state', '!=', 'draft')]}"
+                        				domain="[('dyear','=',dyear)]"
+                        				context="{'filter_period':True,'source_id':source_id,'partner_id':partner_id}"/>
+                        	</group>
+                        	
+                        	<group>
+                        		<field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+	                            <field name="purpose" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+	                            <field name="date_approved" readonly="1"/>	                         	
+                        	</group>
+                        </group>
+						<notebook colspan="4">
+                        <page string="Details">
+                            <field name="prdet_ids" mode="tree,kanban" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                <tree editable="bottom">
+                                    <field name="account_id" context="{'xpart':parent.partner_id,'xsource':parent.source_id,'xspec':parent.period_id}"/>
+                                    <field name="currentbal"/>
+	                                <field name="amount" sum="Total"/>
+	                                <field name="newbal"/>
+                                </tree>
+                            </field>
+							<!--
+							<group class="oe_subtotal_footer oe_right">
+                                <field name="amount_total" class="oe_subtotal_footer_separator"/>
+                            </group>                            
+                            -->
+                        </page>
+                    </notebook>
+	                    
+                    </sheet>
+  
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                    
+                </form>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="budgetingpr_form_view_inherit">
+			<field name="name">budgeting.pr.view.inherit</field>
+			<field name="model">budgeting.pr</field>
+			<field name="inherit_id" ref="budgeting.budgetingpr_form_view" />
+			<field name="groups_id" eval="[(6,0,[ref('budgeting.budgeting_officer')])]" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='date_approved']" position="attributes">
+					<attribute name="readonly">0</attribute>
+				</xpath>
+			</field>
+		</record>        
+
+		<!-- filter -->
+        <record id="view_budgeting_pr_filter" model="ir.ui.view">
+            <field name="name">budgeting.pr.select</field>
+            <field name="model">budgeting.pr</field>
+            <field name="arch" type="xml">
+                <search string="Search PR">
+                    <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+                    <filter name="forapproval" string="For Approval" domain="[('state','=','posted')]"/>
+                    <filter name="approved" string="Approved" domain="[('state','=','approved')]"/>
+                    <filter name="obr" string="Forwarded to OBR" domain="[('state','=','obr')]"/>
+                    <filter name="cancelled" string="Cancelled" domain="[('state','=','cancel')]"/>
+                    <filter string="Current Year" name="currentyear" 
+						domain="[('dyear','=',context_today().strftime('%Y'))]" />
+					<filter name="f2019" string="Year 2019" domain="[('dyear','=','2019')]"/>
+					<filter name="f2020" string="Year 2020" domain="[('dyear','=','2020')]"/>
+					<filter name="f2021" string="Year 2021" domain="[('dyear','=','2021')]"/>	
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="period_id"/>
+                    <field name="source_id"/>
+                    <field name="state"/>
+					<group expand="0" string="Group By">
+                        <filter string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Source" domain="[]" context="{'group_by':'source_id'}"/>
+                        <filter string="Specification" domain="[]" context="{'group_by':'period_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="budgetingpr_tree_view">
+            <field name="name">budgetingpr.tree</field>
+            <field name="model">budgeting.pr</field>
+            <field name="arch" type="xml">
+                <tree string="Purchase Request Tree">
+						<field name="name"/>
+						<field name="date"/>
+						<field name="source_id"/>
+                        <field name="period_id"/>
+                        <field name="partner_id"/>
+                        <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="budgetingpr_list_action">
+            <field name="name">Purchase Request</field>
+            <field name="res_model">budgeting.pr</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="context">{'search_default_currentyear': True}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Purchase Request
+                </p>
+            </field>
+            <field name="search_view_id" ref="view_budgeting_pr_filter"/>
+        </record>
+
+        <record model="ir.actions.act_window" id="budgetingpr_list_action2">
+            <field name="name">Purchase Request</field>
+            <field name="res_model">budgeting.pr</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="context">{'search_default_currentyear': True}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Purchase Request
+                </p>
+            </field>
+            <field name="search_view_id" ref="view_budgeting_pr_filter"/>
+        </record>
+
+		<!-- ################################################ end -->
+
+    	<!-- ################################################ start -->
+            	
+        <record model="ir.ui.view" id="budgetingobr_form_view">
+            <field name="name">budgetingobr.form</field>
+            <field name="model">budgeting.obr</field>
+            <field name="arch" type="xml">
+                <form string="Obligation Request">
+              	
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    	<button name="post" class="oe_highlight" states="draft" string="Confirm" type="object" groups="budgeting.budgeting_controller"/>
+                    	<button name="approve" class="oe_highlight" states="posted" string="Approve" type="object" groups="budgeting.budgeting_officer"/>
+                    	<button name="cancel" class="oe_highlight" states="posted" string="Cancel" type="object" groups="budgeting.budgeting_officer"/>
+                    	<button name="recalc" class="oe_highlight" states="draft,posted" string="Recalculate" type="object"/>
+						<button name="draft" class="oe_highlight" states="posted" string="Set to Draft" type="object" groups="budgeting.budgeting_controller"/>
+                    	<button name="draft" class="oe_highlight" states="approved,cancel" string="Set to Draft" type="object" groups="budgeting.budgeting_officer"/>                    	
+                    </header>                
+                    <sheet>
+	                    <div class="oe_title">
+	                        <h1>
+	                            <field name="name" readonly="1"/>
+	                        </h1>
+	                    </div>
+
+                        <group>
+                        	<group>
+								<field name="source_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+	                        	<field name="partner_id" attrs="{'readonly': [('state', '!=', 'draft')]}"
+	                        				context="{'filter_partner2':True,'source_id':source_id}"/>
+	                        	<field name="dyear" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+	                        	<field name="period_id" attrs="{'readonly': [('state', '!=', 'draft')]}"
+	                        				domain="[('dyear','=',dyear)]"
+	                        				context="{'filter_period':True,'source_id':source_id,'partner_id':partner_id}"/>
+	                        	<field name="payee" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        	</group>
+                        	
+                        	<group>
+	                            <field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+	                            <field name="pr_id" attrs="{'invisible': [('modeofentry', '=', 'manual')]}"/>
+	                        	<field name="purpose" attrs="{'readonly': [('state', '!=', 'draft')]}"/>     
+	                            <field name="modeofentry" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+	                            <field name="date_approved" readonly="1"/>
+                        	</group>
+                        </group>
+						<notebook colspan="4">
+	                        <page string="Details">
+	                            <field name="obrdet_ids" mode="tree,kanban" attrs="{'readonly': [('state', '!=', 'draft')]}">
+	                                <tree editable="bottom">
+	                                    <field name="account_id" context="{'xpart':parent.partner_id,'xsource':parent.source_id,'xspec':parent.period_id}"/>
+	                                    <field name="currentbal"/>
+	                                    <field name="amount" sum="Total"/>
+	                                    <field name="newbal"/>
+	                                </tree>
+	                            </field>
+								<!--
+								<group class="oe_subtotal_footer oe_right">
+	                                <field name="amount_total" class="oe_subtotal_footer_separator"/>
+	                            </group>                            
+	                            -->
+	                        </page>
+                    	</notebook>
+                    </sheet>
+  					
+	                <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+                </form>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="budgetingobr_form_view_inherit">
+			<field name="name">budgeting.obr.view.inherit</field>
+			<field name="model">budgeting.obr</field>
+			<field name="inherit_id" ref="budgeting.budgetingobr_form_view" />
+			<field name="groups_id" eval="[(6,0,[ref('budgeting.budgeting_officer')])]" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='date_approved']" position="attributes">
+					<attribute name="readonly">0</attribute>
+				</xpath>
+			</field>
+		</record>        
+
+        <record id="view_budgeting_obr_filter" model="ir.ui.view">
+            <field name="name">budgeting.obr.select</field>
+            <field name="model">budgeting.obr</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+                    <filter name="forapproval" string="For Approval" domain="[('state','=','posted')]"/>
+                    <filter name="approved" string="Approved" domain="[('state','=','approved')]"/>
+                    <filter name="cancelled" string="Cancelled" domain="[('state','=','cancel')]"/>
+                    <filter string="Current Year" name="currentyear" 
+						domain="[('dyear','=',context_today().strftime('%Y'))]" />
+					<filter name="f2019" string="Year 2019" domain="[('dyear','=','2019')]"/>
+					<filter name="f2020" string="Year 2020" domain="[('dyear','=','2020')]"/>
+					<filter name="f2021" string="Year 2021" domain="[('dyear','=','2021')]"/>	
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="period_id"/>
+                    <field name="source_id"/>
+                    <field name="state"/>
+					<group expand="0" string="Group By">
+                        <filter string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Source" domain="[]" context="{'group_by':'source_id'}"/>
+                        <filter string="Specification" domain="[]" context="{'group_by':'period_id'}"/>
+                    </group>                    
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="budgetingobr_tree_view">
+            <field name="name">budgetingobr.tree</field>
+            <field name="model">budgeting.obr</field>
+            <field name="arch" type="xml">
+                <tree string="Purchase Request Tree">
+						<field name="name"/>
+						<field name="date"/>
+						<field name="pr_id"/>
+						<field name="source_id"/>
+                        <field name="period_id"/>
+                        <field name="partner_id"/>
+                        <field name="modeofentry"/>
+                        <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="budgetingobr_list_action4">
+            <field name="name">Obligation Request</field>
+            <field name="res_model">budgeting.obr</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="context">{'search_default_currentyear': True}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Obligation Request
+                </p>
+            </field>
+            <field name="search_view_id" ref="view_budgeting_obr_filter"/>
+        </record>
+
+                       
+		<!-- ################################################ end -->
+
+    	<!-- ################################################ start -->
+
+        <record model="ir.ui.view" id="budgetingaug_form_view">
+            <field name="name">budgetingaug.form</field>
+            <field name="model">budgeting.augmentation</field>
+            <field name="arch" type="xml">
+                <form string="Budget Augmentation">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    	<button name="post" class="oe_highlight" states="draft" string="Confirm" type="object" groups="budgeting.budgeting_controller"/>
+                    	<button name="approve" class="oe_highlight" states="posted" string="Approve" type="object" groups="budgeting.budgeting_officer"/>
+                    	<button name="cancel" class="oe_highlight" states="posted" string="Cancel" type="object" groups="budgeting.budgeting_officer"/>
+                    	<button name="recalc" class="oe_highlight" states="draft,posted" string="Recalculate" type="object"/>
+						<button name="draft" class="oe_highlight" states="posted" string="Set to Draft" type="object" groups="budgeting.budgeting_controller"/>
+                    	<button name="draft" class="oe_highlight" states="approved,cancel" string="Set to Draft" type="object" groups="budgeting.budgeting_officer"/>                    	
+                    </header>                
+                    <sheet>
+	                    <div class="oe_title">
+	                        <h1>
+	                            <field name="name" readonly="1"/>
+	                        </h1>
+	                    </div>
+                        <group>
+                        	<group>
+                        		<field name="source_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+	                        	<field name="partner_id" attrs="{'readonly': [('state', '!=', 'draft')]}"
+	                        			context="{'filter_partner2':True,'source_id':source_id}"/>
+								<field name="dyear" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+	                        	<field name="period_id" attrs="{'readonly': [('state', '!=', 'draft')]}"
+	                        			domain="[('dyear','=',dyear)]"
+	                        			context="{'filter_period':True,'source_id':source_id,'partner_id':partner_id}"/>
+                        	</group>
+                        	
+                        	<group>
+	                            <field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+								<field name="purpose" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+								<field name="date_approved" readonly="1"/>	                                 
+                        	</group>
+                        </group>
+						<notebook colspan="4">
+	                        <page string="From">
+	                            <field name="augdetfrom_ids" mode="tree,kanban" attrs="{'readonly': [('state', '!=', 'draft')]}">
+	                                <tree editable="bottom">
+	                                    <field name="account_id" context="{'xpart':parent.partner_id,'xsource':parent.source_id,'xspec':parent.period_id}"/>
+	                                    <field name="currentbal"/>
+	                                    <field name="amount" sum="Total"/>
+	                                    <field name="newbal"/>
+	                                </tree>
+	                            </field>
+	                            <!--
+								<group class="oe_subtotal_footer oe_right">
+	                                <field name="amount_total_from" class="oe_subtotal_footer_separator"/>
+	                            </group>
+	                            -->                            
+	                        </page>
+                    	</notebook>
+
+						<notebook colspan="4">
+	                        <page string="To">
+								<field name="augdetto_ids" mode="tree,kanban" attrs="{'readonly': [('state', '!=', 'draft')]}">
+	                                <tree editable="bottom">
+	                                    <field name="account_id" context="{'xpart':parent.partner_id,'xsource':parent.source_id,'xspec':parent.period_id}"/>
+	                                    <field name="currentbal"/>
+	                                    <field name="amount" sum="Total"/>
+	                                    <field name="newbal"/>
+	                                </tree>
+	                            </field>
+	                            <!--
+								<group class="oe_subtotal_footer oe_right">
+	                                <field name="amount_total_to" class="oe_subtotal_footer_separator"/>
+	                            </group>
+	                            -->                            
+	                        </page>
+                    	</notebook>
+                    </sheet>
+  					
+	                <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+                </form>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="budgetingaug_form_view_inherit">
+			<field name="name">budgeting.aug.view.inherit</field>
+			<field name="model">budgeting.augmentation</field>
+			<field name="inherit_id" ref="budgeting.budgetingaug_form_view" />
+			<field name="groups_id" eval="[(6,0,[ref('budgeting.budgeting_officer')])]" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='date_approved']" position="attributes">
+					<attribute name="readonly">0</attribute>
+				</xpath>
+			</field>
+		</record>
+        
+        <record model="ir.ui.view" id="budgetingaug_search_view">
+            <field name="name">budgetingaug.search</field>
+            <field name="model">budgeting.augmentation</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="period_id"/>
+                    <field name="source_id"/>
+                    <field name="state"/>
+					<filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+                    <filter name="forapproval" string="For Approval" domain="[('state','=','posted')]"/>
+                    <filter name="approved" string="Approved" domain="[('state','=','approved')]"/>
+                    <filter name="cancelled" string="Cancelled" domain="[('state','=','cancel')]"/>
+                    <filter string="Current Year" name="currentyear" 
+						domain="[('dyear','=',context_today().strftime('%Y'))]" />
+					<filter name="f2019" string="Year 2019" domain="[('dyear','=','2019')]"/>
+					<filter name="f2020" string="Year 2020" domain="[('dyear','=','2020')]"/>
+					<filter name="f2021" string="Year 2021" domain="[('dyear','=','2021')]"/>	
+					<group expand="0" string="Group By">
+                        <filter string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Source" domain="[]" context="{'group_by':'source_id'}"/>
+                        <filter string="Specification" domain="[]" context="{'group_by':'period_id'}"/>
+                    </group>                                        
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="budgetingaug_tree_view">
+            <field name="name">budgetingaug.tree</field>
+            <field name="model">budgeting.augmentation</field>
+            <field name="arch" type="xml">
+                <tree string="Budget Augmentation Tree">
+						<field name="name"/>
+						<field name="date"/>
+						<field name="source_id"/>
+                        <field name="period_id"/>
+                        <field name="partner_id"/>
+                        <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="budgetingaug_list_action">
+            <field name="name">Budget Augmentation</field>
+            <field name="res_model">budgeting.augmentation</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="context">{'search_default_currentyear': True}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Budget Augmentation
+                </p>
+            </field>
+        </record>
+                       
+		<!-- ################################################ end -->
+
+        <record id="view_partner_property_form" model="ir.ui.view">
+            <field name="name">res.partner.property.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//field[@name='property_account_receivable_id']" position="attributes">
+    				<attribute name="required"></attribute>
+    				<attribute name="attrs">{'required': False}</attribute>
+				</xpath>
+				<xpath expr="//field[@name='property_account_payable_id']" position="attributes">
+    				<attribute name="required"></attribute>
+    				<attribute name="attrs">{'required': False}</attribute>
+				</xpath>
+				<xpath expr="//page[@name='sales_purchases']" position="attributes">
+    				<attribute name="invisible">True</attribute>
+				</xpath>				
+				<xpath expr="//page[@name='accounting']" position="attributes">
+    				<attribute name="invisible">True</attribute>
+				</xpath>
+								
+            </field>
+        </record>
+
+		
+<!-- 	menu  -->
+		<menuitem id="main_budgeting_menu" name="Budgeting" />
+		
+		<menuitem id="budgeting_menu" name="Budget"
+                  parent="main_budgeting_menu" sequence="1"/>
+        
+        <menuitem id="budgetingapp_menu" name="Appropriation"
+                  parent="budgeting_menu" sequence="2"/>
+                            
+        <menuitem id="budgeting_appropriation_menu" name="Annual Budget" parent="budgetingapp_menu"
+                  action="budgetingappropriation_list_action"/> 
+        <menuitem id="budgeting_supplemental_menu" name="Supplemental Budget" parent="budgetingapp_menu"
+                  action="budgetingappropriation_list_action2"/> 
+        <menuitem id="budgeting_reappropriation_menu" name="Reappropriation Budget" parent="budgetingapp_menu"
+                  action="budgetingappropriation_list_action3"/>    
+                  
+        <menuitem id="budgeting_pr_menu" name="Purchase Request"
+                  parent="budgeting_menu" sequence="30" action="budgetingpr_list_action2"/>         
+
+        <menuitem id="budgeting_obr_menu" name="Obligation Request"
+                  parent="budgeting_menu" sequence="40" action="budgetingobr_list_action4"/>         
+
+        <menuitem id="budgeting_aug_menu" name="Budget Augmentation"
+                  parent="budgeting_menu" sequence="50" action="budgetingaug_list_action"/>         
+
+                                                                           
+        <menuitem id="budgeting_utilities_menu" name="Utilities"
+                  parent="main_budgeting_menu" sequence="60"/> 
+
+        <menuitem id="budgeting_source_menu" name="Budget Source" parent="budgeting_utilities_menu"
+                  action="budgetingsource_list_action" groups="budgeting.budgeting_officer"/>           
+
+        <menuitem id="budgeting_period_menu" name="Budget Specification" parent="budgeting_utilities_menu"
+                  action="budgetingperiod_list_action" groups="budgeting.budgeting_officer"/>           
+                  
+		<menuitem id="budgeting_chartofacc_menu" name="Chart of Accounts" parent="budgeting_utilities_menu"
+                  action="account.action_account_form" groups="budgeting.budgeting_officer"/>                         
+                         
+        <menuitem id="budgeting_users_menu" name="Users" parent="budgeting_utilities_menu"
+				  action="base.action_res_users" groups="budgeting.budgeting_officer"/>
+				  
+		<menuitem id="budgeting_partner_menu" name="Partners" parent="budgeting_utilities_menu"
+				  action="base.action_partner_form" groups="budgeting.budgeting_officer"/>
+				  	
+#######################################
+
+		<record model="ir.actions.server" id="app_updt_year">
+		    <field name="name">Update Year</field>
+		    <field name="model_id" ref="budgeting.model_budgeting_appropriation"/>
+		    <field name="code">
+		        for item in records:
+		        item.update_year()
+		        </field>
+		</record>
+		<record model="ir.values" id="ir_value_app_updt_year">
+		    <field name="model_id" ref="budgeting.model_budgeting_appropriation"/>
+		    <field name="name">Update Year</field>
+		    <field name="key2">client_action_multi</field>
+		    <field name="value" eval="'ir.actions.server,' +str(ref('app_updt_year'))"/>
+		    <field name="key">action</field>
+		    <field name="model">budgeting.appropriation</field>
+		</record>		
+
+		<record model="ir.actions.server" id="aug_updt_year">
+		    <field name="name">Update Year</field>
+		    <field name="model_id" ref="budgeting.model_budgeting_augmentation"/>
+		    <field name="code">
+		        for item in records:
+		        item.update_year()
+		        </field>
+		</record>
+		<record model="ir.values" id="ir_value_aug_updt_year">
+		    <field name="model_id" ref="budgeting.model_budgeting_augmentation"/>
+		    <field name="name">Update Year</field>
+		    <field name="key2">client_action_multi</field>
+		    <field name="value" eval="'ir.actions.server,' +str(ref('aug_updt_year'))"/>
+		    <field name="key">action</field>
+		    <field name="model">budgeting.augmentation</field>
+		</record>		
+
+		<record model="ir.actions.server" id="obr_updt_year">
+		    <field name="name">Update Year</field>
+		    <field name="model_id" ref="budgeting.model_budgeting_obr"/>
+		    <field name="code">
+		        for item in records:
+		        item.update_year()
+		        </field>
+		</record>
+		<record model="ir.values" id="ir_value_obr_updt_year">
+		    <field name="model_id" ref="budgeting.model_budgeting_obr"/>
+		    <field name="name">Update Year</field>
+		    <field name="key2">client_action_multi</field>
+		    <field name="value" eval="'ir.actions.server,' +str(ref('obr_updt_year'))"/>
+		    <field name="key">action</field>
+		    <field name="model">budgeting.obr</field>
+		</record>		
+
+		<record model="ir.actions.server" id="pr_updt_year">
+		    <field name="name">Update Year</field>
+		    <field name="model_id" ref="budgeting.model_budgeting_pr"/>
+		    <field name="code">
+		        for item in records:
+		        item.update_year()
+		        </field>
+		</record>
+		<record model="ir.values" id="ir_value_pr_updt_year">
+		    <field name="model_id" ref="budgeting.model_budgeting_obr"/>
+		    <field name="name">Update Year</field>
+		    <field name="key2">client_action_multi</field>
+		    <field name="value" eval="'ir.actions.server,' +str(ref('pr_updt_year'))"/>
+		    <field name="key">action</field>
+		    <field name="model">budgeting.pr</field>
+		</record>		
+#######################################				                           
+    </data>
+</odoo>

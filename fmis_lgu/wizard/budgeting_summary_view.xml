@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="budgeting_summary_view" model="ir.ui.view">
+        <field name="name">Budgeting Summary</field>
+        <field name="model">budgeting.summary</field>
+        <field name="arch" type="xml">
+        <form string="Report Options">
+            <group col="4">
+                <field name="dyear" required="True"/>
+                <field name="date_to" required="True"/>
+            </group>
+            <group>
+                <field name="source_ids" widget="many2many_tags" options="{'no_create': True}"/>
+            </group>
+            <group>
+                <field name="period_ids" domain="[('dyear','=',dyear)]" widget="many2many_tags" options="{'no_create': True}"/>
+            </group>
+
+            <footer>
+                <button name="check_report" string="Print" type="object" default_focus="1" class="oe_highlight"/>
+                or 
+                <button string="Cancel" class="oe_link" special="cancel" />
+            </footer>
+        </form>
+        </field>
+    </record>
+
+    <record id="action_budgeting_summary_menu" model="ir.actions.act_window">
+        <field name="name">Budgeting Summary</field>
+        <field name="res_model">budgeting.summary</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="budgeting_summary_view"/>
+        <field name="context">{'filter_partner':True,'filter_account':True}</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="budgeting_summary_menu" name="Appropriation Summary" 
+    			parent="budgetingreportmain_menu"
+              action="action_budgeting_summary_menu"/> 
+
+
+</odoo>

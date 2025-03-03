@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="0">
+	<record model="ir.module.category" id="budgeting_module_management">
+	  <field name="name">Budgeting</field>
+	  <field name="description">User access level for this module</field>
+	  <field name="sequence">3</field>
+	</record>
+
+   <record id="budgeting_user" model="res.groups">
+     <field name="name">Receiver</field>
+     <field name="category_id" ref="budgeting.budgeting_module_management"/>
+    </record>
+
+
+   <record id="budgeting_controller" model="res.groups">
+     <field name="name">Budget Controller</field>
+     <field name="category_id" ref="budgeting.budgeting_module_management"/>
+     <field name="implied_ids" eval="[(4, ref('budgeting.budgeting_user'))]"/>
+    </record>
+    
+   <record id="budgeting_officer" model="res.groups">
+     <field name="name">Budget Officer</field>
+     <field name="category_id" ref="budgeting.budgeting_module_management"/>
+     <field name="implied_ids" eval="[(4, ref('budgeting.budgeting_controller'))]"/>
+    </record>
+
+    <record id="budgeting_accounting" model="res.groups">
+     <field name="name">Accounting OBR Receiver</field>
+<!--     <field name="category_id" ref="budgeting.budgeting_module_management"/>-->
+<!--     <field name="implied_ids" eval="[(4, ref('budgeting.budgeting_controller'))]"/>-->
+    </record>
+</data>
+
+</odoo>

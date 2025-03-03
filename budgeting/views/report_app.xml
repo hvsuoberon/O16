@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_app">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                <t t-call="budgeting.report_app_document" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+
+	<template id="report_app_document">
+		<t t-foreach="docs" t-as="o">
+			<t t-call="web.external_layout">
+
+				<div class="page" style="margin:1px;">
+					<div class="oe_structure"/>
+					<h2 class="text-center">
+						<strong>
+							<span t-if="o.budgettype in ['annual']">Annual Budget</span>
+							<span t-if="o.budgettype in ['supplemental']">Supplemental Budget</span>
+							<span t-if="o.budgettype in ['reappropriation']">Reappropriation Budget</span>
+						</strong>
+					</h2>
+
+					<div class="row" style="color:black">
+						<div class="col-5">
+							<strong>
+								<span>Transaction #:</span>
+							</strong>
+							<span t-field="o.name"/>
+						</div>
+						<div class="col-2"/>
+						<div class="col-5">
+							<strong>
+								<span>Date:</span>
+							</strong>
+							<span t-field="o.date"/>
+						</div>
+					</div>
+					<div class="row" style="color:black">
+						<div class="col-5">
+							<strong>
+								<span>Party:</span>
+							</strong>
+							<span t-field="o.partner_id.name"/>
+						</div>
+						<div class="col-2"/>
+						<div class="col-5">
+							<strong>
+								<span>Budget Period:</span>
+							</strong>
+							<span t-field="o.period_id.name"/>
+						</div>
+					</div>
+					<div class="row" style="color:black">
+						<div class="col-7"/>
+						<div class="col-5">
+							<strong>
+								<span>Date of Approval:</span>
+							</strong>
+							<span t-field="o.date_approved"/>
+						</div>
+					</div>
+					<br/>
+					<table class="table table-condensed" style="color:black">
+						<thead>
+							<tr>
+								<th style="width:45%; border: 1px solid black;text-align:center;font-size:12px;">Account Title</th>
+								<th style="width:25%; border: 1px solid black;text-align:center;font-size:12px;">Amount</th>
+							</tr>
+						</thead>
+						<tbody class="pr_tbody">
+							<tr t-foreach="o.appdet_ids" t-as="l">
+								<td style="border: 1px solid black;text-align:left; font-size:11px; width:45%">
+									<span t-field="l.account_id.name"/>
+								</td>
+								<td style="border: 1px solid black;text-align:right; font-size:11px; width:25%">
+									<span t-esc="'{0:,.2f}'.format(int(l.amount))"/>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<!--
+					<div class="row" name="total">
+						<div class="col-4 pull-right">
+							<table class="table table-condensed">
+								<tr class="border-black">
+									<td><strong>Total:</strong></td>
+									<t t-esc="sum(l.amount for l in o.prdet_ids) " />
+								</tr>
+							</table>
+						</div>
+					</div>
+					-->
+					<br/>
+					<div class="row" style="color:black">
+						<div class="col-4">
+							<strong>
+								<p style="font-size:12px;margin-top:-8px;"> Prepared By: </p>
+							</strong>
+						</div>
+						<div class="col-4">
+							<strong>
+								<p style="font-size:12px;margin-top:-8px;"> Checked By:  </p>
+							</strong>
+						</div>
+						<div class="col-4">
+							<strong>
+								<p style="font-size:12px;margin-top:-8px;"> Approved By:  </p>
+							</strong>
+						</div>
+					</div>
+					<br/>
+					<div class="row zero_min_height" style="color:black">
+						<div class="col-3">
+							<div style="border-bottom: 1px solid black;"></div>
+						</div>
+						<div class="col-1"/>
+						<div class="col-3">
+							<div style="border-bottom: 1px solid black;"></div>
+						</div>
+						<div class="col-1"/>
+						<div class="col-3">
+							<div style="border-bottom: 1px solid black;"></div>
+						</div>
+						<div class="col-1"/>
+					</div>
+					<div class="row" style="color:black">
+						<div class="col-3">
+							<p style="font-size:11px;margin-top:1px;text-align: center;"> Encoder  </p>
+						</div>
+						<div class="col-1"/>
+						<div class="col-3">
+							<p style="font-size:11px;margin-top:1px;text-align: center;"> Bookkeeper  </p>
+						</div>
+						<div class="col-1"/>
+						<div class="col-3">
+							<p style="font-size:11px;margin-top:1px;text-align: center;"> Budget Officer  </p>
+						</div>
+						<div class="col-1"/>
+					</div>
+				</div>
+
+			</t>
+		</t>
+	</template>
+
+</odoo>

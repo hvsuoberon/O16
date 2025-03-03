@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<template id="purchase_order_rfq">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="procurement_lgu.custom_external_layout2">
+
+					<div class="page" style="margin:0px;">
+						<div class="oe_structure"/>
+						<br/>
+						<br/>
+						<table width="100%" height="50mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:100%;vertical-align:middle;font-size : 20px;text-align:center;font-weight: bold;">
+									<span style="">REQUEST FOR QUOTATION</span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:100%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+									<span style="font-weight: bold;" t-field="o.partner_id"/>
+									<span t-field="o.partner_id" style="font-weight: normal;"
+										t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:70%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+								<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+									<span>Date</span>
+								</td>
+								<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+									<span>: </span>
+									<span t-field="o.date_order" t-field-options='{"format": "MM/dd/yyyy"}'/>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:70%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+								<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+									<span>Quotation No</span>
+								</td>
+								<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+									<span>: </span>
+									<span t-field="o.name"/>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:70%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+								<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+									<span>OR No</span>
+								</td>
+								<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+									<span>: </span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:100%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:100%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+									<span style="color:white">.      .</span>
+									<span>Please quote your lowest price on the item/s listed below, subject to the General Condition thereon stating the shortest time of delivery and submit your quotation duly signed by your representative not later than </span>
+									<span>7 days after RFQ Date in the return envelop attached herein upon payment of non-refundable fee of </span>
+									<span style="color:white">.</span>
+									<span t-if="o.amount_total &lt;= 99999.99">100 Pesos.</span>
+									<span t-if="o.amount_total &gt; 99999.99 and o.amount_total &lt;= 149999.99">150 Pesos.</span>
+									<span t-if="o.amount_total &gt; 149999.99 and o.amount_total &lt; 1000000000.99">200 Pesos.</span>
+								</td>
+							</tr>
+						</table>
+
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<br/>
+								<td style="width:70%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+								<td style="border-bottom:1px solid black;width:30%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+									<span t-field="o.proc_head"></span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:70%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+								<td style="width:30%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: normal;">
+									<span t-field="o.proc_head_designation"></span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:70%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+								<td style="width:30%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: normal;">
+									<span>Procurement Head</span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:100%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="border-top:1px solid black;border-bottom:1px solid black;border-left:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+									<span>Item No.</span>
+								</td>
+								<td style="border-top:1px solid black;border-bottom:1px solid black;border-left:1px solid black;width:50%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+									<span>Description</span>
+								</td>
+								<td style="border-top:1px solid black;border-bottom:1px solid black;border-left:1px solid black;width:15%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+									<span>Quantity</span>
+								</td>
+								<td style="border-top:1px solid black;border-bottom:1px solid black;border-left:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+									<span>Unit</span>
+								</td>
+								<td style="border-top:1px solid black;border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:15%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+									<span>Unit Price</span>
+								</td>
+							</tr>
+						</table>
+						<t t-set="cntr" t-value='1'/>
+						<tr t-foreach="o.order_line" t-as="line" >
+							<table width="100%" height="20mm" style="border-spacing: 0;">
+								<td style="border-left:1px solid black;border-bottom:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: normal;">
+									<span style="" t-esc="cntr"/>
+								</td>
+								<t t-set="cntr" t-value='cntr+1'/>
+								<td style="border-left:1px solid black;border-bottom:1px solid black;width:50%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: normal;">
+									<span t-field="line.name"/>
+								</td>
+								<td style="border-left:1px solid black;border-bottom:1px solid black;width:15%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: normal;">
+									<span t-esc="'{:,.2f}'.format(line.product_qty)"/>
+								</td>
+								<td style="border-left:1px solid black;border-bottom:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: normal;">
+									<span t-field="line.product_uom.name"/>
+								</td>
+
+								<td style="border-right:1px solid black;border-left:1px solid black;border-bottom:1px solid black;width:15%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: normal;">
+								</td>
+							</table>
+						</tr>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:60%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+									<span>Brand and Model:</span>
+								</td>
+								<td style="border-bottom:1px solid black;width:40%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+									<span></span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:60%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+									<span>Delivery Period:</span>
+								</td>
+								<td style="border-bottom:1px solid black;width:40%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+									<span></span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:60%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+									<span>Warranty:</span>
+								</td>
+								<td style="border-bottom:1px solid black;width:40%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+									<span></span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:60%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+									<span>Price Validity:</span>
+								</td>
+								<td style="border-bottom:1px solid black;width:40%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+									<span></span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:100%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+									<span>Note:</span>
+								</td>
+								<td style="width:90%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+									<span>1. ALL ENTRIES MUST BE TYPEWRITTEN</span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+								<td style="width:90%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+									<span>2. DELIVERY PERIOD WITHIN ______ CALENDAR DAYS</span>
+								</td>
+							</tr>
+						</table>
+
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+								<td style="width:90%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+									<span>3. WARRANTY SHALL BE FOR A PERIOD OF SIX (6) MONTHS FOR SUPPLIES AND MATERIALS, ONE (1) YEAR FOR EQUIPMENT, FROM DATE OF ACCEPTANCE BY THE PROCURING ENTITY.</span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+								<td style="width:90%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+									<span>4. PRICE VALIDITY SHALL BE FOR A PERIOD OF ______ CALENDAR DAYS</span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+								<td style="width:90%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+									<span>5. G-EPS REGISTRATION CERTIFICATE SHALL BE ATTACHED UPON SUBMISSION OF THE QUOTATION OR WRITE YOUR G-EPS REGISTRATION NUMBER AT THE BLANK PROVIDED:</span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+								<td style="width:90%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+									<span>  G-EPS REGISTRATION NUMBER: _______________ DATE OF REG: _________________</span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+								<td style="width:90%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+									<span>6. BIDDERS SHALL SUBMIT ORIGINAL BROCHURES SHOWING CERTIFICATION OF THE PRODUCT BEING OFFERED IF APPLICABLE.</span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:100%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:100%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+									<span style="color:white">.      .</span>
+									<span>After having carefully and accepted your General Conditions, I/We quote you on the items at prices noted herein.</span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<td style="width:100%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<br/>
+								<td style="width:70%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+								<td style="border-top:1px solid black;width:30%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+									<span>Printed Name/Signature</span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<br/>
+								<td style="width:70%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+								<td style="border-top:1px solid black;width:30%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+									<span>Tel # / Cellphone # / Email Address</span>
+								</td>
+							</tr>
+						</table>
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<tr>
+								<br/>
+								<td style="width:70%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								</td>
+								<td style="border-top:1px solid black;width:30%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+									<span>Date</span>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+
+</odoo>

@@ -1,0 +1,95 @@
+<odoo>
+    <report id="appstmt_summary"
+            model="budgeting.app.stmt.summary"
+            string="Appropriation Summary"
+            report_type="qweb-pdf"
+            name="budgeting.appstmt_report_summary"
+            paperformat="paperformat_appstmt_report"
+            menu="False"/>
+
+<template id="appstmt_report_summary">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+			<t t-call="web.external_layout">
+
+                <div class="page" style="margin:13px;color:black">
+                	<div class="oe_structure"/>
+	                <h4 class="text-center">
+	                	<div class="col-xs-12">
+	                    	<strong>
+	                        	<span>Appropriation Summary for </span>
+	                        	<span t-field="o.dyear"/>
+	                        	<span> as of </span>
+	                        	<span t-field="o.date_to"/>
+	                		</strong>
+	                	</div>
+	                </h4>
+					<table class="table table-condensed">
+						<thead>
+                        	<tr>
+                        		<th style="width:40%; border: 1px solid black;text-align:center;font-size:12px;">Budget Specification</th>
+                                <th style="width:20%; border: 1px solid black;text-align:center;font-size:12px;">Allotment</th>
+                                <th style="width:20%; border: 1px solid black;text-align:center;font-size:12px;">Incurred</th>
+                                <th style="width:20%; border: 1px solid black;text-align:center;font-size:12px;">Balance</th>
+                            </tr>
+                        </thead>
+                        					
+						<tbody class="pr_tbody" style="margin:13px;color:black">
+							<t t-foreach="o.group_source()" t-as="l">
+								<t t-set="tot_allotment" t-value="0"/>
+								<t t-set="tot_incurred" t-value="0"/>
+								<t t-set="tot_balance" t-value="0"/>
+								
+								<tr style="font-weight: bold;">
+	                                <td colspan="6">
+	                                    <span>Source: </span>
+		                                <span t-field="l.name"/>
+	                                </td>
+                            	</tr>								
+								<tr t-foreach="o.rep_ids" t-as="q">
+									<t t-if="q.source_id.id==l.id">
+										<td style="width:40%; border: 1px solid black;text-align:left; font-size:11px;">
+		                                    <span t-field="q.period_id.name"/>
+		                                </td>
+		                                
+										<td style="width:20%; border: 1px solid black;text-align:right; font-size:11px;">
+		                                    <span t-esc="'{0:,.2f}'.format(int(q.allotment))"/>
+		                                </td>
+										<td style="width:20%; border: 1px solid black;text-align:right; font-size:11px;">
+		                                    <span t-esc="'{0:,.2f}'.format(int(q.incurred))"/>
+		                                </td>
+										<td style="width:20%; border: 1px solid black;text-align:right; font-size:11px;">
+		                                    <span t-esc="'{0:,.2f}'.format(int(q.actbal))"/>
+		                                </td>
+		                                <t t-set="tot_allotment" t-value="tot_allotment+q.allotment"/>
+										<t t-set="tot_incurred" t-value="tot_incurred+q.incurred"/>
+										<t t-set="tot_balance" t-value="tot_balance+q.actbal"/>
+									</t>
+								</tr>
+									
+									<td style="width:40%; border: 1px solid black;text-align:left; font-size:11px;">
+			                                    <strong><span>Total </span></strong>
+	                                </td>
+									<td style="width:20%; border: 1px solid black;text-align:right; font-size:11px;">
+	                                    <strong><span t-esc="'{0:,.2f}'.format(int(tot_allotment))"/></strong>
+	                                </td>
+									<td style="width:20%; border: 1px solid black;text-align:right; font-size:11px;">
+	                                    <strong><span t-esc="'{0:,.2f}'.format(int(tot_incurred))"/></strong>
+	                                </td>
+									<td style="width:20%; border: 1px solid black;text-align:right; font-size:11px;">
+	                                    <strong><span t-esc="'{0:,.2f}'.format(int(tot_balance))"/></strong>
+	                                </td>
+                                
+							</t>                    		
+                    	</tbody>
+					
+					</table>
+
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+
+</odoo>

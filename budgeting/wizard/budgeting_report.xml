@@ -1,0 +1,189 @@
+<odoo>
+    <report id="appstmt_reportnew"
+            model="budgeting.app.stmt.report"
+            string="Appropriation Statement"
+            report_type="qweb-pdf"
+            name="budgeting.appstmt_report_viewnew"
+            paperformat="paperformat_appstmt_report"
+            menu="False"/>
+
+<template id="appstmt_report_viewnew">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+			<t t-call="web.external_layout">
+
+                <div class="page" style="margin:13px;color:black">
+                	<div class="oe_structure"/>
+	                <h4 class="text-center">
+	                	<div class="col-xs-12">
+	                    	<strong>
+	                        	<span>Appropriation Statement as of </span>
+	                        	<span t-field="o.date_to"/>
+	                		</strong>
+	                	</div>
+	                </h4>
+					
+					<table class="table table-condensed">
+						<thead>
+                        	<tr>
+                        		<th style="width:7%; border: 1px solid black;text-align:center;font-size:12px;">Aprvd Date</th>
+                                <th style="width:7%; border: 1px solid black;text-align:center;font-size:12px;">Trans Date</th>
+                                <th style="width:10%; border: 1px solid black;text-align:center;font-size:12px;">Reference</th>
+                                <th style="width:20%; border: 1px solid black;text-align:center;font-size:12px;">Particulars</th>
+                                <th style="width:8%; border: 1px solid black;text-align:center;font-size:12px;">Allotment</th>
+                                <th style="width:8%; border: 1px solid black;text-align:center;font-size:12px;">Incurred</th>
+                                <th style="width:10%; border: 1px solid black;text-align:center;font-size:12px;">Temp Reserves</th>
+                                <th style="width:10%; border: 1px solid black;text-align:center;font-size:12px;">Temp Balance</th>
+                                <th style="width:10%; border: 1px solid black;text-align:center;font-size:12px;">Actual Amount</th>
+                                <th style="width:10%; border: 1px solid black;text-align:center;font-size:12px;">Actual Balance</th>
+                            </tr>
+                        </thead>					
+						<tbody class="pr_tbody">
+							<t t-foreach="o.group_source()" t-as="l">
+								<tr style="font-weight: bold;">
+	                                <td colspan="6">
+	                                    <span>Source: </span>
+		                                <span t-field="l.name"/>
+	                                </td>
+                            	</tr>								
+								<t t-foreach="o.group_partner(l.id)" t-as="m">
+									<tr style="font-weight: bold;">
+		                                <td colspan="6">
+		                                    <span>Partner: </span>
+		                                    <span t-field="m.name"/>
+		                                </td>
+	                            	</tr>								
+									<t t-foreach="o.group_specs(l.id,m.id)" t-as="n">
+										<tr style="font-weight: bold;">
+			                                <td colspan="6">
+			                                    <span>Budget Specification: </span>
+			                                    <span t-field="n.name"/>
+			                                </td>
+		                            	</tr>								
+										<t t-foreach="o.group_account(l.id,m.id,n.id)" t-as="p">
+											<tr style="font-weight: bold;">
+				                                <td colspan="6">
+				                                    <span>Account Title: </span>
+				                                    <span t-field="p.name"/>
+				                                </td>
+			                            	</tr>
+		
+			                            	<tr t-foreach="o.get_begbal(l.id,m.id,n.id,p.id)" t-as="bb">
+												<td style="width:7%; border: 1px solid black;text-align:left; font-size:11px;">
+													<span></span>
+				                                </td>
+												<td style="width:7%; border: 1px solid black;text-align:left; font-size:11px;">
+													<span></span>
+				                                </td>
+				                                <td style="width:10%; border: 1px solid black;text-align:left; font-size:11px;">
+				                                	<span></span>
+				                                </td>
+				                                <td style="width:20%; border: 1px solid black;text-align:left; font-size:11px;">
+				                                    <span>Beginning Balance</span>
+				                                </td>
+												<td style="width:8%; border: 1px solid black;text-align:right; font-size:11px;">
+													<span></span>
+				                                </td>
+												<td style="width:8%; border: 1px solid black;text-align:right; font-size:11px;">
+													<span></span>
+				                                </td>
+												<td style="width:10%; border: 1px solid black;text-align:right; font-size:11px;">
+													<span></span>
+				                                </td>
+												<td style="width:10%; border: 1px solid black;text-align:right; font-size:11px;">
+				                                    <span t-esc="'{0:,.2f}'.format(int(bb.tempbal))"/>
+				                                </td>
+												<td style="width:10%; border: 1px solid black;text-align:right; font-size:11px;">
+													<span></span>
+				                                </td>
+												<td style="width:10%; border: 1px solid black;text-align:right; font-size:11px;">
+				                                    <span t-esc="'{0:,.2f}'.format(int(bb.actbal))"/>
+				                                </td>			                            		
+			                            	</tr>
+			                            	
+											<tr t-foreach="o.get_detail(l.id,m.id,n.id,p.id)" t-as="det">
+												<td style="width:7%; border: 1px solid black;text-align:left; font-size:11px;">
+				                                    <span t-field="det.date_approved"/>
+				                                </td>
+												<td style="width:7%; border: 1px solid black;text-align:left; font-size:11px;">
+				                                    <span t-field="det.date"/>
+				                                </td>
+				
+				                                <td style="width:10%; border: 1px solid black;text-align:left; font-size:11px;">
+				                                    <span t-field="det.reference"/>
+				                                </td>
+				                                <td style="width:20%; border: 1px solid black;text-align:left; font-size:11px;">
+				                                    <span t-field="det.particulars"/>
+				                                </td>
+												<td style="width:8%; border: 1px solid black;text-align:right; font-size:11px;">
+				                                    <span t-esc="'{0:,.2f}'.format(int(det.allotment))"/>
+				                                </td>
+												<td style="width:8%; border: 1px solid black;text-align:right; font-size:11px;">
+				                                    <span t-esc="'{0:,.2f}'.format(int(det.incurred))"/>
+				                                </td>
+												<td style="width:10%; border: 1px solid black;text-align:right; font-size:11px;">
+				                                    <span t-esc="'{0:,.2f}'.format(int(det.tempres))"/>
+				                                </td>
+												<td style="width:10%; border: 1px solid black;text-align:right; font-size:11px;">
+				                                    <span t-esc="'{0:,.2f}'.format(int(det.tempbal))"/>
+				                                </td>
+												<td style="width:10%; border: 1px solid black;text-align:right; font-size:11px;">
+				                                    <span t-esc="'{0:,.2f}'.format(int(det.actamount))"/>
+				                                </td>
+												<td style="width:10%; border: 1px solid black;text-align:right; font-size:11px;">
+				                                    <span t-esc="'{0:,.2f}'.format(int(det.actbal))"/>
+				                                </td>											
+											</tr>
+											
+											<!--
+											<tr t-foreach="o.rep_ids" t-as="q">
+												<t t-if="q.source_id.id==l.id and q.partner_id.id==m.id and q.period_id.id==n.id and q.account_id.id==p.id">
+													<td style="width:7%; border: 1px solid black;text-align:left; font-size:11px;">
+					                                    <span t-field="q.date_approved"/>
+					                                </td>
+													<td style="width:7%; border: 1px solid black;text-align:left; font-size:11px;">
+					                                    <span t-field="q.date"/>
+					                                </td>
+					
+					                                <td style="width:10%; border: 1px solid black;text-align:left; font-size:11px;">
+					                                    <span t-field="q.reference"/>
+					                                </td>
+					                                <td style="width:20%; border: 1px solid black;text-align:left; font-size:11px;">
+					                                    <span t-field="q.particulars"/>
+					                                </td>
+													<td style="width:8%; border: 1px solid black;text-align:right; font-size:11px;">
+					                                    <span t-esc="'{0:,.2f}'.format(int(q.allotment))"/>
+					                                </td>
+													<td style="width:8%; border: 1px solid black;text-align:right; font-size:11px;">
+					                                    <span t-esc="'{0:,.2f}'.format(int(q.incurred))"/>
+					                                </td>
+													<td style="width:10%; border: 1px solid black;text-align:right; font-size:11px;">
+					                                    <span t-esc="'{0:,.2f}'.format(int(q.tempres))"/>
+					                                </td>
+													<td style="width:10%; border: 1px solid black;text-align:right; font-size:11px;">
+					                                    <span t-esc="'{0:,.2f}'.format(int(q.tempbal))"/>
+					                                </td>
+													<td style="width:10%; border: 1px solid black;text-align:right; font-size:11px;">
+					                                    <span t-esc="'{0:,.2f}'.format(int(q.actamount))"/>
+					                                </td>
+													<td style="width:10%; border: 1px solid black;text-align:right; font-size:11px;">
+					                                    <span t-esc="'{0:,.2f}'.format(int(q.actbal))"/>
+					                                </td>
+												</t>
+											</tr>
+											-->	
+										</t>		                                    
+									</t>		                                    
+								</t>                                    
+							</t>                    		
+                    	</tbody>
+					
+					</table>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+
+</odoo>

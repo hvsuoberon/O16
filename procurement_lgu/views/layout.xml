@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+	<template id="custom_external_layout_footer">
+	    <div class="footer">
+	        <div class="text-center" style="border-top: 1px solid black;">
+	        	<!--
+	            <ul t-if="not company.custom_footer" class="list-inline">
+	                <t t-set="company" t-value="company.sudo()"/>
+	                <li t-if="company.phone">Phone: <span t-field="company.phone"/></li>
+	
+	                <li t-if="company.fax and company.phone">&amp;bull;</li>
+	                <li t-if="company.fax">Fax: <span t-field="company.fax"/></li>
+	
+	                <li t-if="company.email and company.fax or company.email and company.phone">&amp;bull;</li>
+	                <li t-if="company.email">Email: <span t-field="company.email"/></li>
+	
+	                <li t-if="company.website and company.email or company.website and company.fax or company.website and company.phone">&amp;bull;</li>
+	                <li t-if="company.website">Website: <span t-field="company.website"/></li>
+	            </ul>
+	
+	            <ul t-if="not company.custom_footer" class="list-inline" name="financial_infos">
+	                <li t-if="company.vat">TIN: <span t-field="company.vat"/></li>
+	            </ul>
+	
+	            <t t-if="company.custom_footer">
+	                <span t-raw="company.rml_footer"/>
+	            </t>
+				-->
+<!--	            <ul class="list-inline" style="font-size: 80%">-->
+<!--	                <li>Page:</li>-->
+<!--	                <li><span class="page"/></li>-->
+<!--	                <li>/</li>-->
+<!--	                <li><span class="topage"/></li>-->
+<!--	            </ul>-->
+	        </div>
+	    </div>      
+	</template>
+
+
+	<template id="custom_external_layout_header">
+    	<div class="header">
+     	   	<div class="row">
+           		<div class="col-xs-9">
+					<br/>
+					<br/>
+         			<p style="font-size:20px;margin-top:-13px;"><b> MUNICIPALITY OF BAGUMBAYAN </b></p>
+         			<p style="font-size:14px;margin-top:-8px;"> Province of Sultan Kudarat  </p>
+         			<p style="font-size:14px;margin-top:-14px;"> Republic of the Philippines  </p>
+         			<br/>
+           		</div>
+     		
+                <div class="col-xs-3 pull-right">
+	                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="background:white;position:absolute;height: auto; width: auto; max-width: 100; max-height: 100px; right:8px;top:5px"/>
+				</div>
+        	</div>
+<!--	        <div class="row zero_min_height">-->
+<!--	            <div class="col-xs-12">-->
+<!--	                <div style="border-bottom: 1px solid black;"></div>-->
+<!--	            </div>-->
+<!--	        </div>       -->
+		</div>
+	</template>
+
+	<template id="custom_external_layout">
+	    <!-- Multicompany -->
+	    <t t-if="not o and doc">
+	        <t t-set="o" t-value="doc"/>
+	    </t>
+	    <t t-if="o and 'company_id' in o">
+	        <t t-set="company" t-value="o.company_id"></t>
+	    </t>
+	    <t t-if="not o or not 'company_id' in o">
+	        <t t-set="company" t-value="res_company"></t>
+	    </t>
+
+	    <t t-call="procurement_lgu.custom_external_layout_header" />
+	    <t t-raw="0" />
+	    <t t-call="procurement_lgu.custom_external_layout_footer" />
+	</template>
+
+	<template id="custom_external_layout_footer2">
+	    <div class="footer">
+	        <div class="text-center" style="border-top: 0px solid black;">
+
+	        </div>
+	    </div>
+	</template>
+
+
+	<template id="custom_external_layout_header2">
+    	<div class="header">
+     	   	<div class="row">
+           		<div class="col-xs-12">
+					<br/>
+					<br/>
+					<p style="font-size:11px;margin-top:-14px;text-align:center;"> Republic of the Philippines  </p>
+					<p style="font-size:11px;margin-top:-8px;text-align:center;"> Province of Sultan Kudarat  </p>
+					<p style="font-size:11px;margin-top:-13px;text-align:center;"><b> Municipality of Bagumbayan </b></p>
+					<p style="font-size:14px;margin-top:-13px;text-align:center;"><b> BIDS AND AWARD COMMITTEE </b></p>
+					<p style="font-size:11px;margin-top:-8px;text-align:center;"> Bagumbayan, Sultan Kudarat  </p>
+         			<br/>
+           		</div>
+        	</div>
+		</div>
+	</template>
+
+	<template id="custom_external_layout2">
+	    <!-- Multicompany -->
+	    <t t-if="not o and doc">
+	        <t t-set="o" t-value="doc"/>
+	    </t>
+	    <t t-if="o and 'company_id' in o">
+	        <t t-set="company" t-value="o.company_id"></t>
+	    </t>
+	    <t t-if="not o or not 'company_id' in o">
+	        <t t-set="company" t-value="res_company"></t>
+	    </t>
+	
+	    <t t-call="procurement_lgu.custom_external_layout_header2" />
+	    <t t-raw="0" />
+	    <t t-call="procurement_lgu.custom_external_layout_footer2" />
+	</template>
+
+	<template id="custom_external_layout_footer3">
+	    <div class="footer">
+	        <div class="text-center" style="border-top: 0px solid black;">
+
+	        </div>
+	    </div>
+	</template>
+
+
+	<template id="custom_external_layout_header3">
+    	<div class="header">
+     	   	<div class="row">
+           		<div class="col-xs-12">
+					<br/>
+					<br/>
+					<p style="font-size:11px;margin-top:-14px;text-align:center;"> Republic of the Philippines  </p>
+					<p style="font-size:11px;margin-top:-8px;text-align:center;"> Province of Sultan Kudarat  </p>
+					<p style="font-size:11px;margin-top:-13px;text-align:center;"><b> Municipality of Bagumbayan </b></p>
+					<p style="font-size:14px;margin-top:-13px;text-align:center;"><b> OFFICE OF THE MUNICIPAL MAYOR </b></p>
+					<p style="font-size:11px;margin-top:-8px;text-align:center;"> Bagumbayan, Sultan Kudarat  </p>
+         			<br/>
+           		</div>
+        	</div>
+		</div>
+	</template>
+
+	<template id="custom_external_layout3">
+	    <!-- Multicompany -->
+	    <t t-if="not o and doc">
+	        <t t-set="o" t-value="doc"/>
+	    </t>
+	    <t t-if="o and 'company_id' in o">
+	        <t t-set="company" t-value="o.company_id"></t>
+	    </t>
+	    <t t-if="not o or not 'company_id' in o">
+	        <t t-set="company" t-value="res_company"></t>
+	    </t>
+
+	    <t t-call="procurement_lgu.custom_external_layout_header3" />
+	    <t t-raw="0" />
+	    <t t-call="procurement_lgu.custom_external_layout_footer3" />
+	</template>
+
+	<template id="custom_external_layout_footer4">
+	    <div class="footer">
+	        <div class="text-center" style="border-top: 0px solid black;">
+
+	        </div>
+	    </div>
+	</template>
+
+
+	<template id="custom_external_layout_header4">
+    	<div class="header">
+     	   	<div class="row">
+           		<div class="col-xs-12">
+					<br/>
+					<br/>
+					<p style="font-size:11px;margin-top:-14px;text-align:center;"> Republic of the Philippines  </p>
+					<p style="font-size:11px;margin-top:-8px;text-align:center;"> Province of Sultan Kudarat  </p>
+					<p style="font-size:11px;margin-top:-13px;text-align:center;"><b> Municipality of Bagumbayan </b></p>
+					<p style="font-size:14px;margin-top:-13px;text-align:center;"><b> OFFICE OF BIDS AND AWARD COMMITTEE </b></p>
+					<p style="font-size:11px;margin-top:-8px;text-align:center;"> Bagumbayan, Sultan Kudarat  </p>
+         			<br/>
+           		</div>
+        	</div>
+		</div>
+	</template>
+
+	<template id="custom_external_layout4">
+	    <!-- Multicompany -->
+	    <t t-if="not o and doc">
+	        <t t-set="o" t-value="doc"/>
+	    </t>
+	    <t t-if="o and 'company_id' in o">
+	        <t t-set="company" t-value="o.company_id"></t>
+	    </t>
+	    <t t-if="not o or not 'company_id' in o">
+	        <t t-set="company" t-value="res_company"></t>
+	    </t>
+
+	    <t t-call="procurement_lgu.custom_external_layout_header2" />
+	    <t t-raw="0" />
+	    <t t-call="procurement_lgu.custom_external_layout_footer2" />
+	</template>
+
+	<template id="custom_external_layout_footer_abstract">
+	    <div class="footer" >
+	        <div class="text-center" style="margin:0px;border: 0px solid white;">
+				<table width="100%" height="20mm" style="border-spacing: 0;border: 0px solid white;">
+					<tr>
+						<td style="width:3%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+						</td>
+						<td style="width:97%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+							<span>We hereby certify to the correctness of the foregoing Abstract of Bids after our thorough review and evaluation conducted as Bid and Award Committee.</span>
+						</td>
+					</tr>
+				</table>
+				<table width="100%" height="20mm" style="border-spacing: 0;border: 0px solid white;">
+					<tr>
+						<td style="width:3%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+						</td>
+					</tr>
+				</table>
+
+				<table width="100%" height="20mm" style="border-spacing: 0;border: 0px solid white;">
+					<tr>
+						<td style="width:100%;vertical-align:middle;font-size : 14px;text-align:center;font-weight: bold;">
+							<span t-field="o.requested_by"/>
+						</td>
+					</tr>
+				</table>
+
+				<table width="100%" height="30mm" style="border-spacing: 0;border: 0px solid white;">
+					<tr>
+						<td style="width:3%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+						</td>
+					</tr>
+				</table>
+
+				<table width="100%" height="20mm" style="border-spacing: 0;border: 0px solid white;">
+					<tr>
+						<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:center">
+							<span style="font-weight: bold;" t-field="o.bac_chairman"/>
+							<br/>
+							<span style="font-weight: normal;font-size:10px;">BAC Chairman</span>
+						</td>
+						<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:center">
+							<span style="font-weight: bold;" t-field="o.bac_vicechairman"/>
+							<br/>
+							<span style="font-weight: normal;font-size:10px;">BAC Vice Chairman</span>
+						</td>
+						<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:center">
+							<span style="font-weight: bold;" t-field="o.bac_member1"/>
+							<br/>
+							<span style="font-weight: normal;font-size:10px;">BAC Member</span>
+						</td>
+						<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:center">
+							<span style="font-weight: bold;" t-field="o.bac_member2"/>
+							<br/>
+							<span style="font-weight: normal;font-size:10px;">BAC Member</span>
+						</td>
+						<td style="width:20%;vertical-align:middle;font-size : 12px;text-align:center">
+							<span style="font-weight: bold;" t-field="o.bac_member3"/>
+							<br/>
+							<span style="font-weight: normal;font-size:10px;">BAC Member</span>
+						</td>
+					</tr>
+				</table>
+				<table width="100%" height="20mm" style="border-spacing: 0;border: 0px solid white;">
+					<tr>
+						<td style="width:3%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+						</td>
+					</tr>
+				</table>
+				<table width="100%" height="20mm" style="border-spacing: 0;border: 0px solid white;">
+					<tr>
+						<td style="width:10%;vertical-align:top;font-size : 12px;text-align:left;font-weight: normal;">
+							<span>Recommendation :</span>
+						</td>
+						<td style="width:90%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+							<span>Please award </span>
+							<span style="font-size:14px; font-weight:bold;" t-esc="top1"/>
+							<span>, being the lowest and qualified bidder.</span>
+							<br/>
+							<span>ALTERNATIVE METHODS OF PROCUREMENT:</span>
+							<br/>
+							<span>THRU : </span> <span style="font-weight:bold;" t-field="o.mode_id.name"/>
+							<span>BAC Res. No. </span>
+							<span style="font-weight: bold;" t-field="o.reso_number"/>
+						</td>
+					</tr>
+				</table>
+				<table width="100%" height="20mm" style="border-spacing: 0;border: 0px solid white;">
+					<tr>
+						<td style="width:3%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+						</td>
+					</tr>
+				</table>
+				<table width="100%" height="20mm" style="border-spacing: 0;border: 0px solid white;">
+					<tr>
+						<td style="width:100%;vertical-align:middle;font-size : 14px;text-align:center;font-weight: normal;">
+							<span>APPROVED AS RECOMMENDED</span>
+						</td>
+					</tr>
+				</table>
+				<table width="100%" height="20mm" style="border-spacing: 0;border: 0px solid white;">
+					<tr>
+						<td style="width:3%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+						</td>
+					</tr>
+				</table>
+				<table width="100%" height="20mm" style="border-spacing: 0;border: 0px solid white;">
+					<tr>
+						<td style="width:100%;vertical-align:middle;font-size : 14px;text-align:center;font-weight: bold;">
+							<span t-field="o.mayor"/>
+						</td>
+					</tr>
+				</table>
+				<table width="100%" height="20mm" style="border-spacing: 0;border: 0px solid white;">
+					<tr>
+						<td style="width:100%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: normal;">
+							<span>Municipal Mayor</span>
+						</td>
+					</tr>
+				</table>
+	        </div>
+	    </div>
+	</template>
+
+	<template id="custom_external_layout_abstract">
+	    <!-- Multicompany -->
+	    <t t-if="not o and doc">
+	        <t t-set="o" t-value="doc"/>
+	    </t>
+	    <t t-if="o and 'company_id' in o">
+	        <t t-set="company" t-value="o.company_id"></t>
+	    </t>
+	    <t t-if="not o or not 'company_id' in o">
+	        <t t-set="company" t-value="res_company"></t>
+	    </t>
+
+	    <t t-call="procurement_lgu.custom_external_layout_header" />
+	    <t t-raw="0" />
+	    <t t-call="procurement_lgu.custom_external_layout_footer_abstract" />
+	</template>
+</data>
+</openerp>

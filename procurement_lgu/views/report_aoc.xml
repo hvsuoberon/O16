@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="abstract_of_canvass">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+			<t t-call="procurement_lgu.custom_external_layout_abstract">
+
+                <div class="page">
+                	<div class="oe_structure"/>
+                    <style type="text/css">
+                        body {
+                            width: 100%;
+                            margin: auto;
+                            margin-top: 20px;
+                        }
+                        .box-nakheel {
+                            width: 100%;
+                            margin-bottom: 10px;
+                        }
+                        .box-nakheel table {
+                            width: 100%;
+                            font-size: 12px;
+                            border-collapse: collapse;
+                        }
+                        .box-nakheel th {
+                            padding: 5px;
+                            border: 1px solid black;
+                            background-color: white;
+                            color: black;
+                        }
+                        .box-nakheel td {
+                            padding: 5px;
+                            border: 1px solid black;
+                        }
+                        .header-table {
+                            font-size: 16px;
+                        }
+                        .header-text-right {
+                            text-align: right;
+                        }
+                        .header-text-center {
+                            text-align: center;
+                        }
+                        .header-name {
+                            width: 100%;
+                            font-size: 16px;
+                            font-weight: 600;
+                            margin-bottom: 8px;
+                        }
+                    </style>
+                	<br/>
+                	<br/>
+					<table width="100%" height="50mm" style="border-spacing: 0;">
+						<tr>
+							<td style="width:100%;vertical-align:middle;font-size : 20px;text-align:center;font-weight: bold;">
+								<span style="">ABSTRACT OF CANVASS</span>
+							</td>
+						</tr>
+					</table>
+                    <t t-set="top1" t-value='False'/>
+                    <t t-set="top2" t-value='False'/>
+                    <t t-set="top3" t-value='False'/>
+                    <t t-set="top1_id" t-value='False'/>
+                    <t t-set="top2_id" t-value='False'/>
+                    <t t-set="top3_id" t-value='False'/>
+                    <t t-set="total1" t-value='0'/>
+                    <t t-set="total2" t-value='0'/>
+                    <t t-set="total3" t-value='0'/>
+
+                    <t t-set="cntr" t-value='1'/>
+                    <t t-foreach="o.get_top3()" t-as="top">
+                        <t t-if="cntr == 1" t-set="top1" t-value="top['partner']"/>
+                        <t t-if="cntr == 2" t-set="top2" t-value="top['partner']"/>
+                        <t t-if="cntr == 3" t-set="top3" t-value="top['partner']"/>
+                        <t t-if="cntr == 1" t-set="top1_id" t-value="top['id']"/>
+                        <t t-if="cntr == 2" t-set="top2_id" t-value="top['id']"/>
+                        <t t-if="cntr == 3" t-set="top3_id" t-value="top['id']"/>
+                        <t t-set="cntr" t-value='cntr+1'/>
+                    </t>
+                    <div class="box-nakheel">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="header-text-center" rowspan="2" width="5%">Item No.</th>
+                                    <th class="header-text-center" rowspan="2"  width="5%">Quantity</th>
+                                    <th class="header-text-center" rowspan="2"  width="5%">Unit</th>
+                                    <th class="header-text-center" rowspan="2"  width="25%">Description</th>
+                                    <th class="header-text-center" width="20%" colspan="2"><span t-if="top1" t-esc="top1"/></th>
+                                    <th class="header-text-center" width="20%" colspan="2"><span t-if="top2" t-esc="top2"/></th>
+                                    <th class="header-text-center" width="20%" colspan="2"><span t-if="top3" t-esc="top3"/></th>
+                                </tr>
+                                <tr>
+                                    <th>Unit Cost</th>
+                                    <th>Total Cost</th>
+                                    <th>Unit Cost</th>
+                                    <th>Total Cost</th>
+                                    <th>Unit Cost</th>
+                                    <th>Total Cost</th>
+                                </tr>
+                            </thead>
+                        <tbody>
+                            <t t-set="cntr" t-value='1'/>
+                            <tr t-foreach="o.line_ids" t-as="line" >
+                                <td class="header-text-center"><span t-esc="cntr"/></td>
+                                <t t-set="cntr" t-value='cntr+1'/>
+                                <td class="header-text-center"><span t-field="line.product_qty"/></td>
+                                <td><span t-field="line.product_uom_id.name"/></td>
+                                <td><span t-field="line.product_id.name"/></td>
+                                <t t-set="xqty" t-value='0'/>
+                                <t t-set="x_total" t-value='0'/>
+                                <t t-foreach="o.purchase_ids.filtered(lambda x: x.id == top1_id)" t-as="po">
+                                    <t t-foreach="po.order_line.filtered(lambda x: x.product_id.id == line.product_id.id)" t-as="po_line">
+                                        <t t-set="xqty" t-value='po_line.price_unit'/>
+                                        <t t-set="x_total" t-value='po_line.price_subtotal'/>
+                                        <t t-set="total1" t-value="total1+po_line.price_subtotal"/>
+                                    </t>
+                                </t>
+                                <td class="header-text-right"><span t-esc="'{0:,.2f}'.format(xqty)"/></td>
+                                <td class="header-text-right"><span t-esc="'{0:,.2f}'.format(x_total)"/></td>
+                                <t t-set="xqty" t-value='0'/>
+                                <t t-set="x_total" t-value='0'/>
+                                <t t-foreach="o.purchase_ids.filtered(lambda x: x.id == top2_id)" t-as="po">
+                                    <t t-foreach="po.order_line.filtered(lambda x: x.product_id.id == line.product_id.id)" t-as="po_line">
+                                        <t t-set="xqty" t-value='po_line.price_unit'/>
+                                        <t t-set="x_total" t-value='po_line.price_subtotal'/>
+                                        <t t-set="total2" t-value="total2+po_line.price_subtotal"/>
+                                    </t>
+                                </t>
+                                <td class="header-text-right"><span t-esc="'{0:,.2f}'.format(xqty)"/></td>
+                                <td class="header-text-right"><span t-esc="'{0:,.2f}'.format(x_total)"/></td>
+                                <t t-set="xqty" t-value='0'/>
+                                <t t-set="x_total" t-value='0'/>
+                                <t t-foreach="o.purchase_ids.filtered(lambda x: x.id == top3_id)" t-as="po">
+                                    <t t-foreach="po.order_line.filtered(lambda x: x.product_id.id == line.product_id.id)" t-as="po_line">
+                                        <t t-set="xqty" t-value='po_line.price_unit'/>
+                                        <t t-set="x_total" t-value='po_line.price_subtotal'/>
+                                        <t t-set="total3" t-value="total3+po_line.price_subtotal"/>
+                                    </t>
+                                </t>
+                                <td class="header-text-right"><span t-esc="'{0:,.2f}'.format(xqty)"/></td>
+                                <td class="header-text-right"><span t-esc="'{0:,.2f}'.format(x_total)"/></td>
+                            </tr>
+                        </tbody>
+                        <tr>
+                            <th class="header-text-right" colspan="4">GRAND TOTAL</th>
+                            <th class="header-text-right" colspan="2"><span t-esc="'{0:,.2f}'.format(total1)"/></th>
+                            <th class="header-text-right" colspan="2"><span t-esc="'{0:,.2f}'.format(total2)"/></th>
+                            <th class="header-text-right" colspan="2"><span t-esc="'{0:,.2f}'.format(total3)"/></th>
+                        </tr>
+                        </table>
+                    </div>
+
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+</odoo>

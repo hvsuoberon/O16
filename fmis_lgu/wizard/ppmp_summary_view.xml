@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="procurement_plan_wizard_form" model="ir.ui.view">
+        <field name="name">procurement.plan.wizard.form</field>
+        <field name="model">procurement.plan.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Procurement Plan Report">
+                <group>
+                    <group>
+                        <field name="pu_id" context="{'filter_pu':True}"/>
+                    </group>
+                    <group>
+                        <field name="year"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_retrieve" type="object" string="Screen" class="btn-primary"/>
+                    <button name="check_report" type="object" string="PDF" class="btn-primary"/>
+                    <button name="print_excel_report" type="object" string="Excel" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="procurement_plan_wizard_action" model="ir.actions.act_window">
+        <field name="name">PPMP Summary</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">procurement.plan.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="procurement_plan_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="ppmp_reports_menu" name="PPMP Reports" parent="purchase.menu_purchase_root" sequence="50"/>
+
+    <menuitem id="ppmp_wizard_view" action="procurement_plan_wizard_action"
+        parent="procurement_lgu.ppmp_reports_menu"/>
+
+    <record id="view_procurement_plan_report_tree" model="ir.ui.view">
+        <field name="name">procurement.plan.report.tree</field>
+        <field name="model">procurement.plan.report</field>
+        <field name="priority">4</field>
+        <field name="arch" type="xml">
+            <tree string="Procurement Summary">
+            	<field name="pu_id"/>
+                <field name="project_id"/>
+                <field name="product_id"/>
+                <field name="mode_id"/>
+                <field name="product_uom_id"/>
+                <field name="qty"/>
+                <field name="month_01"/>
+                <field name="month_02"/>
+                <field name="month_03"/>
+                <field name="month_04"/>
+                <field name="month_05"/>
+                <field name="month_06"/>
+                <field name="month_07"/>
+                <field name="month_08"/>
+                <field name="month_09"/>
+                <field name="month_10"/>
+                <field name="month_11"/>
+                <field name="month_12"/>
+				<field name="unit_price"/>
+				<field name="est_budget" sum="Total"/>
+
+<!--                <field name="remaining_balance" widget='monetary' options="{'currency_field': 'company_currency'}"/>-->
+<!--                <field name="loan_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+<!--                <field name="payment" widget='monetary' options="{'currency_field': 'company_currency'}"/>-->
+<!--                <field name="total_interest" widget='monetary' options="{'currency_field': 'company_currency'}"/>-->
+<!--                <field name="total_due" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+
+                <!--                <field name="avg_rate_credit" widget='monetary' options="{'currency_field': 'company_currency'}"/>-->
+<!--                <field name="balance" widget='monetary' options="{'currency_field': 'company_currency'}"/>-->
+<!--                <field name="currency_balance" widget='monetary' options="{'currency_field': 'currency_id'}"/>-->
+<!--                <field name="source_id" invisible="True"/>-->
+<!--                <button name="action_show_source"-->
+<!--                    attrs="{'invisible': [('source_id', '=', False)]}"-->
+<!--                    string="Show Source"-->
+<!--                    type="object"-->
+<!--                    icon="fa-list" />-->
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_procurement_plan_report_form" model="ir.ui.view">
+        <field name="name">procurement.plan.report.form</field>
+        <field name="model">procurement.plan.report</field>
+        <field name="arch" type="xml">
+            <form string="PPMP Report">
+                <sheet>
+                    <group>
+		                <field name="project_id"/>
+		                <field name="product_id"/>
+		                <field name="product_uom_id"/>
+		                <field name="qty"/>
+		                <field name="month_01"/>
+		                <field name="month_02"/>
+		                <field name="month_03"/>
+		                <field name="month_04"/>
+		                <field name="month_05"/>
+		                <field name="month_06"/>
+		                <field name="month_07"/>
+		                <field name="month_08"/>
+		                <field name="month_09"/>
+		                <field name="month_10"/>
+		                <field name="month_11"/>
+		                <field name="month_12"/>
+						<field name="unit_price"/>
+						<field name="est_budget"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_procurement_plan_report_search_view" model="ir.ui.view">
+        <field name="name">procurement.plan.report.select</field>
+        <field name="model">procurement.plan.report</field>
+        <field name="arch" type="xml">
+            <search string="PPMP Report">
+                <group expand="1" string="Group By">
+                	<filter string="Procurement Unit" name="group_pu" domain="[]" context="{'group_by':'pu_id'}"/>
+                    <filter string="Project" name="group_project" domain="[]" context="{'group_by':'project_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+<!-- ############################################ -->
+
+    <report
+        id="report_procurement_summary"
+        model="procurement.plan.report"
+        string="PMPP Summary"
+        report_type="qweb-pdf"
+        name="procurement_lgu.ppmp_summary_report_view"
+        file="procurement_lgu.ppmp_summary_report_view"
+        paperformat="paperformat_legal"
+    />
+
+	<template id="ppmp_summary_report_view">
+	    <t t-call="web.html_container">
+	        <t t-foreach="docs" t-as="o">
+				<t t-call="procurement_lgu.custom_external_layout">
+				     
+	                <div class="page" style="margin:0px;">
+	                	<div class="oe_structure"/>
+	                	<br/>
+	                	<br/>
+		                <h4 class="text-center">
+		                    <strong>
+		                    
+		                        <span>  PROJECT PROCUREMENT MANAGEMENT PLAN (PPMP) </span>
+		                        <span t-field="o.year"/>
+		                    </strong>
+		                </h4>
+		
+		              	<div class="row">
+		                    <div class="col-xs-6">
+		                        <strong>
+		                            <span>Procurement Unit:</span>
+		                        </strong>
+		                        <span t-field="o.pu_id.name"/>
+		                    </div>
+		               	</div>
+	                    <br/>
+	                    <table class="table table-condensed">
+							<thead>
+								<table width="100%" height="40mm">
+									<tr>
+										<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align: center;height:25px;width:7%;vertical-align: middle;">Code</td>
+					                	<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align: center;height:25px;width:13%;vertical-align: middle;">General Description</td>
+					                	<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align: center;height:25px;width:9%;vertical-align: middle;">Qty</td>
+					                	<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align: center;height:25px;width:3%;vertical-align: middle;">UoM</td>
+					                	<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align: center;height:25px;width:9%;vertical-align: middle;">Estimated Budget</td>
+					                	<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align: center;height:25px;width:9%;vertical-align: middle;">Mode of Procurement</td>
+					                	<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align: center;height:25px;width:50%;vertical-align: middle;">
+											<table width="100%" height="20mm">
+												<td style="font-weight: bold;font-size:13px;border-bottom: 1px solid black;text-align: center;height:25px;width:100%;vertical-align: middle;">SCHEDULE/MILESTONE OF ACTIVITIES</td>
+											</table>
+											<table width="100%" height="20mm">
+												<td style="font-weight: bold;font-size:13px;text-align: center;height:25px;width:8%;vertical-align: middle;">Jan</td>
+							                	<td style="font-weight: bold;font-size:13px;border-left: 1px solid black;text-align: center;height:25px;width:8%;vertical-align: middle;">Feb</td>
+							                	<td style="font-weight: bold;font-size:13px;border-left: 1px solid black;text-align: center;height:25px;width:8%;vertical-align: middle;">Mar</td>
+							                	<td style="font-weight: bold;font-size:13px;border-left: 1px solid black;text-align: center;height:25px;width:8%;vertical-align: middle;">Apr</td>
+							                	<td style="font-weight: bold;font-size:13px;border-left: 1px solid black;text-align: center;height:25px;width:8%;vertical-align: middle;">May</td>
+							                	<td style="font-weight: bold;font-size:13px;border-left: 1px solid black;text-align: center;height:25px;width:8%;vertical-align: middle;">Jun</td>
+							                	<td style="font-weight: bold;font-size:13px;border-left: 1px solid black;text-align: center;height:25px;width:8%;vertical-align: middle;">Jul</td>
+							                	<td style="font-weight: bold;font-size:13px;border-left: 1px solid black;text-align: center;height:25px;width:8%;vertical-align: middle;">Aug</td>
+							                	<td style="font-weight: bold;font-size:13px;border-left: 1px solid black;text-align: center;height:25px;width:8%;vertical-align: middle;">Sep</td>
+							                	<td style="font-weight: bold;font-size:13px;border-left: 1px solid black;text-align: center;height:25px;width:8%;vertical-align: middle;">Oct</td>
+							                	<td style="font-weight: bold;font-size:13px;border-left: 1px solid black;text-align: center;height:25px;width:8%;vertical-align: middle;">Nov</td>
+							                	<td style="font-weight: bold;font-size:13px;border-left: 1px solid black;text-align: center;height:25px;width:8%;vertical-align: middle;">Dec</td>				                		
+											</table>
+					                	</td>
+									</tr>
+								</table>
+	                        </thead>                
+	    					<t t-set="cntr" t-value="1"/>
+							<t t-set="total_budget" t-value="0"/>
+	                    	<tbody class="pp_body">
+	                    		<t t-foreach="o.group_project()" t-as="p">
+									<table width="100%" height="20mm">
+	                    				<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align:left; height:20px;vertical-align: middle;width:7%;">
+	                    					<span t-field="p.code"/>
+	                    				</td>
+	                    				<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align:left; height:20px;vertical-align: middle;width:93%;">
+	                    					<span t-field="p.descript"/>
+	                    				</td>
+		                   			</table>	                    		
+	                  				<t t-foreach="o._get_details(p.id)" t-as="ll">
+										<table width="100%" height="20mm">
+											<tr>
+												<td style="font-size:11px;border: 1px solid black;text-align: center;height:20px;width:7%;vertical-align: middle;"/>
+							                	<td style="font-size:11px;border: 1px solid black;text-align: left;height:20px;width:13%;vertical-align: middle; margin:3px;"><span t-esc="ll[0]"/></td>
+							                	<td style="font-size:11px;border: 1px solid black;text-align: right;height:20px;width:9%;vertical-align: middle;margin:3px;"><span t-esc="ll[1]"/></td>
+							                	<td style="font-size:11px;border: 1px solid black;text-align: center;height:20px;width:3%;vertical-align: middle;"><span t-esc="ll[2]"/></td>
+							                	<td style="font-size:11px;border: 1px solid black;text-align: right;height:20px;width:9%;vertical-align: middle;margin-right:3px;"><span t-esc="'{0:,.2f}'.format(int(ll[3]))"/></td>
+							                	<td style="font-size:11px;border: 1px solid black;text-align: left;height:20px;width:9%;vertical-align: middle;margin-right:3px;"><span t-esc="ll[4]"/></td>
+							                	<td style="font-size:11px;border: 1px solid black;text-align: center;height:20px;width:50%;vertical-align: middle;">
+													<table width="100%" height="20mm">
+														<td style="font-size:11px;text-align: center;height:20px;width:8%;vertical-align: middle;"><span t-esc="ll[5]"/></td>
+									                	<td style="font-size:11px;border-left: 1px solid black;text-align: center;height:20px;width:8%;vertical-align: middle;"><span t-esc="ll[6]"/></td>
+									                	<td style="font-size:11px;border-left: 1px solid black;text-align: center;height:20px;width:8%;vertical-align: middle;"><span t-esc="ll[7]"/></td>
+									                	<td style="font-size:11px;border-left: 1px solid black;text-align: center;height:20px;width:8%;vertical-align: middle;"><span t-esc="ll[8]"/></td>
+									                	<td style="font-size:11px;border-left: 1px solid black;text-align: center;height:20px;width:8%;vertical-align: middle;"><span t-esc="ll[9]"/></td>
+									                	<td style="font-size:11px;border-left: 1px solid black;text-align: center;height:20px;width:8%;vertical-align: middle;"><span t-esc="ll[10]"/></td>
+									                	<td style="font-size:11px;border-left: 1px solid black;text-align: center;height:20px;width:8%;vertical-align: middle;"><span t-esc="ll[11]"/></td>
+									                	<td style="font-size:11px;border-left: 1px solid black;text-align: center;height:20px;width:8%;vertical-align: middle;"><span t-esc="ll[12]"/></td>
+									                	<td style="font-size:11px;border-left: 1px solid black;text-align: center;height:20px;width:8%;vertical-align: middle;"><span t-esc="ll[13]"/></td>
+									                	<td style="font-size:11px;border-left: 1px solid black;text-align: center;height:20px;width:8%;vertical-align: middle;"><span t-esc="ll[14]"/></td>
+									                	<td style="font-size:11px;border-left: 1px solid black;text-align: center;height:20px;width:8%;vertical-align: middle;"><span t-esc="ll[15]"/></td>
+									                	<td style="font-size:11px;border-left: 1px solid black;text-align: center;height:20px;width:8%;vertical-align: middle;"><span t-esc="ll[16]"/></td> 				                		
+													</table>
+							                	</td>
+							                	<t t-set="total_budget" t-value="total_budget+ll[3]"/>
+											</tr>
+										</table>
+	                				</t>		
+                    				<table width="100%" height="20mm">
+                    					<td style="font-size:12px;border-left: 1px solid black;border-top: 1px solid black;border-bottom: 1px solid black;font-weight: bold;text-align:left; height:20px;vertical-align: middle;width:10%;">
+                    						<span>Total</span>
+                    					</td>
+	                    				<td style="border-right: 1px solid black;border-top: 1px solid black;border-bottom: 1px solid black;font-weight: bold;font-size:12px;text-align:right; height:20px;vertical-align: middle;width:31%;">
+	                    					<span t-esc="'{0:,.2f}'.format(int(total_budget))"/>
+	                    				</td>
+	                    				<td style="font-weight: normal;font-size:12px;border: 1px solid black;text-align:left; height:20px;vertical-align: middle;width:59%;"/>
+                    				</table>
+	                    		</t>
+	                    	</tbody>	
+	                    </table>
+
+						<br/>
+
+						<table width="100%" height="20mm">
+            				<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align:left; height:20px;vertical-align: middle;width:20%;">
+            					<span>TOTAL BUDGET</span>
+            				</td>
+            				<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align:right; height:20px;vertical-align: middle;width:10%;">
+            					<span t-esc="'{0:,.2f}'.format(int(total_budget))"/>
+            				</td>
+            				<td style="font-weight: bold;font-size:13px;border: 0px solid black;text-align:left; height:20px;vertical-align: middle;width:70%;"/>
+               			</table>		                    
+               			<t t-set="inflation" t-value="total_budget*0.10"/>
+						<table width="100%" height="20mm">
+            				<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align:left; height:20px;vertical-align: middle;width:20%;">
+            					<span>+ 10% Provision for Inflation</span>
+            				</td>
+            				<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align:right; height:20px;vertical-align: middle;width:10%;">
+            					<span t-esc="'{0:,.2f}'.format(int(inflation))"/>
+            				</td>
+            				<td style="font-weight: bold;font-size:13px;border: 0px solid black;text-align:left; height:20px;vertical-align: middle;width:70%;"/>
+               			</table>	
+               			<t t-set="contingency" t-value="total_budget*0.10"/>
+						<table width="100%" height="20mm">
+            				<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align:left; height:20px;vertical-align: middle;width:20%;">
+            					<span>+ 10% Contingency </span>
+            				</td>
+            				<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align:right; height:20px;vertical-align: middle;width:10%;">
+            					<span t-esc="'{0:,.2f}'.format(int(contingency))"/>
+            				</td>
+            				<td style="font-weight: bold;font-size:13px;border: 0px solid black;text-align:left; height:20px;vertical-align: middle;width:70%;"/>
+               			</table>	
+               			<t t-set="total_all" t-value="total_budget+inflation+contingency"/>
+						<table width="100%" height="20mm">
+            				<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align:left; height:20px;vertical-align: middle;width:20%;">
+            					<span>TOTAL ESTIMATED BUDGET:</span>
+            				</td>
+            				<td style="font-weight: bold;font-size:13px;border: 1px solid black;text-align:right; height:20px;vertical-align: middle;width:10%;">
+            					<span t-esc="'{0:,.2f}'.format(int(total_all))"/>
+            				</td>
+            				<td style="font-weight: bold;font-size:13px;border: 0px solid black;text-align:left; height:20px;vertical-align: middle;width:70%;"/>
+               			</table>	
+               			
+               			<br/>
+               			<span style="font-weight: normal;font-size:10px;">NOTE: Technical Specifications for each Item/Project being proposed shall be submitted as part of the PPMP</span>
+	                    <br/>
+	                    <br/>
+	                    <div class="row">
+	                        <div class="col-xs-4">
+	                            <strong>
+	                                <p style="font-size:12px;margin-top:-8px;"> Prepared By: </p>
+	                            </strong>
+	                        </div>
+	                        <div class="col-xs-4">
+	                            <strong>
+	                                <p style="font-size:12px;margin-top:-8px;"> Submitted By:  </p>
+	                            </strong>
+	                        </div>
+	                    </div>
+	                    <br/>    
+				        <div class="row zero_min_height">
+				            <div class="col-xs-3">
+				                <div style="border-bottom: 1px solid black;"></div>
+				            </div>
+				            <div class="col-xs-1"/>
+				            <div class="col-xs-3">
+				                <div style="border-bottom: 1px solid black;"></div>
+				            </div>
+				            <div class="col-xs-5"/>
+				        </div>                      
+				        <div class="row">
+				            <div class="col-xs-3">
+				                <p style="font-size:11px;margin-top:1px;text-align: center;"></p>
+				            </div>
+				            <div class="col-xs-1"/>
+				            <div class="col-xs-3">
+				                <p style="font-size:11px;margin-top:1px;text-align: center;"> Municipal Mayor </p>
+				            </div>
+				            <div class="col-xs-5"/>
+				        </div>
+	                </div>
+	                
+	            </t>
+	        </t>
+	    </t>
+	</template>
+
+</odoo>

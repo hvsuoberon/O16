@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="notice_of_award">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+			<t t-call="procurement_lgu.custom_external_layout3">
+
+                <div class="page" style="margin:0px;">
+                	<div class="oe_structure"/>
+                	<br/>
+                	<br/>
+					<table width="100%" height="50mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border:0px solid white;width:100%;vertical-align:middle;font-size : 20px;text-align:center;font-weight: bold;">
+								<span style="">NOTICE OF AWARD</span>
+							</td>
+						</tr>
+					</table>
+
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								<span t-field="o.noa_date" t-field-options='{"format": "MMMM d, yyyy"}'/>
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: bold;">
+								<span t-field="o.supplier_owner"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 13px;text-align:left;font-weight: bold;">
+								<span t-field="o.supplier_designation"/>
+							</td>
+						</tr>
+					</table>
+
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: bold;">
+								<span t-field="o.partner_id"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								<span t-if="o.partner_id.street" t-field="o.partner_id.street"/>
+								<span t-if="o.partner_id.street and o.partner_id.street2">, </span>
+								<span t-if="o.partner_id.street2" t-field="o.partner_id.street2"/>
+								<span t-if="(o.partner_id.street or o.partner_id.street2) and o.partner_id.city">, </span>
+								<span t-if="o.partner_id.city" t-field="o.partner_id.city"/>
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								Dear
+								<span t-field="o.salutation"/>:
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								We are happy to notify you that your Price Quotation dated
+								<span style="font-weight: bold;" t-field="o.date_order" t-field-options='{"format": "MMMM d, yyyy"}'/>
+								for execution of
+								<span style="font-weight: bold;" t-field="o.project_id"/>
+								funded through the
+								<span style="font-weight: bold;" t-field="o.source_id"/>
+								, for the Contract of equivalent
+								<span style="font-weight: bold;" t-field="o.amount_in_words"/>
+								(
+								<span style="font-weight: bold;" t-esc="'{:,.2f}'.format(o.amount_total)"/>)
+								, as corrected and modified in accordance with the Instructions to Bidders is hereby accepted.
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								You are hereby required within ten (10) days from the receipt of this notice to formally enter into contract with us and to submit the Performance Security
+								in the form and the amount stipulated in the Instructions to Bidders. Failure to provide the performance security shall constitute sufficient ground for cancellation of the award
+								and forfeiture of the bid security.
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								Very truly yours,
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: bold;">
+								<span t-field="o.signatory"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								<span t-field="o.signatory_designation"/>
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<br/>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								Conformed:
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								____________________________
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								(Representative)
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: bold;">
+								<span t-field="o.partner_id"/>
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								Date: _______________________
+							</td>
+						</tr>
+					</table>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+</odoo>

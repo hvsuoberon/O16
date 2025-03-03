@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="purchase_order">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+			<t t-call="procurement_lgu.custom_external_layout">
+
+                <div class="page" style="margin:0px;">
+                	<div class="oe_structure"/>
+                	<br/>
+                	<br/>
+					<table width="100%" height="50mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border:1px solid black;width:100%;vertical-align:middle;font-size : 20px;text-align:center;font-weight: bold;">
+								<span style="">PURCHASE ORDER</span>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>Supplier</span>
+							</td>
+							<td style="width:60%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>:</span>
+								<span t-field="o.partner_id"/>
+							</td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>PO No.</span>
+							</td>
+							<td style="border-right:1px solid black;border-bottom:1px solid black;width:20%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>:</span>
+								<span t-field="o.name"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>Address</span>
+							</td>
+							<td style="width:60%;vertical-align:top;font-size : 12px;text-align:left;font-weight: normal;">
+								<span>: </span>
+								<span t-if="o.partner_id.street" t-field="o.partner_id.street"/>
+								<span t-if="o.partner_id.street and o.partner_id.street2">, </span>
+								<span t-if="o.partner_id.street2" t-field="o.partner_id.street2"/>
+								<span t-if="(o.partner_id.street or o.partner_id.street2) and o.partner_id.city">, </span>
+								<span t-if="o.partner_id.city" t-field="o.partner_id.city"/>
+							</td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>Date</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-right:1px solid black;width:20%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								<span>:</span>
+								<span t-field="o.date_order" t-field-options='{"format": "MM/dd/yyyy"}'/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+							</td>
+							<td style="border-bottom:1px solid black;width:60%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;border-bottom:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>Mode of Proc</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-right:1px solid black;width:20%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								<span>:</span>
+								<span t-field="o.mode_id"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-right:1px solid black;border-left:1px solid black;width:100%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								<span>Gentlemen:</span>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:3%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+							</td>
+							<td style="border-right:1px solid black;border-bottom:1px solid black;width:97%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								<span>Please furnish this office the following articles subject to terms and conditions contained herein:</span>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:15%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>Place of Delivery</span>
+							</td>
+							<td style="border-bottom:1px solid black;width:35%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								<span>: </span>
+								<span t-field="o.place_of_delivery"/>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>Delivery Term</span>
+							</td>
+							<td style="border-right:1px solid black;border-bottom:1px solid black;width:40%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								<span>: </span>
+								<span t-field="o.delivery_term"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:15%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>Date of Delivery</span>
+							</td>
+							<td style="border-bottom:1px solid black;width:35%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								<span>: </span>
+								<span t-field="o.date_planned" t-field-options='{"format": "MM/dd/yyyy"}'/>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>Payment Term</span>
+							</td>
+							<td style="border-right:1px solid black;border-bottom:1px solid black;width:40%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								<span>: </span>
+								<span t-field="o.payment_term_id"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:15%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+								<span>Name of Project</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-right:1px solid black;width:85%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: normal;">
+								<span>:</span>
+								<span t-field="o.project_id"></span>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+								<span>Item No.</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+								<span>Quantity</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+								<span>Unit</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:40%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+								<span>Description</span>
+							</td>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:15%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+								<span>Unit Cost</span>
+							</td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;border-right:1px solid black;width:15%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+								<span>Amount</span>
+							</td>
+						</tr>
+					</table>
+					<t t-set="cntr" t-value='1'/>
+					<tr t-foreach="o.order_line" t-as="line" >
+						<table width="100%" height="20mm" style="border-spacing: 0;">
+							<td style="border-left:1px solid black;border-bottom:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: normal;">
+								<span style="" t-esc="cntr"/>
+							</td>
+							<t t-set="cntr" t-value='cntr+1'/>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: normal;">
+								<span t-field="line.product_qty"/>
+							</td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;width:10%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: normal;">
+								<span t-field="line.product_uom.name"/>
+							</td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;width:40%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: normal;">
+								<span t-field="line.name"/>
+							</td>
+							<td style="border-left:1px solid black;border-bottom:1px solid black;width:15%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: normal;">
+								<span t-esc="'{:,.2f}'.format(line.price_unit)"/>
+							</td>
+							<td style="border-right:1px solid black;border-left:1px solid black;border-bottom:1px solid black;width:15%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: normal;">
+								<span t-esc="'{:,.2f}'.format(line.price_subtotal)"/>
+							</td>
+						</table>
+					</tr>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:85%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+								<span>Total</span>
+							</td>
+							<td style="border-right:1px solid black;border-left:1px solid black;border-bottom:1px solid black;width:15%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+								<span t-esc="'{:,.2f}'.format(o.amount_untaxed)"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="100mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:33%;vertical-align:top;font-size : 12px;text-align:center;">
+								<table width="100%" height="20mm" style="border-spacing: 0;">
+									<td style="width:100%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+										<span >Conforme:</span>
+									</td>
+								</table>
+								<br/>
+								<br/>
+								<table width="100%" height="20mm" style="border-spacing: 0;">
+									<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+									</td>
+									<td style="border-bottom:1px solid black;width:80%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+										<span t-field="o.partner_id"/>
+									</td>
+									<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+									</td>
+								</table>
+								<span style="font-size: 10px;text-align:center;font-weight: normal;">(Signature over Printed Name)</span>
+								<br/>
+								<span style="font-size: 10px;text-align:center;font-weight: normal;">(Dealer/Supplier)</span>
+								<br/>
+								<span style="font-size: 10px;text-align:center;font-weight: normal;color:white">.</span>
+								<table width="100%" height="20mm" style="border-spacing: 0;">
+									<td style="width:30%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+									</td>
+									<td style="border-top:1px solid black;width:40%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+										<span style="font-size: 10px;text-align:center;font-weight: normal;">(Date)</span>
+									</td>
+									<td style="width:30%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+									</td>
+								</table>
+							</td>
+							<td style="border-bottom:1px solid black;width:33%;vertical-align:top;font-size : 12px;text-align:center;">
+								<table width="100%" height="20mm" style="border-spacing: 0;">
+									<td style="width:100%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+										<span ></span>
+									</td>
+								</table>
+								<br/>
+								<br/>
+								<table width="100%" height="20mm" style="border-spacing: 0;">
+									<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+									</td>
+									<td style="border-bottom:1px solid black;width:80%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+										<span t-field="o.conforme_by"/>
+									</td>
+									<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+									</td>
+								</table>
+								<span style="font-size: 10px;text-align:center;font-weight: normal;" t-field="o.conforme_designation"/>
+							</td>
+							<td style="border-right:1px solid black;border-bottom:1px solid black;width:33%;vertical-align:top;font-size : 12px;text-align:center;">
+								<table width="100%" height="20mm" style="border-spacing: 0;">
+									<td style="width:100%;vertical-align:middle;font-size : 12px;text-align:left;font-weight: bold;">
+										<span >Very truly yours,</span>
+									</td>
+								</table>
+								<br/>
+								<br/>
+								<table width="100%" height="20mm" style="border-spacing: 0;">
+									<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+									</td>
+									<td style="border-bottom:1px solid black;width:80%;vertical-align:middle;font-size : 12px;text-align:center;font-weight: bold;">
+										<span t-field="o.signatory"/>
+									</td>
+									<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+									</td>
+								</table>
+								<span style="font-size: 10px;text-align:center;font-weight: normal;" t-field="o.signatory_designation"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-bottom:1px solid black;border-left:1px solid black;width:30%;vertical-align:middle;font-size:10px;text-align:left;font-weight: normal;">
+								<span>(In case of Negotiated Purchase pursuant to Section 369 (a) of RA 7160, this portion must be accomplished)</span>
+								<br/>
+								<span>Approved to be purchased thru negotiated purchase per Sanggunian Res. No. __________</span>
+								<br/>
+								<br/>
+								<span>Certified Correct</span>
+								<br/>
+								<span style="font-size: 10px;text-align:center;font-weight: normal;color:white">.</span>
+								<table width="100%" height="20mm" style="border-spacing: 0;">
+									<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+									</td>
+									<td style="border-top:1px solid black;width:80%;vertical-align:middle;font-size : 10px;text-align:center;font-weight: normal;">
+										<span>Secretary of the Sanggunian</span>
+									</td>
+									<td style="width:10%;vertical-align:middle;font-size : 12px;text-align:right;font-weight: bold;">
+									</td>
+								</table>
+							</td>
+
+							<td style="border-bottom:1px solid black;border-left:1px solid black;border-right:1px solid black;width:70%;vertical-align:middle;font-size:10px;text-align:left;font-weight: bold;">
+								<span></span>
+							</td>
+						</tr>
+					</table>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+</odoo>

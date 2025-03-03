@@ -1,0 +1,44 @@
+<odoo>
+	<data>
+
+    <record model="ir.ui.view" id="appropriation_statement_report_view">
+        <field name="name">Appropriation Statement</field>
+        <field name="model">budgeting.app.stmt.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Appropriation Statement">
+                <group>
+                    <group>
+                    	<field name="period_id"/>
+                        <field name="dateto" string='As of'/>
+                     </group>
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="account_id"/> 
+                    </group>
+                </group>
+                <footer>
+                    <button name="get_report" string="Get Report" type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+</record>
+
+	<record id="action_appropriation_statement_wizard" model="ir.actions.act_window">
+	    <field name="name">Generate Appropriation Statement Report</field>
+	    <field name="res_model">budgeting.app.stmt.wizard</field>
+	    <field name="type">ir.actions.act_window</field>
+	    <field name="view_mode">form</field>
+	    <field name="view_id" ref="appropriation_statement_report_view"/>
+	    <field name="target">new</field>
+	</record>
+
+	<menuitem id="budgetingreportmain_menu" name="Reporting"
+	                  parent="main_budgeting_menu" sequence="55"/>	                  
+    <menuitem id="budgeting_appropriation_stmt_menu" name="Approp. Stmt" 
+    			parent="budgetingreportmain_menu"
+              action="action_appropriation_statement_wizard"/> 
+
+  </data>
+</odoo>

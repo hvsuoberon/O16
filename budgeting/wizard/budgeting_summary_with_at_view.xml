@@ -1,0 +1,163 @@
+<odoo>
+
+    <report id="appstmt_summary_at"
+            model="budgeting.app.stmt.summary.at"
+            string="Appropriation Summary With Accounts"
+            report_type="qweb-pdf"
+            name="budgeting.appstmt_report_summary_at"
+            paperformat="paperformat_appstmt_report"
+            menu="False"/>
+
+	<template id="appstmt_report_summary_at">
+	    <t t-call="web.html_container">
+	        <t t-foreach="docs" t-as="o">
+				<t t-call="web.external_layout">
+	                <div class="page" style="margin:13px;color:black">
+	                	<div class="oe_structure"/>
+		                <h4 class="text-center">
+		                	<div class="col-xs-12">
+		                    	<strong>
+		                        	<span>Appropriation Summary for </span>
+		                        	<span t-field="o.dyear"/>
+		                        	<span> as of </span>
+		                        	<span t-field="o.date_to"/>
+		                		</strong>
+		                	</div>
+		                </h4>
+						<table class="table table-condensed">
+							<thead>
+	                        	<tr>
+	                        		<th style="width:40%; border: 1px solid black;text-align:center;font-size:12px;">Budget Specification</th>
+	                                <th style="width:20%; border: 1px solid black;text-align:center;font-size:12px;">Allotment</th>
+	                                <th style="width:20%; border: 1px solid black;text-align:center;font-size:12px;">Incurred</th>
+	                                <th style="width:20%; border: 1px solid black;text-align:center;font-size:12px;">Balance</th>
+	                            </tr>
+	                        </thead>
+	                        					
+							<tbody class="pr_tbody" style="margin:13px;color:black">
+								<t t-foreach="o.group_source()" t-as="l">
+									<t t-set="tot_allotment" t-value="0"/>
+									<t t-set="tot_incurred" t-value="0"/>
+									<t t-set="tot_balance" t-value="0"/>
+									
+									<tr style="font-weight: bold;">
+		                                <td colspan="6">
+		                                    <span>Source: </span>
+			                                <span t-field="l.name"/>
+		                                </td>
+	                            	</tr>				
+	                            	
+	                            	<t t-foreach="o.group_partner(l.id)" t-as="m">
+										<t t-set="tot_allotment_p" t-value="0"/>
+										<t t-set="tot_incurred_p" t-value="0"/>
+										<t t-set="tot_balance_p" t-value="0"/>	                            	
+	                            		<tr style="font-weight: bold;">
+			                                <td colspan="6">
+			                                    <span>Partner: </span>
+				                                <span t-field="m.name"/>
+			                                </td>
+			                        	</tr>        
+										<tr t-foreach="o.rep_ids" t-as="q">
+											<t t-if="q.source_id.id==l.id and q.partner_id.id==m.id">
+												<td style="width:40%; border: 1px solid black;text-align:left; font-size:11px;">
+				                                    <span t-field="q.period_id.name"/>
+				                                </td>
+				                                
+												<td style="width:20%; border: 1px solid black;text-align:right; font-size:11px;">
+				                                    <span t-esc="'{0:,.2f}'.format(int(q.allotment))"/>
+				                                </td>
+												<td style="width:20%; border: 1px solid black;text-align:right; font-size:11px;">
+				                                    <span t-esc="'{0:,.2f}'.format(int(q.incurred))"/>
+				                                </td>
+												<td style="width:20%; border: 1px solid black;text-align:right; font-size:11px;">
+				                                    <span t-esc="'{0:,.2f}'.format(int(q.actbal))"/>
+				                                </td>
+				                                <t t-set="tot_allotment" t-value="tot_allotment+q.allotment"/>
+												<t t-set="tot_incurred" t-value="tot_incurred+q.incurred"/>
+												<t t-set="tot_balance" t-value="tot_balance+q.actbal"/>
+												<t t-set="tot_allotment_p" t-value="tot_allotment_p+q.allotment"/>
+												<t t-set="tot_incurred_p" t-value="tot_incurred_p+q.incurred"/>
+												<t t-set="tot_balance_p" t-value="tot_balance_p+q.actbal"/>
+											</t>
+										</tr>
+										<td style="width:40%; border: 1px solid black;text-align:left; font-size:11px;">
+				                                    <strong><span>Partner Total </span></strong>
+		                                </td>
+										<td style="width:20%; border: 1px solid black;text-align:right; font-size:11px;">
+		                                    <strong><span t-esc="'{0:,.2f}'.format(int(tot_allotment_p))"/></strong>
+		                                </td>
+										<td style="width:20%; border: 1px solid black;text-align:right; font-size:11px;">
+		                                    <strong><span t-esc="'{0:,.2f}'.format(int(tot_incurred_p))"/></strong>
+		                                </td>
+										<td style="width:20%; border: 1px solid black;text-align:right; font-size:11px;">
+		                                    <strong><span t-esc="'{0:,.2f}'.format(int(tot_balance_p))"/></strong>
+		                                </td>										
+	                            	</t>
+	                            	<tr/>
+									<td style="width:40%; border: 1px solid black;text-align:left; font-size:11px;">
+			                                    <strong><span>Source Total </span></strong>
+	                                </td>
+									<td style="width:20%; border: 1px solid black;text-align:right; font-size:11px;">
+	                                    <strong><span t-esc="'{0:,.2f}'.format(int(tot_allotment))"/></strong>
+	                                </td>
+									<td style="width:20%; border: 1px solid black;text-align:right; font-size:11px;">
+	                                    <strong><span t-esc="'{0:,.2f}'.format(int(tot_incurred))"/></strong>
+	                                </td>
+									<td style="width:20%; border: 1px solid black;text-align:right; font-size:11px;">
+	                                    <strong><span t-esc="'{0:,.2f}'.format(int(tot_balance))"/></strong>
+	                                </td>
+								</t>                    		
+	                    	</tbody>
+						</table>
+	
+	                </div>
+	            </t>
+	        </t>
+	    </t>
+	</template>
+
+    <record id="budgeting_summary_at_view" model="ir.ui.view">
+        <field name="name">Budgeting Summary With Partners</field>
+        <field name="model">budgeting.summary.at</field>
+        <field name="arch" type="xml">
+        <form string="Report Options">
+            <group col="4">
+                <field name="dyear" required="True"/>
+                <field name="date_to" required="True"/>
+            </group>
+            <group>
+            	<field name="source_fill" string = ""/>
+                <field name="source_ids" widget="many2many_tags" options="{'no_create': True}"/>
+            </group>
+            <group>
+            	<field name="partner_fill" string = ""/>
+                <field name="partner_ids" widget="many2many_tags" options="{'no_create': True}"/>
+            </group>
+            <group>
+            	<field name="period_fill" string = ""/>
+                <field name="period_ids" domain="[('dyear','=',dyear)]" widget="many2many_tags" options="{'no_create': True}"/>
+            </group>
+
+            <footer>
+                <button name="check_report" string="Print" type="object" default_focus="1" class="oe_highlight"/>
+                or 
+                <button string="Cancel" class="oe_link" special="cancel" />
+            </footer>
+        </form>
+        </field>
+    </record>
+
+    <record id="action_budgeting_summary_at_menu" model="ir.actions.act_window">
+        <field name="name">Budgeting Summary With Partner</field>
+        <field name="res_model">budgeting.summary.at</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="budgeting_summary_at_view"/>
+        <field name="context">{'filter_partner':True,'filter_account':True}</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="budgeting_summary_at_menu" name="Approp. Summary w/ Partner" 
+    			parent="budgetingreportmain_menu"
+              action="action_budgeting_summary_at_menu"/> 
+              
+</odoo>

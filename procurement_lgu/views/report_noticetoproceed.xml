@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="notice_to_proceed">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+			<t t-call="procurement_lgu.custom_external_layout3">
+
+                <div class="page" style="margin:0px;">
+                	<div class="oe_structure"/>
+                	<br/>
+                	<br/>
+					<table width="100%" height="50mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border:0px solid white;width:100%;vertical-align:middle;font-size : 20px;text-align:center;font-weight: bold;">
+								<span style="">NOTICE TO PROCEED</span>
+							</td>
+						</tr>
+					</table>
+
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								<span t-field="o.ntp_date" t-field-options='{"format": "MMMM d, yyyy"}'/>
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: bold;">
+								<span t-field="o.supplier_owner"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 13px;text-align:left;font-weight: bold;">
+								<span t-field="o.supplier_designation"/>
+							</td>
+						</tr>
+					</table>
+
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: bold;">
+								<span t-field="o.partner_id"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								<span t-if="o.partner_id.street" t-field="o.partner_id.street"/>
+								<span t-if="o.partner_id.street and o.partner_id.street2">, </span>
+								<span t-if="o.partner_id.street2" t-field="o.partner_id.street2"/>
+								<span t-if="(o.partner_id.street or o.partner_id.street2) and o.partner_id.city">, </span>
+								<span t-if="o.partner_id.city" t-field="o.partner_id.city"/>
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								Dear
+								<span t-field="o.salutation"/>:
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								The attached Contract Agreement having been approved, notice is hereby given to
+								<span style="font-weight: bold;" t-field="o.partner_id"/>
+								of
+								<span t-if="o.partner_id.street" t-field="o.partner_id.street"/>
+								<span t-if="o.partner_id.street and o.partner_id.street2">, </span>
+								<span t-if="o.partner_id.street2" t-field="o.partner_id.street2"/>
+								<span t-if="(o.partner_id.street or o.partner_id.street2) and o.partner_id.city">, </span>
+								<span t-if="o.partner_id.city" t-field="o.partner_id.city"/>,
+								that work may commence on the
+								<span style="font-weight: bold;" t-field="o.project_id"/>,
+								effective on
+								<span style="font-weight: bold;" t-field="o.ntp_date10" t-field-options='{"format": "MMMM d, yyyy"}'/>
+								or
+								<span style="font-weight: bold;">ten (10) calendar days</span>
+								after the receipt of this notice.
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								Upon receipt of this notice, you are responsible for performing the services under the terms and conditions of the
+								said Purchase Order and in accordance with the Implementation Schedule
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								Please acknowledge receipt and acceptance of this notice by signing both copies in the space
+								provided below. Keep one copy and return the other to the Office of the Head of the Procuring Entity.
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<br/>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								Very truly yours,
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: bold;">
+								<span t-field="o.signatory"/>
+							</td>
+						</tr>
+					</table>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								<span t-field="o.signatory_designation"/>
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<br/>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								I acknowledge receipt of this Notice on: _________________________________
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								Name of the Representative of the Bidder: _______________________________
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table width="100%" height="20mm" style="border-spacing: 0;">
+						<tr>
+							<td style="border-left:0px solid white;width:100%;vertical-align:middle;font-size : 14px;text-align:left;font-weight: normal;">
+								Authorized Signature: ________________________________________________
+							</td>
+						</tr>
+					</table>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+</odoo>

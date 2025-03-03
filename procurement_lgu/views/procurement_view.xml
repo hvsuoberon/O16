@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="seq_pp_2020" model="ir.sequence">
+            <field name="name">Procurement Plan</field>
+            <field name="code">procurement.plan2020</field>
+            <field name="prefix">PP-2020-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+		<record id="seq_pp_2021" model="ir.sequence">
+            <field name="name">Procurement Plan</field>
+            <field name="code">procurement.plan2021</field>
+            <field name="prefix">PP-2021-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+        <record id="seq_pp_2022" model="ir.sequence">
+            <field name="name">Procurement Plan</field>
+            <field name="code">procurement.plan2022</field>
+            <field name="prefix">PP-2022-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+                <record id="seq_pp_2023" model="ir.sequence">
+            <field name="name">Procurement Plan</field>
+            <field name="code">procurement.plan2023</field>
+            <field name="prefix">PP-2023-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+        <record id="seq_pp_2024" model="ir.sequence">
+            <field name="name">Procurement Plan</field>
+            <field name="code">procurement.plan2024</field>
+            <field name="prefix">PP-2024-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+
+        <record id="bac_resolution_seq" model="ir.sequence">
+            <field name="name">BAC Resolution</field>
+            <field name="code">bac.resolution.seq</field>
+            <field name="prefix">BAC-</field>
+            <field name="padding">10</field>
+            <field name="company_id">1</field>
+        </record>
+        
+    	<!-- ################################################ start -->
+        <record model="ir.ui.view" id="procurementproject_form_view">
+            <field name="name">procurement.project.form</field>
+            <field name="model">procurement.project</field>
+            <field name="arch" type="xml">
+                <form string="Project">
+                    <sheet>
+	                    <div class="oe_button_box" name="button_box">
+	                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+	                            <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+	                        </button>
+	                    </div>                    
+						<div class="oe_title">
+	                        <h1>
+	                            <field name="name" readonly="1"/>
+	                        </h1>
+	                    </div>                    
+                        <group>
+                            <field name="code"/>
+                            <field name="descript"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>              
+                            <field name="dyear" readonly="1"/>              
+                        </group>
+                        <notebook>
+                            <page string="Notes">
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="procurementproject_search_view">
+            <field name="name">procurementproject.search</field>
+            <field name="model">procurement.project</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="Current Year" name="currentyear" 
+						domain="[('dyear','=',context_today().strftime('%Y'))]" />
+					<filter name="f2020" string="Year 2020" domain="[('dyear','=','2020')]"/>
+					<filter name="f2021" string="Year 2021" domain="[('dyear','=','2021')]"/>
+					<filter name="f2022" string="Year 2021" domain="[('dyear','=','2022')]"/>
+					<filter name="f2023" string="Year 2021" domain="[('dyear','=','2023')]"/>	
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="descript"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="procurementproject_tree_view">
+            <field name="name">procurementproject.tree</field>
+            <field name="model">procurement.project</field>
+            <field name="arch" type="xml">
+                <tree string="Project Tree">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="descript"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="procurementproject_list_action">
+            <field name="name">Project</field>
+            <field name="res_model">procurement.project</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_currentyear': True}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first project
+                </p>
+            </field>
+        </record>
+		<!-- ################################################ end -->
+
+            
+    	<!-- ################################################ start -->
+        <record model="ir.ui.view" id="procurement_mode_form_view">
+            <field name="name">procurement.mode.form</field>
+            <field name="model">procurement.mode</field>
+            <field name="arch" type="xml">
+                <form string="Procurement Mode">
+                    <sheet>
+						<div class="oe_title">
+	                        <h1>
+	                            <field name="name"/>
+	                        </h1>
+	                    </div>                    
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="procurement_mode_search_view">
+            <field name="name">procurement.mode.search</field>
+            <field name="model">procurement.mode</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="procurement_mode_tree_view">
+            <field name="name">procurement.mode.tree</field>
+            <field name="model">procurement.mode</field>
+            <field name="arch" type="xml">
+                <tree string="Procurement Mode">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="procurement_mode_list_action">
+            <field name="name">Procurement Mode</field>
+            <field name="res_model">procurement.mode</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first budget period
+                </p>
+            </field>
+        </record>
+		<!-- ################################################ end -->
+
+
+    	<!-- ################################################ start -->
+        <record model="ir.ui.view" id="procurement_plan_form_view">
+            <field name="name">procurement.plan.form</field>
+            <field name="model">procurement.plan</field>
+            <field name="arch" type="xml">
+                <form string="Procurement Plan">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="cancel" states="cancel"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,approved" states="draft,confirmed,approved"/>
+                    	<button name="confirm" class="oe_highlight" states="draft" string="Confirm" type="object" groups="procurement_lgu.lguproc_incharge,procurement_lgu.lguproc_head"/>
+                    	<button name="approve" class="oe_highlight" states="confirmed" string="Approve" type="object" groups="procurement_lgu.lguproc_head"/>
+                    	<button name="cancel" class="oe_highlight" states="confirmed" string="Cancel" type="object" 
+                    		confirm="Are you sure you want cancel the transaction?"/>
+                    	<button name="draft" class="oe_highlight" states="confirmed" string="Set to Draft" type="object" groups="procurement_lgu.lguproc_head"/>
+                    	<button name="draft" class="oe_highlight" states="approved,cancel" string="Set to Draft" type="object" groups="procurement_lgu.lguproc_head"/>
+                    	<!-- <button name="update_unit_price" class="oe_highlight" states="draft" string="Update Unit Price" type="object" /> -->
+                    </header>                
+                     <sheet>
+	                    <div class="oe_title">
+	                        <h1>
+	                            <field name="name" readonly="1"/>
+	                        </h1>
+	                    </div>
+                        <group>
+                        	<group>
+                        		<field name="partner_id" required="True" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        		<field name="date" required="True" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="source_id" required="True" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        	</group>
+                        	<group>
+                        		<field name="year" required="True" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        		<field name="project_id" required="True" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        	</group>
+                        </group>
+                        
+						<notebook colspan="4">
+	                        <page string="Details">
+	                            <field name="ppd_ids" mode="tree,kanban" attrs="{'readonly': [('state', '!=', 'draft')]}">
+	                                <tree>
+	                                	<field name="account_id" required="1"/>
+                                        <field name="mode_id" required="1"/>
+
+	                                	<!--
+	                                    <field name="product_id"/>
+	                                    <field name="product_uom_id"/>
+	                                    -->
+<!--	                                    <field name="mode_id"/>-->
+<!--	                                    <field name="month_01"/>-->
+<!--	                                    <field name="month_02"/>-->
+<!--	                                    <field name="month_03"/>-->
+<!--	                                    <field name="month_04"/>-->
+<!--	                                    <field name="month_05"/>-->
+<!--	                                    <field name="month_06"/>-->
+<!--	                                    <field name="month_07"/>-->
+<!--	                                    <field name="month_08"/>-->
+<!--	                                    <field name="month_09"/>-->
+<!--	                                    <field name="month_10"/>-->
+<!--	                                    <field name="month_11"/>-->
+<!--	                                    <field name="month_12"/>-->
+	                                    <field name="qty_disp" readonly="True"/>
+	                                    <field name="qty" invisible="True"/>
+	                                    <field name="unit_price"/>
+	                                    <field name="est_budget" sum="Total" readonly="True"/>
+	                                </tree>
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="account_id" required="1"/>
+                                                <field name="mode_id" required="1"/>
+                                            </group>
+                                            <group>
+                                                <field name="month_01"/>
+                                                <field name="month_02"/>
+                                                <field name="month_03"/>
+                                                <field name="month_04"/>
+                                                <field name="month_05"/>
+                                                <field name="month_06"/>
+                                                <field name="month_07"/>
+                                                <field name="month_08"/>
+                                                <field name="month_09"/>
+                                                <field name="month_10"/>
+                                                <field name="month_11"/>
+                                                <field name="month_12"/>
+                                                <field name="qty_disp" readonly="True"/>
+                                                <field name="qty" invisible="True"/>
+                                                <field name="unit_price"/>
+                                                <field name="est_budget" sum="Total" readonly="True"/>
+                                            </group>
+                                        </group>
+                                    </form>
+	                            </field>
+							
+	                        </page>
+	                    </notebook>
+	                    
+	                    <group>
+                        	<group>
+                        		<field name="prepared_by" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        		<field name="prepared_by_des" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        	</group>
+                        	<group>
+                        		<field name="approved_by" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        		<field name="approved_by_des" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        	</group>
+                        </group>
+                     </sheet>
+
+	                <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+                
+                </form>
+            </field>
+        </record>
+
+		<record id="view_pp_filter" model="ir.ui.view">
+            <field name="name">procurement.plan.select</field>
+            <field name="model">procurement.plan</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+<!--                    <filter string="Current Year" name="currentyear" -->
+<!--						domain="[('year','=',context_today().strftime('%Y'))]" />-->
+					<filter name="f2020" string="Year 2020" domain="[('year','=','2020')]"/>
+					<filter name="f2021" string="Year 2021" domain="[('year','=','2021')]"/>
+					<filter name="f2022" string="Year 2022" domain="[('year','=','2022')]"/>
+					<filter name="f2023" string="Year 2023" domain="[('year','=','2023')]"/>
+					<filter name="f2024" string="Year 2024" domain="[('year','=','2024')]"/>
+					<filter name="f2025" string="Year 2025" domain="[('year','=','2025')]"/>						
+                    <field name="partner_id"/>
+                    <field name="name"/>
+                    <field name="state"/>
+<!--					<group expand="0" string="Group By">-->
+<!--                        <filter string="Procurement Unit" domain="[]" context="{'group_by':'partner_id'}"/>-->
+<!--                    </group>-->
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="procurement_plan_tree_view">
+            <field name="name">procurement.plan.tree</field>
+            <field name="model">procurement.plan</field>
+            <field name="arch" type="xml">
+                <tree string="Procurement Plan">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="year"/>
+                    <field name="total"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="procurement_plan_list_action">
+            <field name="name">Procurement Plan</field>
+            <field name="res_model">procurement.plan</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="context">{'default_trans_type': 'ppmp','search_default_currentyear': True, 'default_year':context_today().strftime('%Y')}</field>
+            <field name="domain">[('trans_type', '=', 'ppmp')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first procurement plan
+                </p>
+            </field>
+            <!-- <field name="search_view_id" ref="view_budgeting_app_filter"/> -->
+        </record>
+
+        <record model="ir.actions.act_window" id="procurement_plan_list_action2">
+            <field name="name">Procurement Plan Adjustment</field>
+            <field name="res_model">procurement.plan</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="context">{'default_trans_type': 'adj','search_default_currentyear': True,'default_year':context_today().strftime('%Y')}</field>
+            <field name="domain">[('trans_type', '=', 'adj')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first procurement plan adjustment.
+                </p>
+            </field>
+            <!-- <field name="search_view_id" ref="view_budgeting_app_filter"/> -->
+        </record>
+        
+
+        <menuitem id="procurement_menu" name="Procurement Planning"
+                  parent="purchase.menu_purchase_root" sequence="-1"/>
+                  
+        <menuitem id="procurement_plan_menu" name="PPMP" parent="procurement_menu"
+                  action="procurement_plan_list_action"/>
+        <menuitem id="procurement_plan_adj_menu" name="PPMP Adjustment" parent="procurement_menu"
+                  action="procurement_plan_list_action2"/>
+
+		<record model="ir.ui.view" id="product_template_form_view">
+		    <field name="name">product.template.form.view</field>
+		    <field name="model">product.template</field>
+		    <field name="inherit_id" ref="product.product_template_form_view"/>
+		    <field name="arch" type="xml">
+		        <page name="general_information" position="after">
+                    <page string="Unit Price" name="unit_price">
+                        <group>
+							<field name="unit_price_ids" nolabel="1">
+                                <tree string="Unit Price" editable="bottom">
+                                    <field name="date_of_effectivity" required='1'/>
+                                    <field name="unit_price" required='1'/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+		        </page>
+                <xpath expr="//field[@name='list_price']" position="attributes">
+                	<attribute name="attrs">{'invisible': True}</attribute>
+            	</xpath>
+            	<xpath expr="//field[@name='standard_price']" position="attributes">
+                	<attribute name="attrs">{'invisible': True}</attribute>
+            	</xpath>
+            	<xpath expr="//page[@name='sales']" position="attributes">
+                	<attribute name="attrs">{'invisible': True}</attribute>
+            	</xpath>
+		    </field>
+		</record>   
+
+		<record model="ir.ui.view" id="view_template_property_form">
+		    <field name="name">product.template.form.view</field>
+		    <field name="model">product.template</field>
+		    <field name="inherit_id" ref="stock.view_template_property_form"/>
+		    <field name="arch" type="xml">
+            	<xpath expr="//group[@name='inventory']" position="attributes">
+                	<attribute name="attrs">{'invisible': True}</attribute>
+            	</xpath>
+		    </field>
+		</record>
+
+    	<!-- ################################################ start -->
+        <record model="ir.ui.view" id="procurement_signatory_form_view">
+            <field name="name">procurement.signatory.form</field>
+            <field name="model">procurement.signatory</field>
+            <field name="arch" type="xml">
+                <form string="Signatory">
+                    <sheet>
+	                    <div class="oe_button_box" name="button_box">
+	                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+	                            <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+	                        </button>
+	                    </div>
+
+                        <group>
+                            <field name="mayor"/>
+                            <field name="bac_chairman"/>
+                            <field name="bac_vicechairman"/>
+                            <field name="conforme_by"/>
+                        </group>
+                        <group>
+                            <field name="bac_member1"/>
+                            <field name="bac_member2"/>
+                            <field name="bac_member3"/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="procurement_signatory_tree_view">
+            <field name="name">procurement.signatory.tree</field>
+            <field name="model">procurement.signatory</field>
+            <field name="arch" type="xml">
+                <tree string="Signatory Tree">
+                    <field name="mayor"/>
+                    <field name="bac_chairman"/>
+                    <field name="bac_vicechairman"/>
+                    <field name="bac_member1"/>
+                    <field name="bac_member2"/>
+                    <field name="bac_member3"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="procurement_signatory_list_action">
+            <field name="name">Signatories</field>
+            <field name="res_model">procurement.signatory</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first signatories
+                </p>
+            </field>
+        </record>
+		<!-- ################################################ end -->
+
+    	<!-- ################################################ start -->
+        <record model="ir.ui.view" id="budgetingsource_form_view">
+            <field name="name">budgetingsource.form</field>
+            <field name="model">budgeting.source</field>
+            <field name="arch" type="xml">
+                <form string="Budget Source">
+                    <sheet>
+	                    <div class="oe_button_box" name="button_box">
+	                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+	                            <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+	                        </button>
+	                    </div>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="budgetingsource_search_view">
+            <field name="name">budgetingsource.search</field>
+            <field name="model">budgeting.source</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="budgetingsource_tree_view">
+            <field name="name">budgetingsource.tree</field>
+            <field name="model">budgeting.source</field>
+            <field name="arch" type="xml">
+                <tree string="Budget Source Tree">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="budgetingsource_list_action">
+            <field name="name">Budget Source</field>
+            <field name="res_model">budgeting.source</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first budget source
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="budgeting_source_menu"
+                  name="Budget Source"
+                  parent="purchase.menu_purchase_config"
+                  action="budgetingsource_list_action"/>
+
+        <menuitem id="budgeting_chartofacc_menu"
+                  name="Chart of Accounts"
+                  parent="purchase.menu_purchase_config"
+                  action="account.action_account_form"/>
+
+		<!-- ################################################ end -->
+    </data>
+</odoo>

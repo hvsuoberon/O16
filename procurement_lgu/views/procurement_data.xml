@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="pm_public_bidding" model="procurement.mode">
+            <field name="name">Public Bidding</field>
+            <field name="long_name">Public Bidding</field>
+        </record>
+		<record id="pm_direct_contracting" model="procurement.mode">
+            <field name="name">Direct Contracting</field>
+            <field name="long_name">Direct Contracting</field>
+        </record>
+		<record id="pm_neg_small_value" model="procurement.mode">
+            <field name="name">Small Value</field>
+            <field name="long_name">Negotiated Procurement - Small Value</field>
+        </record>
+		<record id="pm_neg_shopping" model="procurement.mode">
+            <field name="name">Shopping</field>
+            <field name="long_name">Negotiated Procurement - Shopping</field>
+        </record>
+		<record id="pm_neg_emergency" model="procurement.mode">
+            <field name="name">Emergency</field>
+            <field name="long_name">Negotiated Procurement - Emergency</field>
+        </record>
+        <record id="pm_neg_lease" model="procurement.mode">
+            <field name="name">Lease of Venues</field>
+            <field name="long_name">Negotiated Procurement - Lease of Venues</field>
+        </record>
+        <record id="pm_repeat_order" model="procurement.mode">
+            <field name="name">Repeat Order</field>
+            <field name="long_name">Repeat Order</field>
+        </record>
+        <record id="pm_neg_two_failed" model="procurement.mode">
+            <field name="name">Two Failed Biddings</field>
+            <field name="long_name">Negotiated Procurement - Two Failed Biddings</field>
+        </record>
+        <record id="pm_neg_a2a" model="procurement.mode">
+            <field name="name">Agency to Agency </field>
+            <field name="long_name">Negotiated Procurement - Agency to Agency </field>
+        </record>
+        <record id="pm_neg_take_over" model="procurement.mode">
+            <field name="name">Take Over of Contracts </field>
+            <field name="long_name">Negotiated Procurement - Take Over of Contracts </field>
+        </record>
+		<record id="pm_neg_adjacent" model="procurement.mode">
+            <field name="name">Adjacent or Contiguous</field>
+            <field name="long_name">Negotiated - Adjacent or Contiguous</field>
+        </record>
+ 		<record id="pm_neg_scientific" model="procurement.mode">
+            <field name="name">Highly Technical Consultants</field>
+            <field name="long_name">Negotiated Procurement - Scientific, Scholarly or Artistic Works, Exclusive Technology and Media Services Negotiated - Highly Technical Consultants</field>
+        </record>
+ 
+ 		<record id="pol_level1" model="purchase.order.level">
+            <field name="name">Level 1- 0 to 50K</field>
+            <field name="level">1</field>
+            <field name="amount_from">0</field>
+            <field name="amount_to">50000</field>
+        </record>
+
+ 		<record id="pol_level2" model="purchase.order.level">
+            <field name="name">Level 2 - Above 50K to Less than 200K</field>
+            <field name="level">2</field>
+            <field name="amount_from">50000.01</field>
+            <field name="amount_to">199999.99</field>
+        </record>
+        
+ 		<record id="pol_level3" model="purchase.order.level">
+            <field name="name">Level 3 - 200K to Less than 1M</field>
+            <field name="level">3</field>
+            <field name="amount_from">200000</field>
+            <field name="amount_to">999999.99</field>
+        </record>
+        
+ 		<record id="pol_level4" model="purchase.order.level">
+            <field name="name">Level 4 - 1M and Above</field>
+            <field name="level">4</field>
+            <field name="amount_from">1000000</field>
+            <field name="amount_to">99999999999</field>
+        </record>
+		
+    </data>
+</odoo>
+
