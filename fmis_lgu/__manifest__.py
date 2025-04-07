@@ -25,6 +25,7 @@
     'data': [
         'security/fmis_security.xml',
         'views/accountable_forms_view.xml',
+        'data/data.xml',
         # 'views/procurement_data.xml',
         # 'views/procurement_report.xml',
         # 'views/report_procurement_plan.xml',

@@ -13,6 +13,7 @@
                             </h1>
                         </div>
                         <group>
+                            <field name="code"/>
                             <field name="limit"/>
                         </group>
                     </sheet>
@@ -26,6 +27,7 @@
             <field name="arch" type="xml">
                 <tree string="Accountable Form Type">
                     <field name="name"/>
+                    <field name="code"/>
                     <field name="limit"/>
                 </tree>
             </field>
@@ -59,10 +61,10 @@
                 <form string="Accountable Form Entry">
                     <header>
                         <field name="state" widget="statusbar"/>
-<!--                    	<button name="post" class="oe_highlight" states="draft" string="Confirm" type="object" groups="budgeting.budgeting_controller"/>-->
-<!--                    	<button name="approve" class="oe_highlight" states="posted" string="Approve" type="object" groups="budgeting.budgeting_officer"/>-->
-<!--                    	<button name="cancel" class="oe_highlight" states="posted" string="Cancel" type="object" groups="budgeting.budgeting_officer"/>-->
-<!--                    	<button name="draft" class="oe_highlight" states="posted" string="Set to Draft" type="object" groups="budgeting.budgeting_controller"/>-->
+                    	<button name="populate" class="oe_highlight" states="draft" string="Populate" type="object"/>
+                    	<button name="confirm" class="oe_highlight" states="draft" string="Confirm" type="object"/>
+                    	<button name="cancel" class="oe_highlight" states="draft,confirm" string="Cancel" type="object"/>
+                    	<button name="draft" class="oe_highlight" states="cancel" string="Set to Draft" type="object"/>
 <!--                    	<button name="draft" class="oe_highlight" states="approved,cancel" string="Set to Draft" type="object" groups="budgeting.budgeting_officer"/>-->
                     </header>
                     <sheet>

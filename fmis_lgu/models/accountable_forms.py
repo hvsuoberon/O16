@@ -25,6 +25,7 @@ class AccountableForms(models.Model):
     _description = "Accountable Forms"
 
     name = fields.Char('Name')
+    code = fields.Char('Code')
     limit = fields.Integer('Limit Per Person')
 
 
@@ -42,8 +43,38 @@ class AccountableFormsEntry(models.Model):
     state = fields.Selection(selection=[('draft','Draft'),
                                         ('confirm','Confirmed'),
                                         ('cancel', 'Cancelled'),
-                                        ], string='Status')
+                                        ], default="draft", string='Status')
     stub_ids = fields.One2many('fmis.accounting.form.stub', 'fe_id', string="Stubs")
+
+    @api.model
+    def create(self, vals):
+        cde = 'accountable.forms'
+
+        vals['name'] = self.env['ir.sequence'].next_by_code(cde)
+        if not vals['name']:
+            raise ValidationError(_('Sequence not set. Please contact the programmer.'))
+
+        res = super(AccountableFormsEntry, self).create(vals)
+
+        return res
+
+    def populate(self):
+        for rec in self:
+            s_from = rec.series_from
+            for cntr in range(rec.no_of_stubs):
+                vals = {
+                    'fe_id': rec.id,
+                    'name' : '',
+                }
+
+    def confirm(self):
+        self.state = 'confirm'
+
+    def cancel(self):
+        self.state = 'cancel'
+
+    def draft(self):
+        self.state = 'draft'
 
 class AccountableFormsStub(models.Model):
     _name = "fmis.accounting.form.stub"
@@ -56,7 +87,7 @@ class AccountableFormsStub(models.Model):
     state = fields.Selection(selection=[('available', 'Available'),
                                         ('assign', 'Assigned'),
                                         ('used', 'Used'),
-                                        ], string='Status')
+                                        ], string='Status', tracking=True)
 
 
 class AccountableFormsLeaves(models.Model):

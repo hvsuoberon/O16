@@ -1,6 +1,6 @@
 <odoo>
     <data>
-        <menuitem id="fmis_menu" name="Financial Management Information Systems" sequence="26">
+        <menuitem id="fmis_menu" name="FMI Systems" sequence="26">
 <!--            <menuitem id="menu_orders" name="Orders" sequence="10">-->
 <!--                <menuitem id="menu_mpm_reservation_action" action="mpm_reservation_action" sequence="20"/>-->
 <!--                <menuitem id="menu_confirmed_orders_action" action="mpm_confirm_orders_action" sequence="30"/>-->
