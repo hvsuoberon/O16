@@ -43,6 +43,11 @@
             <field name="limit">0</field>
             <field name="code">COLC</field>
         </record>
+        <record id="accountable_form_cheque" model="fmis.accounting.form.type">
+            <field name="name">Cheque</field>
+            <field name="limit">0</field>
+            <field name="code">CHQ</field>
+        </record>
     </data>
 </odoo>
 

@@ -29,7 +29,25 @@ class AccountableForms(models.Model):
     payee = fields.Many2one('res.partner')
     obr_id = fields.Many2one('obr.here')
     date = fields.Date('Transaction Date')
-    cheque_date
-    cheque_number
-    cheque_amount
+    particulars = fields.Text('Particualrs')
+    amount = fields.Float('Amount')
+    tax_3 = fields.Float('Tax 3%')
+    tax_1 = fields.Float('Tax 1%')
+    amount_due = fields.Float('Amount Due', compute="_get_amount_due")
+    certified_a = fields.Char('Certified (1)')
+    certified_b = fields.Char('Certified (2)')
+    certified_c = fields.Char('Certified (3)')
+    approved = fields.Char('Approved By')
+    prepared_by = fields.Char('Prepare By')
+    certified_by = fields.Char('Certified Correct')
+    cheque_date = fields.Date('Cheque Date')
+    cheque_number = fields.Many2one('fmis.accounting.form.stub.leaves', string="Cheque Number")
+    bank_name = fields.Char('Bank')
+    state = fields.Selection(selection=[('draft', 'Available'),
+                                        ('check_print', 'For Cheque Printing'),
+                                        ('bir_forms', 'For Printing of BIR Forms'),
+                                        ('cheque_release', 'For Releasing'),
+                                        ('released', 'Cheque Released'),
+                                        ], string='Status', tracking=True)
+
 

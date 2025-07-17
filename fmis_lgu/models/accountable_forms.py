@@ -45,6 +45,7 @@ class AccountableFormsEntry(models.Model):
                                         ('cancel', 'Cancelled'),
                                         ], default="draft", string='Status')
     stub_ids = fields.One2many('fmis.accounting.form.stub', 'fe_id', string="Stubs")
+    bank = fields.Char('Bank')
 
     @api.model
     def create(self, vals):
