@@ -48,6 +48,32 @@
             <field name="limit">0</field>
             <field name="code">CHQ</field>
         </record>
+
+        <record id="seq_disbursement" model="ir.sequence">
+            <field name="name">FMIS Disbursement</field>
+            <field name="code">fmis.disbursement</field>
+            <field name="prefix">CD-%(year)s-</field>
+            <field name="padding">10</field>
+        </record>
+        <record id="seq_cheque_clearing" model="ir.sequence">
+            <field name="name">FMIS Cheque Clearing</field>
+            <field name="code">fmis.cheque.clearing</field>
+            <field name="prefix">CC-%(year)s-</field>
+            <field name="padding">10</field>
+        </record>
+        <record id="seq_deposit" model="ir.sequence">
+            <field name="name">FMIS Collection Deposit</field>
+            <field name="code">fmis.collection.deposit</field>
+            <field name="prefix">DS-%(year)s-</field>
+            <field name="padding">10</field>
+        </record>
+
+        <record id="seq_stub_request" model="ir.sequence">
+            <field name="name">Replenishment of Accountable Forms</field>
+            <field name="code">stub.assignment</field>
+            <field name="prefix">RAF-%(year)s-</field>
+            <field name="padding">10</field>
+        </record>
     </data>
 </odoo>
 

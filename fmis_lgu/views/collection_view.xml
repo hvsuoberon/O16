@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="fmis_collection_form_view">
+            <field name="name">fmis.collection.form</field>
+            <field name="model">fmis.collection</field>
+            <field name="arch" type="xml">
+                <form string="Collection">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="confirm" class="oe_highlight" states="draft" string="Confirm" type="object"/>
+                        <button name="cancel" class="oe_highlight" states="draft" string="Cancel" type="object"/>
+                        <button name="set_to_draft" class="oe_highlight" states="confirm" string="Set To Draft" type="object"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title" string="Document #">
+                            <h1>
+                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="payor" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="type" invisible="1"/>
+                                <field name="amount" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="payment_type" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="cheque_bank" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="cheque_number" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="cheque_date" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="officer_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                        </group>
+
+                    </sheet>
+                    <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_collection_tree_view">
+            <field name="name">fmis.collection.tree</field>
+            <field name="model">fmis.collection</field>
+            <field name="arch" type="xml">
+                <tree string="Collection">
+                    <field name="leaf_id"/>
+                    <field name="date"/>
+                    <field name="payor"/>
+                    <field name="amount"/>
+                    <field name="state"
+                           decoration-danger="state == 'draft'"
+                           decoration-info="state == 'draft'"
+                           decoration-muted="state == 'cancel'"
+                           decoration-success="state == 'posted'"
+                           widget="badge"
+                    />
+                    <field name="officer_id" optional="show" widget="many2one_avatar_user"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_collection_search_view">
+            <field name="name">fmis.collection.search</field>
+            <field name="model">fmis.collection</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="leaf_id"/>
+                    <field name="payor"/>
+                    <field name="cheque_number"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="fmis_collection_action">
+            <field name="name">Collection</field>
+            <field name="res_model">fmis.collection</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Collection Form
+                </p>
+            </field>
+        </record>
+
+<!--        =====================================================================-->
+        <record model="ir.ui.view" id="fmis_collection_burial_form_view">
+            <field name="name">fmis.collection.burial.form</field>
+            <field name="model">fmis.collection.burial</field>
+            <field name="arch" type="xml">
+                <form string="Burial Permit &amp; Fee">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="confirm" class="oe_highlight" states="draft" string="Confirm" type="object"/>
+                        <button name="cancel" class="oe_highlight" states="draft" string="Cancel" type="object"/>
+                        <button name="set_to_draft" class="oe_highlight" states="confirm" string="Set To Draft" type="object"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title" string="Document #">
+                            <h1>
+                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Burial Permit and Fee')]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="payor" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="type" invisible="1"/>
+                                <field name="amount" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="payment_type" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="cheque_bank" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="cheque_number" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="cheque_date" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="officer_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Details">
+                                <group>
+                                    <field name="permission_type" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    <field name="remains_of" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    <field name="nationality" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                </group>
+                            </page>
+
+                        </notebook>
+
+                    </sheet>
+                    <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_collection_burial_tree_view">
+            <field name="name">fmis.collection.burial.tree</field>
+            <field name="model">fmis.collection.burial</field>
+            <field name="arch" type="xml">
+                <tree string="Burial Permit &amp; Fee">
+                    <field name="leaf_id"/>
+                    <field name="date"/>
+                    <field name="payor"/>
+                    <field name="amount"/>
+                    <field name="state"
+                           decoration-danger="state == 'draft'"
+                           decoration-info="state == 'draft'"
+                           decoration-muted="state == 'cancel'"
+                           decoration-success="state == 'posted'"
+                           widget="badge"
+                    />
+                    <field name="officer_id" optional="show" widget="many2one_avatar_user"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_collection_burial_search_view">
+            <field name="name">fmis.collection.burial.search</field>
+            <field name="model">fmis.collection.burial</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="leaf_id"/>
+                    <field name="payor"/>
+                    <field name="cheque_number"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="fmis_collection_burial_action">
+            <field name="name">Burial Permit &amp; Fee</field>
+            <field name="res_model">fmis.collection.burial</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="fmis_collection_burial_search_view"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('fmis_collection_burial_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('fmis_collection_burial_form_view')})]"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Collection Form
+                </p>
+            </field>
+        </record>
+
+        <!--        =====================================================================-->
+        <record model="ir.ui.view" id="fmis_collection_marriage_form_view">
+            <field name="name">fmis.collection.marriage.form</field>
+            <field name="model">fmis.collection.marriage</field>
+            <field name="arch" type="xml">
+                <form string="Marriage License and Fee Receipt">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="confirm" class="oe_highlight" states="draft" string="Confirm" type="object"/>
+                        <button name="cancel" class="oe_highlight" states="draft" string="Cancel" type="object"/>
+                        <button name="set_to_draft" class="oe_highlight" states="confirm" string="Set To Draft" type="object"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title" string="Document #">
+                            <h1>
+                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Marriage License and Fee Receipt')]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="payor" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="type" invisible="1"/>
+                                <field name="amount" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="payment_type" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="cheque_bank" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="cheque_number" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="cheque_date" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="officer_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Details">
+                                <group>
+                                    <group string="Male">
+                                        <field name="marriage_1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="birthdate_1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="address_1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    </group>
+                                    <group string="Female">
+                                        <field name="marriage_2" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="birthdate_2" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="address_2" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    </group>
+                                    <label for="documents" string="Documents"/>
+                                    <field name="documents" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_collection_marriage_tree_view">
+            <field name="name">fmis.collection.marriage.tree</field>
+            <field name="model">fmis.collection.marriage</field>
+            <field name="arch" type="xml">
+                <tree string="Marriage License and Fee Receipt">
+                    <field name="leaf_id"/>
+                    <field name="date"/>
+                    <field name="payor"/>
+                    <field name="amount"/>
+                    <field name="state"
+                           decoration-danger="state == 'draft'"
+                           decoration-info="state == 'draft'"
+                           decoration-muted="state == 'cancel'"
+                           decoration-success="state == 'posted'"
+                           widget="badge"
+                    />
+                    <field name="officer_id" optional="show" widget="many2one_avatar_user"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_collection_marriage_search_view">
+            <field name="name">fmis.collection.marriage.search</field>
+            <field name="model">fmis.collection.marriage</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="leaf_id"/>
+                    <field name="payor"/>
+                    <field name="cheque_number"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="fmis_collection_marriage_action">
+            <field name="name">Marriage License and Fee Receipt</field>
+            <field name="res_model">fmis.collection.marriage</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="fmis_collection_marriage_search_view"/>
+            <field name="context">{'default_amount': 2}</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('fmis_collection_marriage_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('fmis_collection_marriage_form_view')})]"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Collection Form
+                </p>
+            </field>
+        </record>
+
+        <!--        =====================================================================-->
+        <record model="ir.ui.view" id="fmis_collection_property_form_view">
+            <field name="name">fmis.collection.property.form</field>
+            <field name="model">fmis.collection.property</field>
+            <field name="arch" type="xml">
+                <form string="Real Property Tax">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="confirm" class="oe_highlight" states="draft" string="Confirm" type="object"/>
+                        <button name="cancel" class="oe_highlight" states="draft" string="Cancel" type="object"/>
+                        <button name="set_to_draft" class="oe_highlight" states="confirm" string="Set To Draft" type="object"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title" string="Document #">
+                            <h1>
+                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Official Receipt Property Tax')]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="payor" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="type" invisible="1"/>
+                                <field name="amount" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="payment_type" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="cheque_bank" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="cheque_number" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="cheque_date" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="officer_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Details">
+                                <field name="line_ids" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                    <tree>
+                                        <field name="name"/>
+<!--                                        <field name="location"/>-->
+<!--                                        <field name="lot"/>-->
+                                        <field name="td_no"/>
+<!--                                        <field name="av_land" />-->
+<!--                                        <field name="av_improvements" />-->
+                                        <field name="av_total" />
+                                        <field name="tax_due" />
+<!--                                        <field name="inst_no" />-->
+                                        <field name="inst_payment" />
+                                        <field name="full_payment" />
+                                        <field name="penalty" />
+                                        <field name="total" sum="Total"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="name" />
+                                                <field name="location" />
+                                                <field name="lot" />
+                                                <field name="td_no" />
+                                            </group>
+                                            <group>
+                                                <separator string="Assessed Value"/>
+                                                <field name="av_land" />
+                                                <field name="av_improvements" />
+                                                <field name="av_total" />
+                                                <separator/>
+                                                <field name="tax_due" />
+                                                <separator string="Installment"/>
+                                                <field name="inst_no" />
+                                                <field name="inst_payment" />
+                                                <separator/>
+                                                <field name="full_payment" />
+                                                <field name="penalty" />
+                                                <field name="total" />
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_collection_property_tree_view">
+            <field name="name">fmis.collection.property.tree</field>
+            <field name="model">fmis.collection.property</field>
+            <field name="arch" type="xml">
+                <tree string="Real Property Tax">
+                    <field name="leaf_id"/>
+                    <field name="date"/>
+                    <field name="payor"/>
+                    <field name="amount"/>
+                    <field name="state"
+                           decoration-danger="state == 'draft'"
+                           decoration-info="state == 'draft'"
+                           decoration-muted="state == 'cancel'"
+                           decoration-success="state == 'posted'"
+                           widget="badge"
+                    />
+                    <field name="officer_id" optional="show" widget="many2one_avatar_user"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_collection_property_search_view">
+            <field name="name">fmis.collection.property.search</field>
+            <field name="model">fmis.collection.property</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="leaf_id"/>
+                    <field name="payor"/>
+                    <field name="cheque_number"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="fmis_collection_property_action">
+            <field name="name">Real Property Tax</field>
+            <field name="res_model">fmis.collection.property</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="fmis_collection_property_search_view"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('fmis_collection_property_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('fmis_collection_property_form_view')})]"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Collection Form
+                </p>
+            </field>
+        </record>
+
+        <!--        =====================================================================-->
+        <record model="ir.ui.view" id="fmis_collection_or_form_view">
+            <field name="name">fmis.collection.or.form</field>
+            <field name="model">fmis.collection.or</field>
+            <field name="arch" type="xml">
+                <form string="Official Receipt">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="confirm" class="oe_highlight" states="draft" string="Confirm" type="object"/>
+                        <button name="cancel" class="oe_highlight" states="draft" string="Cancel" type="object"/>
+                        <button name="set_to_draft" class="oe_highlight" states="confirm" string="Set To Draft" type="object"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title" string="Document #">
+                            <h1>
+                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Official Receipt')]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="payor" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="type" invisible="1"/>
+                                <field name="amount" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="payment_type" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="cheque_bank" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="cheque_number" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="cheque_date" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="officer_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Details">
+                                <field name="line_ids" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="nature_of_collection"/>
+                                        <field name="account_id" />
+                                        <field name="amount" sum="Total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_collection_or_tree_view">
+            <field name="name">fmis.collection.or.tree</field>
+            <field name="model">fmis.collection.or</field>
+            <field name="arch" type="xml">
+                <tree string="Official Receipt">
+                    <field name="leaf_id"/>
+                    <field name="date"/>
+                    <field name="payor"/>
+                    <field name="amount"/>
+                    <field name="state"
+                           decoration-danger="state == 'draft'"
+                           decoration-info="state == 'draft'"
+                           decoration-muted="state == 'cancel'"
+                           decoration-success="state == 'posted'"
+                           widget="badge"
+                    />
+                    <field name="officer_id" optional="show" widget="many2one_avatar_user"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_collection_or_search_view">
+            <field name="name">fmis.collection.or.search</field>
+            <field name="model">fmis.collection.or</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="leaf_id"/>
+                    <field name="payor"/>
+                    <field name="cheque_number"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="fmis_collection_or_action">
+            <field name="name">Official Receipt</field>
+            <field name="res_model">fmis.collection.or</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="fmis_collection_or_search_view"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('fmis_collection_or_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('fmis_collection_or_form_view')})]"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Collection Form
+                </p>
+            </field>
+        </record>
+
+        <!--        =====================================================================-->
+        <record model="ir.ui.view" id="fmis_collection_ownership_form_view">
+            <field name="name">fmis.collection.ownership.form</field>
+            <field name="model">fmis.collection.ownership</field>
+            <field name="arch" type="xml">
+                <form string="Certificate of Ownership">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="confirm" class="oe_highlight" states="draft" string="Confirm" type="object"/>
+                        <button name="cancel" class="oe_highlight" states="draft" string="Cancel" type="object"/>
+                        <button name="set_to_draft" class="oe_highlight" states="confirm" string="Set To Draft" type="object"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title" string="Document #">
+                            <h1>
+                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Cert of Ownership of Large Cattle')]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="payor" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="address" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="type" invisible="1"/>
+                                <field name="amount" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="payment_type" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="cheque_bank" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="cheque_number" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="cheque_date" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="officer_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Details">
+                                <group>
+                                    <group>
+                                        <field name="particulars" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    </group>
+                                    <group>
+                                        <field name="sex" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="age" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="brand_municipality" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="brand_owner" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_collection_ownership_tree_view">
+            <field name="name">fmis.collection.ownership.tree</field>
+            <field name="model">fmis.collection.ownership</field>
+            <field name="arch" type="xml">
+                <tree string="Official Receipt">
+                    <field name="leaf_id"/>
+                    <field name="date"/>
+                    <field name="payor"/>
+                    <field name="amount"/>
+                    <field name="state"
+                           decoration-danger="state == 'draft'"
+                           decoration-info="state == 'draft'"
+                           decoration-muted="state == 'cancel'"
+                           decoration-success="state == 'posted'"
+                           widget="badge"
+                    />
+                    <field name="officer_id" optional="show" widget="many2one_avatar_user"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_collection_ownership_search_view">
+            <field name="name">fmis.collection.ownership.search</field>
+            <field name="model">fmis.collection.ownership</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="leaf_id"/>
+                    <field name="payor"/>
+                    <field name="cheque_number"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="fmis_collection_ownership_action">
+            <field name="name">Certificate of Ownership</field>
+            <field name="res_model">fmis.collection.ownership</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="fmis_collection_ownership_search_view"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('fmis_collection_ownership_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('fmis_collection_ownership_form_view')})]"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Collection Form
+                </p>
+            </field>
+        </record>
+
+        <!--        =====================================================================-->
+        <record model="ir.ui.view" id="fmis_collection_ownership_transfer_form_view">
+            <field name="name">fmis.collection.ownership.transfer.form</field>
+            <field name="model">fmis.collection.ownership.transfer</field>
+            <field name="arch" type="xml">
+                <form string="Certificate of Transfer">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="confirm" class="oe_highlight" states="draft" string="Confirm" type="object"/>
+                        <button name="cancel" class="oe_highlight" states="draft" string="Cancel" type="object"/>
+                        <button name="set_to_draft" class="oe_highlight" states="confirm" string="Set To Draft" type="object"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title" string="Document #">
+                            <h1>
+                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Cert of Transfer of Ownership of Large Cattle')]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="payor" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="address" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="type" invisible="1"/>
+                                <field name="amount" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="payment_type" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="cheque_bank" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="cheque_number" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="cheque_date" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
+                                <field name="officer_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Details">
+                                <group>
+                                    <group>
+                                        <field name="previous_owner" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="previous_address" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="particulars" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="sold_amount" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="prev_coo" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    </group>
+                                    <group>
+                                        <field name="sex" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="age" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="brand_municipality" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="brand_owner" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_collection_ownership_transfer_tree_view">
+            <field name="name">fmis.collection.ownership.transfer.tree</field>
+            <field name="model">fmis.collection.ownership.transfer</field>
+            <field name="arch" type="xml">
+                <tree string="Official Receipt">
+                    <field name="leaf_id"/>
+                    <field name="date"/>
+                    <field name="payor"/>
+                    <field name="amount"/>
+                    <field name="state"
+                           decoration-danger="state == 'draft'"
+                           decoration-info="state == 'draft'"
+                           decoration-muted="state == 'cancel'"
+                           decoration-success="state == 'posted'"
+                           widget="badge"
+                    />
+                    <field name="officer_id" optional="show" widget="many2one_avatar_user"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_collection_ownership_transfer_search_view">
+            <field name="name">fmis.collection.ownership.transfer.search</field>
+            <field name="model">fmis.collection.ownership.transfer</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="leaf_id"/>
+                    <field name="payor"/>
+                    <field name="cheque_number"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="fmis_collection_ownership_transfer_action">
+            <field name="name">Certificate of Transfer</field>
+            <field name="res_model">fmis.collection.ownership.transfer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="fmis_collection_ownership_transfer_search_view"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('fmis_collection_ownership_transfer_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('fmis_collection_ownership_transfer_form_view')})]"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Collection Form
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

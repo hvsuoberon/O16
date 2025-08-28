@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="fmis_collection_deposit_form_view">
+            <field name="name">fmis.collection.deposit.form</field>
+            <field name="model">fmis.collection.deposit</field>
+            <field name="arch" type="xml">
+                <form string="Cheque Clearing">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="confirm" class="oe_highlight" states="draft" string="Confirm" type="object"/>
+                        <button name="set_to_draft" class="oe_highlight" states="confirm" string="Set To Draft" type="object"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="bank_id" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True, 'no_create_edit': True}"/>
+                                <field name="amount"/>
+                            </group>
+                            <group>
+                                <field name="officer_id" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True, 'no_create_edit': True}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Collections For Deposit">
+                                <field name="deposit_ids" attrs="{'readonly': [('state', '!=', 'draft')]}" nolabel="1">
+                                    <tree editable="top">
+                                        <field name="collection_id"/>
+                                        <field name="payor"/>
+                                        <field name="cheque_number"/>
+                                        <field name="amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_collection_deposit_tree_view">
+            <field name="name">fmis.collection.deposit.tree</field>
+            <field name="model">fmis.collection.deposit</field>
+            <field name="arch" type="xml">
+                <tree string="Deposit">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="bank_id"/>
+                    <field name="amount"/>
+                    <field name="state"
+                           decoration-danger="state == 'draft'"
+                           decoration-success="state == 'confirm'"
+                           widget="badge"
+                    />
+                    <field name="create_uid" optional="show" widget="many2one_avatar_user"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_collection_deposit_search_view">
+            <field name="name">fmis.collection.deposit.search</field>
+            <field name="model">fmis.collection.deposit</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="bank_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="fmis_collection_deposit_action">
+            <field name="name">Deposit</field>
+            <field name="res_model">fmis.collection.deposit</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Collection Deposit
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

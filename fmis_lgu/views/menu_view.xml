@@ -1,17 +1,40 @@
 <odoo>
     <data>
         <menuitem id="fmis_menu" name="FMI Systems" sequence="26">
-<!--            <menuitem id="menu_orders" name="Orders" sequence="10">-->
-<!--                <menuitem id="menu_mpm_reservation_action" action="mpm_reservation_action" sequence="20"/>-->
+            <menuitem id="menu_disbursement" name="Disbursements" sequence="10">
+                <menuitem id="fmis_disbursement_action_id" action="fmis_disbursement_action" sequence="20"/>
+                <menuitem id="fmis_tag_advice_action_id" name="Advice" sequence="100">
+                    <menuitem id="fmis_disbursement_for_advice_action_id" action="fmis_disbursement_for_advice_action" name="Tag" sequence="20"/>
+
+                </menuitem>
+            </menuitem>
+            <menuitem id="menu_collection" name="Collection" sequence="20">
+
+                <menuitem id="fmis_collection_action_id" name="Collections" sequence="10">
+                    <menuitem id="fmis_collection_burial_action_id" action="fmis_collection_burial_action" sequence="20"/>
+                    <menuitem id="fmis_collection_marriage_action_id" action="fmis_collection_marriage_action" sequence="30"/>
+                    <menuitem id="fmis_collection_property_action_id" action="fmis_collection_property_action" sequence="40"/>
+                    <menuitem id="fmis_collection_or_action_id" action="fmis_collection_or_action" sequence="50"/>
+                    <menuitem id="fmis_collection_ownership_action_id" action="fmis_collection_ownership_action" sequence="60"/>
+                    <menuitem id="fmis_collection_ownership_transfer_action_id" action="fmis_collection_ownership_transfer_action" sequence="60"/>
+                </menuitem>
 <!--                <menuitem id="menu_confirmed_orders_action" action="mpm_confirm_orders_action" sequence="30"/>-->
-<!--            </menuitem>-->
-            <menuitem id="menu_accountable_forms" name="Accountable Forms" sequence="20">
+                <menuitem id="fmis_collection_deposit_action_id" action="fmis_collection_deposit_action" sequence="100"/>
+
+            </menuitem>
+            <menuitem id="menu_bank_recon" name="Bank Reconciliation" sequence="30">
+                <menuitem id="fmis_cheque_clearing_action_id" action="fmis_cheque_clearing_action" sequence="50"/>
+
+            </menuitem>
+            <menuitem id="menu_accountable_forms" name="Accountable Forms" sequence="40">
                 <menuitem id="menu_fmis_accounting_form_entry_action" action="fmis_accounting_form_entry_action" sequence="1"/>
                 <menuitem id="menu_fmis_accounting_form_stub_assignment_action" action="fmis_accounting_form_stub_assignment_action" sequence="2"/>
 
             </menuitem>
             <menuitem id="menu_configurations" name="Configurations" sequence="100">
                 <menuitem id="menu_fmis_acctg_forms_action" action="fmis_accounting_form_type_action" sequence="1"/>
+                <menuitem id="menu_fmis_banks_action" action="base.action_res_partner_bank_account_form" sequence="50"/>
+
 <!--                <menuitem id="menu_mm_um_action" action="mm_um_action" sequence="2"/>-->
 <!--                <menuitem id="menu_mm_agent_action" action="mm_agent_action" sequence="3"/>-->
             </menuitem>

@@ -14,6 +14,7 @@
                         </div>
                         <group>
                             <field name="code"/>
+                            <field name="padding"/>
                             <field name="limit"/>
                         </group>
                     </sheet>
@@ -28,6 +29,7 @@
                 <tree string="Accountable Form Type">
                     <field name="name"/>
                     <field name="code"/>
+                    <field name="padding"/>
                     <field name="limit"/>
                 </tree>
             </field>
@@ -76,26 +78,51 @@
                         </div>
                         <group>
                             <group>
-
-                                <field name="form_id"/>
-                                <field name="date"/>
-
+                                <field name="form_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="form_name" invisible="True"/>
+                                <field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="bank_id" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('form_name','!=','Cheque')]}"/>
                             </group>
                             <group>
 
-                                <field name="series_from"/>
-                                <field name="no_of_leaves"/>
-                                <field name="no_of_stubs"/>
+                                <field name="series_from" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="no_of_leaves" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="no_of_stubs" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             </group>
                         </group>
                         <group>
-                            <field name="stub_ids">
+                            <field name="stub_ids" attrs="{'readonly': [('state', '!=', 'draft')]}">
                                 <tree>
-                                    <field name="name"/>
+                                    <field name="name" />
                                     <field name="series_from"/>
                                     <field name="series_to"/>
                                     <field name="state"/>
+                                    <field name="assigned_to"/>
                                 </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="state"/>
+                                        </group>
+                                        <group>
+                                            <field name="series_from"/>
+                                            <field name="series_to"/>
+                                            <field name="assigned_to"/>
+                                        </group>
+                                    </group>
+
+                                    <group>
+                                        <field name="leaves_ids" >
+                                            <tree>
+                                                <field name="series"/>
+                                                <field name="state"/>
+<!--                                                <field name="series_from"/>-->
+<!--                                                <field name="series_to"/>-->
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </form>
                             </field>
                         </group>
                     </sheet>
@@ -148,7 +175,11 @@
                 <form string="Assignment">
                     <header>
                         <field name="state" widget="statusbar"/>
-<!--                    	<button name="post" class="oe_highlight" states="draft" string="Confirm" type="object" groups="budgeting.budgeting_controller"/>-->
+                        <button name="request" class="oe_highlight" states="draft" string="Request" type="object"/>
+                        <button name="approve" class="oe_highlight" states="request" string="Approve" type="object"/>
+                        <button name="reject" class="oe_highlight" states="request" string="Reject" type="object"/>
+                        <button name="set_to_draft" class="oe_highlight" states="request" string="Set To Draft" type="object"/>
+                        <button name="cancel" class="oe_highlight" states="draft" string="Cancel" type="object"/>
 <!--                    	<button name="approve" class="oe_highlight" states="posted" string="Approve" type="object" groups="budgeting.budgeting_officer"/>-->
 <!--                    	<button name="cancel" class="oe_highlight" states="posted" string="Cancel" type="object" groups="budgeting.budgeting_officer"/>-->
 <!--                    	<button name="draft" class="oe_highlight" states="posted" string="Set to Draft" type="object" groups="budgeting.budgeting_controller"/>-->
@@ -175,9 +206,9 @@
                             <field name="assigned_stub_ids" >
                                 <tree editable="bottom">
                                     <field name="form_id"/>
-                                    <field name="stub_id"/>
-                                    <field name="series_from"/>
-                                    <field name="series_to"/>
+                                    <field name="no_stubs"/>
+                                    <field name="unused_count"/>
+                                    <field name="unused_leaves"/>
                                 </tree>
                             </field>
                         </group>
@@ -213,7 +244,7 @@
         </record>
 
         <record model="ir.actions.act_window" id="fmis_accounting_form_stub_assignment_action">
-            <field name="name">Stub Assignment</field>
+            <field name="name">Replenishment of Accountable Forms</field>
             <field name="res_model">fmis.accounting.form.stub.assignment</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
