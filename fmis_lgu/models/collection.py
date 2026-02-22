@@ -25,9 +25,8 @@ class Collection(models.Model):
     _description = "Collections"
     _inherit = ['mail.thread', 'mail.activity.mixin', 'analytic.mixin']
     _order = 'id desc'
-    _rec_name = 'leaf_id'
 
-    # name = fields.Char('Name')
+    name = fields.Char('Transaction #')
     date = fields.Date('Transaction Date', default=lambda self: fields.Date.today())
 
     payor = fields.Char(string="Payor")
@@ -48,6 +47,7 @@ class Collection(models.Model):
                                         ], string='Payment Type', default="cash")
 
     def confirm(self):
+
         self.leaf_id.write({'state': 'used'})
         self.state = 'posted'
 

@@ -42,8 +42,8 @@ class Disbursement(models.Model):
     approved = fields.Char('Approved By')
     prepared_by = fields.Char('Prepared By')
     certified_by = fields.Char('Certified Correct')
-    cheque_date = fields.Date('Cheque Date')
-    cheque_number = fields.Many2one('fmis.accounting.form.stub.leaves', string="Cheque Number", domain=[('state','=','available'),('form_name','=','Cheque')])
+    cheque_date = fields.Date('Cheque Date', required=True)
+    cheque_number = fields.Many2one('fmis.accounting.form.stub.leaves', string="Cheque Number", domain=[('state','=','available'),('form_name','=','Cheque')], required=True)
     bank_name = fields.Char('Bank')
     state = fields.Selection(selection=[('draft', 'Draft'),
                                         ('check_print', 'For Cheque Printing'),
@@ -73,7 +73,6 @@ class Disbursement(models.Model):
             self.particulars = None
             self.amount = None
 
-
     @api.depends('amount')
     @api.onchange('amount')
     def _get_amount_due(self):
@@ -83,6 +82,8 @@ class Disbursement(models.Model):
             rec.amount_due = rec.amount - rec.tax_1 - rec.tax_3
 
     def confirm(self):
+        if self.cheque_number.state != 'available':
+            raise UserError(_('Cheque is not available'))
         self.cheque_number.write({'state': 'used'})
         self.state = 'check_print'
 
@@ -97,6 +98,19 @@ class Disbursement(models.Model):
 
         self.state = 'released'
 
+    def add_to_aa(self):
+        grps = set(self.mapped('bank_id'))
+
+        for grp in grps:
+            vals = {
+                'bank_id': grp.id,
+                'date': fields.Date.today(),
+            }
+            rec_id = self.env['fmis.disbursement.advice'].create(vals)
+
+            for rec in self.filtered(lambda rec: rec.bank_id.id == grp.id):
+                rec.write({'advice_id': rec_id.id})
+
 
 class DisbursementAdvice(models.Model):
     _name = "fmis.disbursement.advice"
@@ -108,3 +122,74 @@ class DisbursementAdvice(models.Model):
     bank_id = fields.Many2one('res.partner.bank', string="Bank")
     date = fields.Date('Date')
     disbursement_ids = fields.One2many('fmis.disbursement', 'advice_id')
+    state = fields.Selection(selection=[('draft', 'Draft'),
+                                        ('confirm', 'Confirmed'),
+                                        ], string='Status', tracking=True, default="draft")
+    total = fields.Float('Total', compute='_compute_total')
+    company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
+
+    municipal_accountant = fields.Char('Municipal Accountant', tracking=True, default=lambda self: self._get_default_values1())
+    officer_in_charge = fields.Char('Officer in Charge', tracking=True, default=lambda self: self._get_default_values2())
+    prepared_by = fields.Char('Prepared By', tracking=True, default=lambda self: self._get_default_values3())
+    prepared_by_pos = fields.Char('Prepared By Position', tracking=True, default=lambda self: self._get_default_values4())
+    delivered_by = fields.Char('Delivered By', tracking=True, default=lambda self: self._get_default_values5())
+    delivered_by_pos = fields.Char('Delivered By Position', tracking=True, default=lambda self: self._get_default_values6())
+
+    def _get_default_values1(self):
+        def_val = self.env['fmis.accounting.default.value'].search([('municipal_accountant','!=',False)], limit=1)
+        if def_val:
+            return def_val.municipal_accountant
+        else:
+            return False
+
+    def _get_default_values2(self):
+        def_val = self.env['fmis.accounting.default.value'].search([('municipal_accountant','!=',False)], limit=1)
+        if def_val:
+            return def_val.officer_in_charge
+        else:
+            return False
+
+    def _get_default_values3(self):
+        def_val = self.env['fmis.accounting.default.value'].search([('municipal_accountant','!=',False)], limit=1)
+        if def_val:
+            return def_val.prepared_by
+        else:
+            return False
+
+    def _get_default_values4(self):
+        def_val = self.env['fmis.accounting.default.value'].search([('municipal_accountant','!=',False)], limit=1)
+        if def_val:
+            return def_val.prepared_by_pos
+        else:
+            return False
+
+    def _get_default_values5(self):
+        def_val = self.env['fmis.accounting.default.value'].search([('municipal_accountant','!=',False)], limit=1)
+        if def_val:
+            return def_val.delivered_by
+        else:
+            return False
+
+    def _get_default_values6(self):
+        def_val = self.env['fmis.accounting.default.value'].search([('municipal_accountant','!=',False)], limit=1)
+        if def_val:
+            return def_val.delivered_by_pos
+        else:
+            return False
+
+
+    def _compute_total(self):
+        for rec in self:
+            rec.total = sum(rec.disbursement_ids.mapped('amount_due'))
+
+    @api.model
+    def create(self, vals):
+        vals['name'] = self.env['ir.sequence'].next_by_code('fmis.disbursement.advice')
+
+        res = super(DisbursementAdvice, self).create(vals)
+
+        return res
+
+    def confirm(self):
+
+        self.state = 'confirm'

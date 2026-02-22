@@ -64,10 +64,11 @@ class AccountableFormsEntry(models.Model):
 
     def populate(self):
         for rec in self:
-            if len(set(rec.stub_ids.mapped('state'))) == 1 and tuple(set(rec.stub_ids.mapped('state')))[0] == 'available':
-                rec.stub_ids.unlink()
-            else:
-                raise UserError('Cannot populate. Some of the stubs were already assigned or used.')
+            if rec.stub_ids:
+                if len(set(rec.stub_ids.mapped('state'))) == 1 and tuple(set(rec.stub_ids.mapped('state')))[0] == 'available':
+                    rec.stub_ids.unlink()
+                else:
+                    raise UserError('Cannot populate. Some of the stubs were already assigned or used.')
 
             s_from = rec.series_from
             for cntr in range(rec.no_of_stubs):
@@ -129,6 +130,13 @@ class AccountableFormsStub(models.Model):
                 raise UserError("You cannot delete a confirmed entry. Please cancel it first.")
         return super(AccountableFormsStub, self).unlink()
 
+    @api.depends('leaves_ids.state')
+    @api.onchange('leaves_ids.state')
+    def update_status(self):
+        for rec in self:
+            if len(rec.leaves_ids.filtered(lambda x: x.state=='available')) == 0:
+                rec.state = 'used'
+
 class AccountableFormsLeaves(models.Model):
     _name = "fmis.accounting.form.stub.leaves"
     _description = "Accountable Forms Stub Leaves"
@@ -156,7 +164,8 @@ class AccountableFormsAssignment(models.Model):
                                         ('approve', 'Approved'),
                                         ('reject', 'Rejected'),
                                         ('cancel', 'Cancelled'),
-                                        ], string='Status', default='draft')
+                                        ], string='Status', default='draft', tracking=True)
+    detail_ids = fields.One2many('fmis.accounting.form.stub.assignment.request', 'assignment_id', string="Details")
     assigned_stub_ids = fields.One2many('fmis.accounting.form.stub.assignment.detail', 'assignment_id', string="Assigned Stubs")
 
     @api.model
@@ -168,9 +177,25 @@ class AccountableFormsAssignment(models.Model):
         return res
 
     def request(self):
+        for det in self.detail_ids:
+            for x in range(det.no_stubs):
+                vals = {
+                    'form_id': det.form_id.id,
+                    'assignment_id': self.id,
+                }
+                self.assigned_stub_ids.create(vals)
+
         self.state = 'request'
 
     def approve(self):
+        #check for double entry
+        for det in self.assigned_stub_ids:
+            if det.stub_id.state != 'available':
+                raise UserError(f"Stub {det.stub_id.name} already assigned.")
+            det.stub_id.write({
+                'assigned_to': self.officer_id.id,
+                'state': 'assign'
+            })
         self.state = 'approve'
 
     def reject(self):
@@ -182,6 +207,14 @@ class AccountableFormsAssignment(models.Model):
     def set_to_draft(self):
         self.state = 'draft'
 
+class AccountableFormsAssignmentRequest(models.Model):
+    _name = "fmis.accounting.form.stub.assignment.request"
+    _description = "Accountable Forms Stub Assignment Details"
+
+    assignment_id = fields.Many2one('fmis.accounting.form.stub.assignment')
+    form_id = fields.Many2one('fmis.accounting.form.type', 'Form')
+    no_stubs = fields.Integer('# of Stubs')
+
 
 class AccountableFormsAssignmentDetails(models.Model):
     _name = "fmis.accounting.form.stub.assignment.detail"
@@ -189,22 +222,22 @@ class AccountableFormsAssignmentDetails(models.Model):
 
     assignment_id = fields.Many2one('fmis.accounting.form.stub.assignment')
     form_id = fields.Many2one('fmis.accounting.form.type', 'Form')
-    no_stubs = fields.Integer('# of Stubs')
-    unused_count = fields.Integer('Unused Stubs', compute='get_assigned_count', stored=True)
     unused_leaves = fields.Integer('Unused Leaves', compute='get_assigned_count', stored=True)
-    # stub_id = fields.Many2one('fmis.accounting.form.stub')
-    # series_from = fields.Integer(related="stub_id.series_from")
-    # series_to = fields.Integer(related="stub_id.series_to")
+    stub_id = fields.Many2one('fmis.accounting.form.stub')
+    series_from = fields.Integer(related="stub_id.series_from")
+    series_to = fields.Integer(related="stub_id.series_to")
+
+    _sql_constraints = [
+        ('unique_field_per_parent',
+         'unique (assignment_id, stub_id)',
+         'Duplicate entry in the lines is not allowed!')
+    ]
 
     @api.depends('form_id')
     @api.onchange('form_id')
     def get_assigned_count(self):
         for rec in self:
-            get_stubs = self.env['fmis.accounting.form.stub'].search([('assigned_to','=',rec.assignment_id.officer_id.id),('state','=','assign')])
-            rec.unused_count = len(get_stubs)
-            leaves = 0
-            for stub in get_stubs:
-                leaves += len(stub.leaves_ids.filtered(lambda x: x.state == 'available').mapped('id'))
+            leaves = len(rec.stub_id.leaves_ids.filtered(lambda x: x.state=='available'))
             rec.unused_leaves = leaves
 
 

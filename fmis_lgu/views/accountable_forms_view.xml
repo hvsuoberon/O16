@@ -78,7 +78,7 @@
                         </div>
                         <group>
                             <group>
-                                <field name="form_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="form_id" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_open': True, 'no_create': True}"/>
                                 <field name="form_name" invisible="True"/>
                                 <field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="bank_id" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('form_name','!=','Cheque')]}"/>
@@ -96,8 +96,12 @@
                                     <field name="name" />
                                     <field name="series_from"/>
                                     <field name="series_to"/>
-                                    <field name="state"/>
-                                    <field name="assigned_to"/>
+                                    <field name="state"
+                                           decoration-info="state == 'available'"
+                                           decoration-muted="state == 'void'"
+                                           decoration-success="state == 'used'"
+                                           widget="badge"/>
+                                    <field name="assigned_to" widget="many2one_avatar_user"/>
                                 </tree>
                                 <form>
                                     <group>
@@ -108,7 +112,7 @@
                                         <group>
                                             <field name="series_from"/>
                                             <field name="series_to"/>
-                                            <field name="assigned_to"/>
+                                            <field name="assigned_to" widget="many2one_avatar_user"/>
                                         </group>
                                     </group>
 
@@ -116,7 +120,11 @@
                                         <field name="leaves_ids" >
                                             <tree>
                                                 <field name="series"/>
-                                                <field name="state"/>
+                                                <field name="state"
+                                                       decoration-info="state == 'available'"
+                                                       decoration-muted="state == 'void'"
+                                                       decoration-success="state == 'used'"
+                                                       widget="badge"/>
 <!--                                                <field name="series_from"/>-->
 <!--                                                <field name="series_to"/>-->
                                             </tree>
@@ -142,7 +150,11 @@
                     <field name="name"/>
                     <field name="form_id"/>
                     <field name="date"/>
-                    <field name="state"/>
+                    <field name="state"
+                            decoration-info="state == 'draft'"
+                            decoration-muted="state == 'cancel'"
+                            decoration-success="state == 'confirm'"
+                            widget="badge"/>
                 </tree>
             </field>
         </record>
@@ -174,7 +186,7 @@
             <field name="arch" type="xml">
                 <form string="Assignment">
                     <header>
-                        <field name="state" widget="statusbar"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,request,approve"/>
                         <button name="request" class="oe_highlight" states="draft" string="Request" type="object"/>
                         <button name="approve" class="oe_highlight" states="request" string="Approve" type="object"/>
                         <button name="reject" class="oe_highlight" states="request" string="Reject" type="object"/>
@@ -195,19 +207,28 @@
                         <group>
                             <group>
 
-                                <field name="officer_id"/>
+                                <field name="officer_id" options="{'no_open': True, 'no_create': True}" widget="many2one_avatar_user"/>
                             </group>
                             <group>
 
                                 <field name="date"/>
                             </group>
                         </group>
-                        <group>
-                            <field name="assigned_stub_ids" >
+                        <group string="Request Details">
+                            <field name="detail_ids" nolabel="1" colspan="2" attrs="{'readonly': [('state', '!=', 'draft')]}">
                                 <tree editable="bottom">
-                                    <field name="form_id"/>
+                                    <field name="form_id" options="{'no_open': True, 'no_create': True}"/>
                                     <field name="no_stubs"/>
-                                    <field name="unused_count"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Stub Assignment" attrs="{'invisible': [('state', 'not in', ('request','approve'))]}">
+                            <field name="assigned_stub_ids" nolabel="1" colspan="2" attrs="{'readonly': [('state', '!=', 'request')]}">
+                                <tree editable="bottom">
+                                    <field name="form_id" options="{'no_open': True, 'no_create': True}"/>
+                                    <field name="stub_id" domain="[('state','=','available'),('fe_id.form_id','=',form_id)]" options="{'no_open': True, 'no_create': True}"/>
+                                    <field name="series_from"/>
+                                    <field name="series_to"/>
                                     <field name="unused_leaves"/>
                                 </tree>
                             </field>
@@ -227,8 +248,13 @@
             <field name="arch" type="xml">
                 <tree string="Form Assignment">
                     <field name="name"/>
-                    <field name="officer_id"/>
+                    <field name="officer_id" widget="many2one_avatar_user"/>
                     <field name="date"/>
+                    <field name="state"
+                            decoration-info="state == 'available'"
+                            decoration-muted="state == 'void'"
+                            decoration-success="state == 'used'"
+                            widget="badge"/>
                 </tree>
             </field>
         </record>

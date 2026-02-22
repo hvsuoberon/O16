@@ -15,7 +15,7 @@
                     <sheet>
                         <div class="oe_title" string="Document #">
                             <h1>
-                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                <field name="name"/>
                             </h1>
                         </div>
                         <group>
@@ -31,6 +31,8 @@
                                 <field name="cheque_number" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
                                 <field name="cheque_date" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
                                 <field name="officer_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="leaf_id" domain="[('state','=','available'),('stub_id.assigned_to','=',officer_id)]"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
                             </group>
                         </group>
 
@@ -48,6 +50,7 @@
             <field name="model">fmis.collection</field>
             <field name="arch" type="xml">
                 <tree string="Collection">
+                    <field name="name"/>
                     <field name="leaf_id"/>
                     <field name="date"/>
                     <field name="payor"/>
@@ -101,7 +104,7 @@
                     <sheet>
                         <div class="oe_title" string="Document #">
                             <h1>
-                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Burial Permit and Fee')]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                <field name="name"/>
                             </h1>
                         </div>
                         <group>
@@ -117,6 +120,7 @@
                                 <field name="cheque_number" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
                                 <field name="cheque_date" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
                                 <field name="officer_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Burial Permit and Fee'),('stub_id.assigned_to','=',officer_id)]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
                             </group>
                         </group>
                         <notebook>
@@ -144,6 +148,7 @@
             <field name="model">fmis.collection.burial</field>
             <field name="arch" type="xml">
                 <tree string="Burial Permit &amp; Fee">
+                    <field name="name"/>
                     <field name="leaf_id"/>
                     <field name="date"/>
                     <field name="payor"/>
@@ -201,7 +206,7 @@
                     <sheet>
                         <div class="oe_title" string="Document #">
                             <h1>
-                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Marriage License and Fee Receipt')]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                <field name="name"/>
                             </h1>
                         </div>
                         <group>
@@ -217,6 +222,7 @@
                                 <field name="cheque_number" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
                                 <field name="cheque_date" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
                                 <field name="officer_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Marriage License and Fee Receipt'),('stub_id.assigned_to','=',officer_id)]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
                             </group>
                         </group>
                         <notebook>
@@ -252,6 +258,7 @@
             <field name="model">fmis.collection.marriage</field>
             <field name="arch" type="xml">
                 <tree string="Marriage License and Fee Receipt">
+                    <field name="name"/>
                     <field name="leaf_id"/>
                     <field name="date"/>
                     <field name="payor"/>
@@ -273,6 +280,7 @@
             <field name="model">fmis.collection.marriage</field>
             <field name="arch" type="xml">
                 <search>
+                    <field name="name"/>
                     <field name="leaf_id"/>
                     <field name="payor"/>
                     <field name="cheque_number"/>
@@ -310,7 +318,7 @@
                     <sheet>
                         <div class="oe_title" string="Document #">
                             <h1>
-                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Official Receipt Property Tax')]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                <field name="name"/>
                             </h1>
                         </div>
                         <group>
@@ -326,11 +334,12 @@
                                 <field name="cheque_number" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
                                 <field name="cheque_date" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
                                 <field name="officer_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Official Receipt Property Tax'),('stub_id.assigned_to','=',officer_id)]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
                             </group>
                         </group>
                         <notebook>
                             <page string="Details">
-                                <field name="line_ids" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                <field name="line_ids" attrs="{'readonly': [('state', '!=', 'draft')]}" colspan="2">
                                     <tree>
                                         <field name="name"/>
 <!--                                        <field name="location"/>-->
@@ -446,7 +455,7 @@
                     <sheet>
                         <div class="oe_title" string="Document #">
                             <h1>
-                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Official Receipt')]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                <field name="name"/>
                             </h1>
                         </div>
                         <group>
@@ -462,6 +471,7 @@
                                 <field name="cheque_number" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
                                 <field name="cheque_date" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
                                 <field name="officer_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Official Receipt'),('stub_id.assigned_to','=',officer_id)]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
                             </group>
                         </group>
                         <notebook>
@@ -547,7 +557,7 @@
                     <sheet>
                         <div class="oe_title" string="Document #">
                             <h1>
-                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Cert of Ownership of Large Cattle')]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                <field name="name"/>
                             </h1>
                         </div>
                         <group>
@@ -564,6 +574,7 @@
                                 <field name="cheque_number" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
                                 <field name="cheque_date" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
                                 <field name="officer_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Cert of Ownership of Large Cattle'),('stub_id.assigned_to','=',officer_id)]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
                             </group>
                         </group>
                         <notebook>
@@ -653,7 +664,7 @@
                     <sheet>
                         <div class="oe_title" string="Document #">
                             <h1>
-                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Cert of Transfer of Ownership of Large Cattle')]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                <field name="name"/>
                             </h1>
                         </div>
                         <group>
@@ -670,6 +681,7 @@
                                 <field name="cheque_number" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
                                 <field name="cheque_date" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('payment_type','!=','cheque')]}"/>
                                 <field name="officer_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="leaf_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('state','=','available'),('form_name','=','Cert of Transfer of Ownership of Large Cattle'),('stub_id.assigned_to','=',officer_id)]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
                             </group>
                         </group>
                         <notebook>

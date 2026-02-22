@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="fmis_accounting_default_value_form_view">
+            <field name="name">fmis.accounting.default.value.form</field>
+            <field name="model">fmis.accounting.default.value</field>
+            <field name="arch" type="xml">
+                <form string="Default Value">
+                    <sheet>
+                        <group>
+                            <field name="municipal_accountant"/>
+                            <field name="officer_in_charge"/>
+                        </group>
+                        <group>
+                            <group string="Accountant's Advice">
+                                <field name="prepared_by"/>
+                                <field name="prepared_by_pos"/>
+                                <field name="delivered_by"/>
+                                <field name="delivered_by_pos"/>
+                            </group>
+                            <group>
+
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fmis_accounting_default_value_tree_view">
+            <field name="name">fmis.accounting.default.value.tree</field>
+            <field name="model">fmis.accounting.default.value</field>
+            <field name="arch" type="xml">
+                <tree string="Default Value">
+                    <field name="municipal_accountant"/>
+                    <field name="officer_in_charge"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="fmis_accounting_default_value_action">
+            <field name="name">Default Values</field>
+            <field name="res_model">fmis.accounting.default.value</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Default Values
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

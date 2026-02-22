@@ -55,6 +55,14 @@
             <field name="prefix">CD-%(year)s-</field>
             <field name="padding">10</field>
         </record>
+
+        <record id="seq_advice" model="ir.sequence">
+            <field name="name">Advice For Local Cheque Disbursement</field>
+            <field name="code">fmis.disbursement.advice</field>
+            <field name="prefix">ALCB-%(year)s-</field>
+            <field name="padding">10</field>
+        </record>
+
         <record id="seq_cheque_clearing" model="ir.sequence">
             <field name="name">FMIS Cheque Clearing</field>
             <field name="code">fmis.cheque.clearing</field>

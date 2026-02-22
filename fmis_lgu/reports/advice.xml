@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<template id="report_advice">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.company_id.partner_id.lang"/>
+                <t t-call="fmis_lgu.report_advice_document" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="advice_external_layout">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+
+        <t t-call="fmis_lgu.advice_external_layout_standard"><t t-out="0"/></t>
+
+    </template>
+
+	<template id="advice_external_layout_standard">
+        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+            <div class="row">
+                <div class="col-3 mb4">
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 45px;" alt="Logo"/>
+                </div>
+                <div class="col-9 text-end" style="margin-top:22px;" t-field="company.report_header" name="moto"/>
+            </div>
+            <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                <div class="col-12">
+                    <div style="border-bottom: 1px solid black;"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6" name="company_address">
+                    <ul class="list-unstyled">
+                        <li t-if="company.is_company_details_empty"><t t-esc="company.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/></li>
+                        <li t-else=""><t t-esc="company.company_details"/></li>
+                        <li t-if="forced_vat">
+                            <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                            <span t-esc="forced_vat"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <t t-set="layout_background_url"
+            t-value="'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''" />
+        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="{{ 'background-image: url(%s);' % layout_background_url if layout_background_url else '' }}" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <div class="pt-5">
+                <!-- This div ensures that the address is not cropped by the header. -->
+                <t t-call="web.address_layout"/>
+            </div>
+            <t t-out="0"/>
+        </div>
+
+<!--        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">-->
+<!--            <div class="text-center" style="border-top: 1px solid black;">-->
+<!--                <ul class="list-inline mb4">-->
+<!--                    <div t-field="company.report_footer"/>-->
+<!--                </ul>-->
+
+<!--                <div t-if="report_type == 'pdf'" class="text-muted">-->
+<!--                    Page: <span class="page"/> / <span class="topage"/>-->
+<!--                </div>-->
+<!--                <div t-if="report_type == 'pdf' and display_name_in_footer" class="text-muted">-->
+<!--                    <span t-field="o.name"/>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+    </template>
+
+
+<!--    <template id="report_advice_document">-->
+<!--        <t t-call="web.html_container">-->
+<!--            <t t-foreach="docs" t-as="o">-->
+<!--                <t t-call="fmis_lgu.advice_external_layout">-->
+
+<!--                    <div class="page ebsfont"> &lt;!&ndash; page Div1&ndash;&gt;-->
+<!--						<div class="row mt16">-->
+<!--							<div class="col-12" style="text-align: center;">-->
+<!--								<span style="font-weight: bold; font-size: 13px;">-->
+<!--									ACCOUNTANT'S ADVICE-->
+<!--								</span>-->
+<!--								<br/>-->
+<!--								<span style="font-weight: bold; font-size: 13px;">-->
+<!--									OF LOCAL CHECK DISBURSEMENT-->
+<!--								</span>-->
+<!--								<br/>-->
+<!--							</div>-->
+<!--							<div class="col-12" style="">-->
+<!--								<table class="ebs_table ebs_bg64" style="border: 1px solid #000 !important; border-collapse: collapse; font-size:12px; background-size: 100% 38px;" width="100%">-->
+<!--									<thead>-->
+<!--										<tr>-->
+<!--											<th width="10%" style="border: 1px solid #000 !important; text-align: center;background-color:#bfbcb9; color:#000000;">Bank Account No.</th>-->
+<!--											<th width="15%" style="border: 1px solid #000 !important; text-align: center;background-color:#bfbcb9;color:#000000;">Check Number</th>-->
+<!--											<th width="10%" style="border: 1px solid #000 !important; text-align: center;background-color:#bfbcb9;color:#000000;">Date</th>-->
+<!--											<th width="45%" style="border: 1px solid #000 !important; text-align: center;background-color:#bfbcb9;color:#000000;">Payee</th>-->
+<!--											<th width="20%" style="border: 1px solid #000 !important; text-align: center;background-color:#bfbcb9;color:#000000;">Amount</th>-->
+<!--										</tr>-->
+<!--									</thead>-->
+<!--									<t t-set="cntr" t-value="1" />-->
+<!--									<t t-set="total_amount" t-value="0"/>-->
+<!--									<t t-foreach="o.disbursement_ids" t-as="s">-->
+<!--										<t t-set="total_amount" t-value="total_amount + s.amount_due"/>-->
+<!--										<tr style="border: 1px solid #000 !important; ">-->
+<!--											<td class="text-center; border: 1px solid #000 !important; ">-->
+<!--												<span t-field="s.bank_id.display_name"/>-->
+<!--											</td>-->
+<!--											<td class="text-center; border: 1px solid #000 !important; ">-->
+<!--												<span t-field="s.cheque_number.series"/>-->
+<!--											</td>-->
+<!--											<td class="text-center; border: 1px solid #000 !important; ">-->
+<!--												<span>-->
+<!--                                                    <t t-esc="time.strftime('%m/%d/%Y',time.strptime(str(s.date),'%Y-%m-%d'))"/>-->
+<!--                                                </span>-->
+<!--											</td>-->
+<!--											<td class="text-left; border: 1px solid #000 !important; ">-->
+<!--												<span t-field="s.payee"/>-->
+<!--											</td>-->
+
+<!--											<td style="text-align:right; border: 1px solid #000 !important; ">-->
+<!--												<span style="text-align:right;"  t-esc=" '{0:,.2f}'.format(s.amount_due)"/>-->
+<!--											</td>-->
+<!--										</tr>-->
+<!--									</t>-->
+<!--									<tr>-->
+<!--										<td colspan="4" style="text-align:right; font-weight:bold; background:#f2f2f2;">-->
+<!--											TOTAL-->
+<!--										</td>-->
+<!--										<td style="text-align:right; font-weight:bold; background:#f2f2f2;">-->
+<!--											<span t-esc="'{0:,.2f}'.format(total_amount)"/>-->
+<!--										</td>-->
+<!--									</tr>-->
+<!--									<tr>-->
+<!--										<td colspan="1" style="padding-top:15px; font-weight:bold;">-->
+<!--											AMOUNT IN WORDS:-->
+<!--										</td>-->
+<!--										<td colspan="4" style="text-align:right; font-weight:bold; background:#f2f2f2;">-->
+<!--											***-->
+<!--											<span style="text-transform: uppercase;" t-esc="o.company_id.currency_id.amount_to_text(total_amount)"/>-->
+<!--											***-->
+<!--										</td>-->
+<!--									</tr>-->
+<!--								</table>-->
+<!--							</div>-->
+<!--						</div>-->
+<!--						<div class="footer"-->
+<!--							 style="position:fixed;-->
+<!--									bottom:0;-->
+<!--									left:0;-->
+<!--									right:0;-->
+<!--									height:200px;-->
+<!--									font-size:11px;">-->
+
+<!--							<table class="footer-table" style="width:100%; border-collapse:collapse;border: none;">-->
+<!--								<tr>-->
+<!--									<td style="width:3%; padding:8px;"></td>-->
+<!--									<td style="width:30%; text-align:center; padding:8px;">-->
+<!--									  <span t-field="o.municipal_accountant"></span>-->
+<!--									</td>-->
+<!--									<td style="width:2%; padding:8px;"></td>-->
+<!--									<td style="width:30%; text-align:center; padding:8px; ">-->
+<!--									  <span t-field="o.officer_in_charge"></span>-->
+<!--									</td>-->
+<!--									<td style="width:2%; padding:8px;"></td>-->
+<!--									<td style="width:30%; text-align:center; padding:8px; ">-->
+<!--									</td>-->
+<!--									<td style="width:3%; padding:3px;"></td>-->
+<!--								</tr>-->
+<!--							</table>-->
+<!--						</div>-->
+<!--                    </div>-->
+<!--                </t>-->
+<!--            </t>-->
+<!--        </t>-->
+<!--    </template>-->
+
+	<template id="report_advice_document">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="fmis_lgu.advice_external_layout">
+
+					<div class="page ebsfont"> <!-- Page container -->
+
+						<div class="row mt16">
+							<div class="col-12" style="text-align: center;">
+								<span style="font-weight: bold; font-size: 13px;">
+									ACCOUNTANT'S ADVICE
+								</span>
+								<br/>
+								<span style="font-weight: bold; font-size: 13px;">
+									OF LOCAL CHECK DISBURSEMENT
+								</span>
+								<br/>
+							</div>
+
+							<div class="col-12">
+								<table class="ebs_table ebs_bg64" style="border: 1px solid #000; border-collapse: collapse; font-size:12px; width:100%;">
+									<thead>
+										<tr>
+											<th style="width: 10%; border: 1px solid #000; text-align: center; background-color:#bfbcb9; color:#000;">Bank Account No.</th>
+											<th style="width: 15%; border: 1px solid #000; text-align: center; background-color:#bfbcb9; color:#000;">Check Number</th>
+											<th style="width: 10%; border: 1px solid #000; text-align: center; background-color:#bfbcb9; color:#000;">Date</th>
+											<th style="width: 45%; border: 1px solid #000; text-align: center; background-color:#bfbcb9; color:#000;">Payee</th>
+											<th style="width: 20%; border: 1px solid #000; text-align: center; background-color:#bfbcb9; color:#000;">Amount</th>
+										</tr>
+									</thead>
+									<t t-set="total_amount" t-value="0"/>
+									<t t-foreach="o.disbursement_ids" t-as="s">
+										<t t-set="total_amount" t-value="total_amount + s.amount_due"/>
+										<tr>
+											<td style="text-align:center; border: 1px solid #000;">
+												<span t-field="s.bank_id.display_name"/>
+											</td>
+											<td style="text-align:center; border: 1px solid #000;">
+												<span t-field="s.cheque_number.series"/>
+											</td>
+											<td style="text-align:center; border: 1px solid #000;">
+												<span>
+													<t t-esc="time.strftime('%m/%d/%Y', time.strptime(str(s.date), '%Y-%m-%d'))"/>
+												</span>
+											</td>
+											<td style="text-align:left; border: 1px solid #000; padding:8px;">
+												<span t-field="s.payee"/>
+											</td>
+											<td style="text-align:right; border: 1px solid #000; padding:8px;">
+												<span t-esc="'{0:,.2f}'.format(s.amount_due)"/>
+											</td>
+										</tr>
+									</t>
+									<tr>
+										<td colspan="4" style="text-align:right; font-weight:bold; background:#f2f2f2;  border: 1px solid #000;">
+											TOTAL
+										</td>
+										<td style="text-align:right; font-weight:bold; background:#f2f2f2;  border: 1px solid #000; padding:8px;">
+											<span t-esc="'{0:,.2f}'.format(total_amount)"/>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="1" style="text-align:center; font-weight:bold;  background:#f2f2f2; border: 1px solid #000;">
+											AMOUNT IN WORDS:
+										</td>
+										<td colspan="4" style="text-align:right; font-weight:bold; background:#f2f2f2;  border: 1px solid #000; padding:8px;">
+											***
+											<span style="text-transform: uppercase;" t-esc="o.company_id.currency_id.amount_to_text(total_amount)"/>
+											***
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+
+						<div class="footer" style="position:fixed; bottom:0; left:0; right:0; height:230px; font-size:11px;">
+							<table class="footer-table" style="width:100%; border-collapse:collapse; border:none;">
+								<tr>
+									<td style="width:3%; padding:8px;"></td>
+									<td style="width:30%; text-align:left; padding:8px;">
+										<span>Certified Correct</span>
+									</td>
+									<td style="width:2%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px;">
+									</td>
+									<td style="width:2%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px;">
+									</td>
+									<td style="width:3%; padding:3px;"></td>
+								</tr>
+								<tr>
+									<td style="width:3%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px; border-bottom: 1px solid #000;">
+										<span t-field="o.municipal_accountant"/>
+									</td>
+									<td style="width:2%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px; border-bottom: 1px solid #000;">
+										<span t-field="o.officer_in_charge"/>
+									</td>
+									<td style="width:2%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px; border-bottom: 1px solid #000;">
+										<!-- Optional Signature -->
+									</td>
+									<td style="width:3%; padding:3px;"></td>
+								</tr>
+								<tr>
+									<td style="width:3%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px;">
+										<span>Municipal Accountant</span>
+									</td>
+									<td style="width:2%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px;">
+										<span>Officer In-Charge</span>
+									</td>
+									<td style="width:2%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px;">
+										<span>Bank Representative</span>
+									</td>
+									<td style="width:3%; padding:3px;"></td>
+								</tr>
+								<tr>
+									<td style="width:3%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px;">
+									</td>
+									<td style="width:2%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px;">
+									</td>
+									<td style="width:2%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px; border-bottom: 1px solid #000;">
+
+									</td>
+									<td style="width:3%; padding:3px;"></td>
+								</tr>
+								<tr>
+									<td style="width:3%; padding:8px;"></td>
+									<td style="width:30%; text-align:left; padding:8px;">
+										<span>Prepared By</span>
+									</td>
+									<td style="width:2%; padding:8px;"></td>
+									<td style="width:30%; text-align:left; padding:8px;">
+										<span>Delivered By</span>
+									</td>
+									<td style="width:2%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px; ">
+										<span>Date Received</span>
+									</td>
+									<td style="width:3%; padding:3px;"></td>
+								</tr>
+								<tr>
+									<td style="width:3%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px; border-bottom: 1px solid #000;">
+										<span t-field="o.prepared_by"/>
+									</td>
+									<td style="width:2%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px; border-bottom: 1px solid #000;">
+										<span t-field="o.delivered_by"/>
+									</td>
+									<td style="width:2%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px;">
+										<!-- Optional Signature -->
+									</td>
+									<td style="width:3%; padding:3px;"></td>
+								</tr>
+								<tr>
+									<td style="width:3%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px;">
+										<span t-field="o.prepared_by_pos"/>
+									</td>
+									<td style="width:2%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px;">
+										<span t-field="o.delivered_by_pos"/>
+									</td>
+									<td style="width:2%; padding:8px;"></td>
+									<td style="width:30%; text-align:center; padding:8px;">
+									</td>
+									<td style="width:3%; padding:3px;"></td>
+								</tr>
+							</table>
+						</div>
+
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+</odoo>
